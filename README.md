@@ -12,43 +12,43 @@ Students often have innovative project ideas but struggle to convert them into w
 
 ---
 
-## 🚀 Objectives
+## 🎯 Objectives
 
-- Transform project ideas into complete development blueprints.
-- Provide personalized project guidance.
-- Recommend suitable technologies.
-- Generate database and architecture suggestions.
-- Create milestone-based implementation roadmaps.
-- Continuously mentor students during development.
-- Support both **text** and **voice** interactions.
+- Convert a student's rough project idea into a complete project blueprint using a multi-agent AI pipeline.
+- Provide personalized academic mentoring throughout the project lifecycle.
+- Recommend an appropriate technology stack based on project requirements.
+- Generate week-wise milestone and execution plans.
+- Support conversational AI interactions through text and voice.
+- Generate academic documentation on demand.
+- Enable faculty to monitor project progress through a centralized dashboard.
 
 ---
 
 # 🤖 Multi-Agent Pipeline
 
 ```
-Student (Text / Voice)
+Student Idea
         │
         ▼
-🧠 Idea Analyzer
+Idea Analyzer
         │
         ▼
-📐 Blueprint Generator
+Feasibility Analysis Agent
         │
         ▼
-💻 Technology Advisor
+Scope Definition Agent
         │
         ▼
-🗄 Database Designer
+Technology Recommendation Agent
         │
         ▼
-📅 Roadmap Planner
+Milestone & Timeline Planning Agent
         │
         ▼
-📚 Learning Coach
+Blueprint Assembly Engine
         │
         ▼
-👨‍🏫 Academic Mentor
+Academic Mentor
 ```
 
 ---
@@ -71,8 +71,26 @@ Student (Text / Voice)
 - Documentation & Report Generation
 - Faculty Monitoring Dashboard
 - Progress Tracking
-- Deployment Advisor
-- Career Advisor
+- Project Health Monitoring
+- AI Response Optimization
+
+---
+
+## 📋 Generated Project Blueprint
+
+The AI-generated blueprint includes:
+
+- Project Title
+- Problem Statement
+- Objectives
+- Feasibility Analysis
+- Scope Definition
+- Technology Stack
+- System Architecture
+- Database Design
+- Milestone Timeline
+- Learning Resources
+- Future Enhancements
 
 ---
 
@@ -122,20 +140,16 @@ AI-Academic-Project-Mentor
 
 ---
 
-# 📅 Milestone 1
+## 📅 Milestone 1
 
-- [x] Project Planning
-- [x] AI Agent Research
-- [x] Multi-Agent Design
-- [ ] Architecture Diagram
-- [ ] Flowchart
-- [ ] ER Diagram
-- [ ] Database Design
-- [ ] Student Onboarding
-- [ ] Project Idea Submission
-- [ ] Level-1 AI Agent
-- [ ] Documentation
-- [ ] Live Demo
+- Study Agentic AI workflows
+- Design Multi-Agent Architecture
+- Student Profile & Skill Assessment
+- Project Idea Submission
+- AI Pipeline Trigger
+- Basic Project Blueprint Generation
+- Documentation
+- Live Demonstration
 
 ---
 
