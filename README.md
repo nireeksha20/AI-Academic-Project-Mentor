@@ -53,31 +53,26 @@ Student (Text / Voice)
 
 ---
 
-# 🧠 Core AI Agents (Milestone 1)
+## 🧠 Core AI Agents (Milestone 1)
 
-| Agent                  | Responsibility                            |
-| ---------------------- | ----------------------------------------- |
-| 🧠 Idea Analyzer       | Understand the student's project idea     |
-| 📐 Blueprint Generator | Generate the complete project blueprint   |
-| 💻 Technology Advisor  | Recommend suitable technologies           |
-| 🗄 Database Designer   | Design database structure and ER model    |
-| 📅 Roadmap Planner     | Create milestone-wise implementation plan |
-| 📚 Learning Coach      | Recommend learning resources              |
-| 👨‍🏫 Academic Mentor     | Provide continuous guidance               |
+1. Idea Analyzer
+2. Feasibility Analysis Agent
+3. Scope Definition Agent
+4. Technology Recommendation Agent
+5. Milestone & Timeline Planning Agent
+6. Blueprint Assembly Engine
+7. Academic Mentor
 
 ---
 
-# 🌟 Future Expansion
+## 🌟 Future Expansion (Milestone 2–4)
 
-The platform is designed to evolve into a larger AI ecosystem with additional agents:
-
-- Feasibility Analyzer
-- Architecture Designer
-- Documentation Generator
-- Presentation Advisor
-- Code Reviewer
-- Career Advisor
+- Risk Assessment & Mitigation Agent
+- Documentation & Report Generation
+- Faculty Monitoring Dashboard
+- Progress Tracking
 - Deployment Advisor
+- Career Advisor
 
 ---
 
