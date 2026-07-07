@@ -1,5 +1,5 @@
 import { motion } from "framer-motion";
-import FeatureCard from "./FeatureCard";
+import FeatureCard from "../FeatureCard";
 import {
   FaBrain,
   FaProjectDiagram,
