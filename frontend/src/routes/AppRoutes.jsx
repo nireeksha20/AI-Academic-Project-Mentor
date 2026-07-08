@@ -6,8 +6,9 @@ import Register from "../pages/Register";
 import Profile from "../pages/Profile";
 import SkillAssessment from "../pages/SkillAssessment";
 import Requirements from "../pages/Requirements";
-import ProjectIdea from "../pages/ProjectIdea";
+import NewProject from "../pages/NewProject";
 import Dashboard from "../pages/Dashboard";
+import LoadingPage from "../pages/LoadingPage";
 
 export default function AppRoutes() {
   return (
@@ -19,7 +20,8 @@ export default function AppRoutes() {
         <Route path="/profile" element={<Profile />} />
         <Route path="/skill-assessment" element={<SkillAssessment />} />
         <Route path="/requirements" element={<Requirements />} />
-        <Route path="/project" element={<ProjectIdea />} />
+        <Route path="/new-project" element={<NewProject />} />
+        <Route path="/loading" element={<LoadingPage />} />
         <Route path="/dashboard" element={<Dashboard />} />
       </Routes>
     </BrowserRouter>

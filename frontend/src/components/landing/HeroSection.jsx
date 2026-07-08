@@ -1,178 +1,166 @@
-import { useState } from "react";
-import { motion, AnimatePresence } from "framer-motion";
-import { Sparkles, CheckCircle2, ArrowRight, Mic } from "lucide-react";
+import { motion } from "framer-motion";
+import {
+  ArrowRight,
+  BrainCircuit,
+  DatabaseZap,
+  Layers3,
+  Sparkles,
+  Zap,
+} from "lucide-react";
+import { Link as RouterLink } from "react-router-dom";
+
+const pills = ["AI Analysis", "Architecture", "Database", "Learning Resources"];
 
 export default function HeroSection() {
-  const [idea, setIdea] = useState("");
-  const [generated, setGenerated] = useState(false);
-
-  const handleGenerate = () => {
-    if (idea.trim() === "") return;
-    setGenerated(true);
-  };
-
   return (
-    <section className="relative overflow-hidden pt-36 pb-24">
-      {/* Background Glow */}
-      <div className="absolute left-0 top-24 h-96 w-96 rounded-full bg-cyan-500/10 blur-[160px]" />
-      <div className="absolute right-0 bottom-0 h-[28rem] w-[28rem] rounded-full bg-purple-500/10 blur-[180px]" />
-
-      <div className="relative mx-auto flex max-w-7xl flex-col items-center gap-16 px-8 lg:flex-row">
-        {/* LEFT */}
-
-        <motion.div
-          initial={{ opacity: 0, x: -40 }}
-          animate={{ opacity: 1, x: 0 }}
-          transition={{ duration: 0.7 }}
-          className="flex-1"
-        >
-          <div className="inline-flex items-center gap-2 rounded-full border border-cyan-500/30 bg-cyan-500/10 px-5 py-2 text-cyan-300">
-            <Sparkles size={18} />
-            Infosys Springboard Virtual Internship 7.0
-          </div>
-
-          <h1 className="mt-8 text-6xl font-black leading-[1.05] text-white lg:text-7xl">
-            Transform Your
-            <br />
-            <span className="bg-gradient-to-r from-cyan-400 via-blue-500 to-purple-500 bg-clip-text text-transparent">
-              Project Idea
-            </span>
-            <br />
-            Into a
-            <br />
-            Complete Development Plan
-          </h1>
-
-          <p className="mt-8 max-w-xl text-lg leading-9 text-slate-300">
-            Describe your project idea in natural language. Our Hybrid
-            Multi-Agent AI analyzes your requirements, recommends technologies,
-            designs the database, creates a complete software blueprint,
-            roadmap, and learning plan.
-          </p>
-
-          <div className="mt-10 flex flex-wrap gap-4">
-            <button
-              onClick={handleGenerate}
-              className="rounded-xl bg-gradient-to-r from-cyan-500 to-blue-600 px-8 py-4 font-semibold text-white transition duration-300 hover:scale-105"
-            >
-              Generate Blueprint
-            </button>
-
-            <button className="flex items-center gap-2 rounded-xl border border-white/20 px-8 py-4 font-semibold text-white backdrop-blur-xl transition hover:bg-white/10">
-              View Demo
-              <ArrowRight size={18} />
-            </button>
-          </div>
-        </motion.div>
-
-        {/* RIGHT */}
-
-        <motion.div
-          initial={{ opacity: 0, x: 40 }}
-          animate={{ opacity: 1, x: 0 }}
-          transition={{ duration: 0.8 }}
-          className="flex-1"
-        >
-          <div className="rounded-3xl border border-white/10 bg-white/5 p-6 backdrop-blur-2xl shadow-2xl">
-            {/* Header */}
-
-            <div className="mb-5 flex items-center justify-between">
-              <div>
-                <h3 className="text-xl font-bold text-white">
-                  AI Academic Project Mentor
-                </h3>
-
-                <p className="text-sm text-slate-400">Hybrid Multi-Agent AI</p>
-              </div>
-
-              <div className="h-3 w-3 rounded-full bg-green-400 animate-pulse" />
+    <section
+      id="top"
+      className="relative isolate overflow-hidden bg-[radial-gradient(circle_at_top_left,_rgba(34,211,238,0.18),_transparent_35%),radial-gradient(circle_at_bottom_right,_rgba(139,92,246,0.2),_transparent_35%)]"
+    >
+      <div className="mx-auto flex min-h-screen max-w-7xl flex-col justify-center px-6 py-24 lg:px-8 lg:py-28">
+        <div className="absolute left-1/2 top-24 h-[500px] w-[500px] -translate-x-1/2 rounded-full bg-cyan-500/10 blur-[140px]" />
+        <div className="grid items-center gap-16 lg:grid-cols-[1.05fr_0.95fr]">
+          <motion.div
+            initial={{ opacity: 0, y: 40 }}
+            animate={{ opacity: 1, y: 0 }}
+            transition={{ duration: 0.45 }}
+            className="max-w-2xl"
+          >
+            <div className="mb-6 inline-flex items-center gap-2 rounded-full border border-cyan-400/30 bg-cyan-400/10 px-4 py-2 text-sm font-medium text-cyan-200 shadow-[0_0_25px_rgba(34,211,238,0.16)]">
+              <Sparkles className="h-4 w-4" />
+              Hybrid Multi-Agent AI Platform
             </div>
 
-            {/* Input */}
+            <h1 className="text-4xl font-semibold leading-tight text-white sm:text-5xl lg:text-7xl">
+              Transform Your Project Idea Into Reality
+            </h1>
 
-            <div className="rounded-2xl border border-white/10 bg-[#10182d] p-5">
-              <label className="mb-3 block text-sm font-semibold text-slate-300">
-                Describe Your Project
-              </label>
+            <p className="mt-6 max-w-xl text-lg leading-8 text-slate-300 sm:text-xl">
+              Turn a simple concept into a complete blueprint with architecture,
+              APIs, database design, roadmap, and guided mentorship powered by
+              collaborative AI agents.
+            </p>
 
-              <textarea
-                rows={6}
-                placeholder={`Example:
+            <div className="mt-8 flex flex-col gap-3 sm:flex-row sm:items-center sm:gap-3">
+              <RouterLink
+                to="/register"
+                className="rounded-full bg-gradient-to-r from-cyan-400 via-sky-500 to-violet-500 px-8 py-4 font-semibold text-white transition-all duration-300 hover:scale-105 active:scale-95"
+              >
+                Start Building →
+              </RouterLink>
 
-Build a Smart Attendance System using Face Recognition.
+              <a
+                href="#how-it-works"
+                className="rounded-full border border-white/10 bg-white/5 px-8 py-4 font-semibold text-white transition-all duration-300 hover:border-cyan-400 hover:bg-cyan-400/10 active:scale-95"
+              >
+                Watch Demo
+              </a>
+            </div>
 
-The AI will recommend:
-• Technology Stack
-• Architecture
-• Database Design
-• Development Roadmap`}
-                value={idea}
-                onChange={(e) => setIdea(e.target.value)}
-                className="w-full resize-none rounded-xl border border-white/10 bg-transparent p-4 text-slate-300 placeholder:text-slate-500 outline-none transition focus:border-cyan-500"
-              />
-
-              <div className="mt-5 flex gap-3">
-                <button className="flex h-12 w-12 items-center justify-center rounded-xl bg-white/10 transition hover:bg-white/20">
-                  <Mic size={20} className="text-slate-300" />
-                </button>
-
-                <button
-                  onClick={handleGenerate}
-                  className="flex-1 rounded-xl bg-gradient-to-r from-cyan-500 to-blue-600 py-3 font-semibold text-white transition hover:scale-[1.02]"
+            <div className="mt-8 flex flex-wrap gap-3">
+              {pills.map((pill) => (
+                <span
+                  key={pill}
+                  className="rounded-full border border-white/10 bg-slate-900/70 px-4 py-2 text-sm font-medium text-slate-200 shadow-[0_0_20px_rgba(15,23,42,0.35)]"
                 >
-                  ✨ Generate Project Plan
-                </button>
-              </div>
+                  {pill}
+                </span>
+              ))}
             </div>
+          </motion.div>
 
-            {/* OUTPUT */}
+          <motion.div
+            initial={{ opacity: 0, x: 24 }}
+            animate={{ opacity: 1, x: 0 }}
+            transition={{ duration: 0.55, delay: 0.08 }}
+            className="relative"
+          >
+            <div className="absolute inset-0 rounded-[32px] bg-gradient-to-br from-cyan-500/20 via-transparent to-violet-500/20 blur-3xl" />
+            <div className="relative overflow-hidden rounded-[32px] border border-white/10 bg-slate-900/70 p-5 shadow-[0_20px_80px_rgba(2,6,23,0.7)] backdrop-blur-2xl">
+              <div className="mb-5 flex items-center justify-between rounded-2xl border border-white/10 bg-slate-950/80 px-4 py-3">
+                <div className="flex items-center gap-2">
+                  <div className="h-2.5 w-2.5 rounded-full bg-cyan-400" />
+                  <div className="h-2.5 w-2.5 rounded-full bg-violet-400" />
+                  <div className="h-2.5 w-2.5 rounded-full bg-slate-500" />
+                </div>
+                <div className="rounded-full border border-cyan-400/20 bg-cyan-400/10 px-3 py-1 text-xs font-medium uppercase tracking-[0.24em] text-cyan-200">
+                  Live AI Workflow
+                </div>
+              </div>
 
-            <AnimatePresence>
-              {generated && (
+              <div className="space-y-4">
                 <motion.div
-                  initial={{ opacity: 0, y: 25 }}
+                  initial={{ opacity: 0, y: 10 }}
                   animate={{ opacity: 1, y: 0 }}
-                  exit={{ opacity: 0 }}
-                  transition={{ duration: 0.5 }}
-                  className="mt-6 rounded-2xl border border-cyan-500/20 bg-[#10182d] p-5"
+                  transition={{ delay: 0.2, duration: 0.35 }}
+                  className="rounded-2xl border border-white/10 bg-slate-950/80 p-4"
                 >
-                  <h4 className="mb-5 font-semibold text-white">
-                    🤖 AI Generated Project Plan
-                  </h4>
-
-                  <div className="space-y-4">
-                    {[
-                      "Project Blueprint Generated",
-                      "Recommended Technology Stack",
-                      "Database Schema Designed",
-                      "Development Roadmap Created",
-                      "Learning Plan Generated",
-                    ].map((item, index) => (
-                      <motion.div
-                        key={item}
-                        initial={{ opacity: 0, x: 20 }}
-                        animate={{ opacity: 1, x: 0 }}
-                        transition={{
-                          delay: index * 0.15,
-                        }}
-                        className="flex items-center gap-3"
-                      >
-                        <CheckCircle2 size={20} className="text-green-400" />
-
-                        <span className="text-slate-300">{item}</span>
-                      </motion.div>
-                    ))}
+                  <div className="mb-3 flex items-center gap-2 text-sm font-medium text-slate-200">
+                    <BrainCircuit className="h-4 w-4 text-cyan-300" />
+                    Student Idea
                   </div>
-
-                  <button className="mt-6 flex items-center gap-2 font-semibold text-cyan-400 transition hover:translate-x-1">
-                    Open Dashboard
-                    <ArrowRight size={18} />
-                  </button>
+                  <p className="text-sm leading-7 text-slate-400">
+                    “Build a study planner that recommends habits and tracks
+                    progress for university students.”
+                  </p>
                 </motion.div>
-              )}
-            </AnimatePresence>
-          </div>
-        </motion.div>
+
+                <motion.div
+                  initial={{ opacity: 0, y: 10 }}
+                  animate={{ opacity: 1, y: 0 }}
+                  transition={{ delay: 0.55, duration: 0.35 }}
+                  className="rounded-2xl border border-cyan-400/20 bg-cyan-400/10 p-4"
+                >
+                  <div className="mb-3 flex items-center gap-2 text-sm font-medium text-cyan-100">
+                    <Sparkles className="h-4 w-4" />
+                    AI Processing
+                  </div>
+                  <div className="flex flex-wrap gap-2">
+                    <span className="rounded-full border border-cyan-400/30 bg-slate-950/60 px-3 py-1 text-xs font-medium text-cyan-100">
+                      Requirement Analysis
+                    </span>
+                    <span className="rounded-full border border-cyan-400/30 bg-slate-950/60 px-3 py-1 text-xs font-medium text-cyan-100">
+                      System Design
+                    </span>
+                    <span className="rounded-full border border-cyan-400/30 bg-slate-950/60 px-3 py-1 text-xs font-medium text-cyan-100">
+                      Roadmap Generation
+                    </span>
+                  </div>
+                </motion.div>
+
+                <motion.div
+                  initial={{ opacity: 0, y: 10 }}
+                  animate={{ opacity: 1, y: 0 }}
+                  transition={{ delay: 0.9, duration: 0.35 }}
+                  className="grid gap-3 md:grid-cols-2"
+                >
+                  <div className="rounded-2xl border border-white/10 bg-slate-950/80 p-4">
+                    <div className="mb-3 flex items-center gap-2 text-sm font-medium text-slate-200">
+                      <Layers3 className="h-4 w-4 text-violet-300" />
+                      Generated Blueprint
+                    </div>
+                    <div className="space-y-2 text-sm text-slate-400 delay:0.2">
+                      <p>• Architecture plan</p>
+                      <p>• API contract</p>
+                      <p>• Database schema</p>
+                    </div>
+                  </div>
+                  <div className="rounded-2xl border border-white/10 bg-slate-950/80 p-4">
+                    <div className="mb-3 flex items-center gap-2 text-sm font-medium text-slate-200">
+                      <DatabaseZap className="h-4 w-4 text-sky-300" />
+                      Dashboard Preview
+                    </div>
+                    <div className="space-y-2 text-sm text-slate-400 delay:0.2">
+                      <p>• Roadmap timeline</p>
+                      <p>• Learning resources</p>
+                      <p>• AI mentor prompts</p>
+                    </div>
+                  </div>
+                </motion.div>
+              </div>
+            </div>
+          </motion.div>
+        </div>
       </div>
     </section>
   );
