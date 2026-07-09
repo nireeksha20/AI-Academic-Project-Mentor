@@ -1,8 +1,8 @@
-from agents.feasibility_agent import FeasibilityAgent
-from agents.scope_agent import ScopeAgent
-from agents.tech_stack_agent import TechStackAgent
-from agents.timeline_agent import TimelineAgent
-from agents.risk_agent import RiskAgent
+from ai.agents.feasibility_agent import FeasibilityAgent
+from ai.agents.scope_agent import ScopeAgent
+from ai.agents.tech_stack_agent import TechStackAgent
+from ai.agents.timeline_agent import TimelineAgent
+from ai.agents.risk_agent import RiskAgent
 
 def run_pipeline(project):
     feasibility=FeasibilityAgent()
