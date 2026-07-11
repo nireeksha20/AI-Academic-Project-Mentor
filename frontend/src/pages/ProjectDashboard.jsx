@@ -12,6 +12,9 @@ import {
   ChevronRight,
   Sparkles,
 } from "lucide-react";
+import { useParams } from "react-router-dom";
+import { projectService } from "../services/projectService";
+import ChatBox from "../components/project/ChatBox";
 
 const milestones = [
   {
@@ -49,15 +52,23 @@ const suggestions = [
 ];
 
 export default function ProjectDashboard() {
+  const { id } = useParams();
   const [project, setProject] = useState(null);
 
   useEffect(() => {
-    const saved = JSON.parse(localStorage.getItem("currentProject"));
-
-    if (saved) {
-      setProject(saved);
+    const fetchProject = async () => {
+      try {
+        const response = await projectService.getProjectById(id);
+        setProject(response.data?.project);
+      } catch (error) {
+        console.error("Failed to fetch project details", error);
+      }
+    };
+    
+    if (id) {
+      fetchProject();
     }
-  }, []);
+  }, [id]);
 
   if (!project) {
     return (
@@ -251,6 +262,11 @@ export default function ProjectDashboard() {
                 ))}
               </div>
             </Card>
+          </div>
+
+          {/* AI Chat Mentor */}
+          <div className="lg:col-span-2 mt-6">
+            <ChatBox projectId={id} />
           </div>
         </div>
       </div>

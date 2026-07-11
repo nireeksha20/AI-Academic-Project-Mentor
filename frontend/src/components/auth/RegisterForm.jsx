@@ -1,5 +1,6 @@
-import { useState } from "react";
+import React, { useState } from "react";
 import { Link, useNavigate } from "react-router-dom";
+import { AuthContext } from "../../context/AuthContext";
 import {
   User,
   Mail,
@@ -15,6 +16,7 @@ export default function RegisterForm() {
   const navigate = useNavigate();
   const [showPassword, setShowPassword] = useState(false);
   const [showConfirm, setShowConfirm] = useState(false);
+  const [formErrors, setFormErrors] = useState({});
 
   const [formData, setFormData] = useState({
     fullName: "",
@@ -27,6 +29,8 @@ export default function RegisterForm() {
   });
 
   const [loading, setLoading] = useState(false);
+
+  const { register } = React.useContext(AuthContext);
 
   function handleChange(e) {
     setFormData({
@@ -45,23 +49,33 @@ export default function RegisterForm() {
 
     setLoading(true);
 
-    // Save profile for frontend demo
-    const profile = {
-      name: formData.fullName,
-      email: formData.email,
-      college: formData.college,
-      department: formData.department,
-      year: formData.year,
-    };
+    try {
+      const payload = {
+        name: formData.fullName,
+        email: formData.email,
+        password: formData.password,
+        role: "student",
+        profile: {
+          college: formData.college,
+          department: formData.department,
+        }
+      };
 
-    localStorage.setItem("profile", JSON.stringify(profile));
-
-    setTimeout(() => {
-      setLoading(false);
-      localStorage.setItem("isLoggedIn", "true");
-
+      await register(payload);
       navigate("/dashboard");
-    }, 1000);
+    } catch (error) {
+      if (error.response?.data?.errors) {
+        const errors = {};
+        error.response.data.errors.forEach((err) => {
+          errors[err.field] = err.message;
+        });
+        setFormErrors(errors);
+      } else {
+        setFormErrors({ global: error.response?.data?.message || "Registration failed" });
+      }
+    } finally {
+      setLoading(false);
+    }
   }
 
   return (
@@ -96,6 +110,7 @@ export default function RegisterForm() {
             className="w-full bg-transparent py-4 text-white outline-none placeholder:text-slate-500"
           />
         </div>
+        {formErrors.name && <p className="mt-1 mb-4 text-sm text-red-500">{formErrors.name}</p>}
 
         {/* Email */}
 
@@ -115,6 +130,7 @@ export default function RegisterForm() {
             className="w-full bg-transparent py-4 text-white outline-none placeholder:text-slate-500"
           />
         </div>
+        {formErrors.email && <p className="mt-1 mb-4 text-sm text-red-500">{formErrors.email}</p>}
 
         {/* College */}
 
@@ -212,6 +228,7 @@ export default function RegisterForm() {
             {showPassword ? <EyeOff size={18} /> : <Eye size={18} />}
           </button>
         </div>
+        {formErrors.password && <p className="mt-1 mb-4 text-sm text-red-500">{formErrors.password}</p>}
 
         {/* Confirm */}
 
@@ -241,6 +258,7 @@ export default function RegisterForm() {
             {showConfirm ? <EyeOff size={18} /> : <Eye size={18} />}
           </button>
         </div>
+        {formErrors.global && <p className="mb-4 text-center text-sm text-red-500">{formErrors.global}</p>}
 
         <button
           type="submit"

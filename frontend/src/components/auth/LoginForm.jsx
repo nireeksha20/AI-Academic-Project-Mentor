@@ -1,18 +1,21 @@
-import { useState } from "react";
+import React, { useState } from "react";
 import { Link, useNavigate } from "react-router-dom";
 import { Mail, Lock, Eye, EyeOff } from "lucide-react";
+import { AuthContext } from "../../context/AuthContext";
 
 export default function LoginForm() {
   const navigate = useNavigate();
 
   const [showPassword, setShowPassword] = useState(false);
-
   const [loading, setLoading] = useState(false);
+  const [formErrors, setFormErrors] = useState({});
 
   const [formData, setFormData] = useState({
     email: "",
     password: "",
   });
+
+  const { login } = React.useContext(AuthContext);
 
   function handleChange(e) {
     setFormData({
@@ -21,34 +24,26 @@ export default function LoginForm() {
     });
   }
 
-  function handleSubmit(e) {
+  async function handleSubmit(e) {
     e.preventDefault();
-
     setLoading(true);
 
-    const savedProfile = JSON.parse(localStorage.getItem("profile"));
-
-    setTimeout(() => {
-      if (!savedProfile) {
-        setLoading(false);
-        alert("No account found. Please register first.");
-        return;
-      }
-
-      if (savedProfile.email !== formData.email) {
-        setLoading(false);
-        alert("Invalid email.");
-        return;
-      }
-
-      // Password validation will be added after backend integration
-
-      localStorage.setItem("isLoggedIn", "true");
-
-      setLoading(false);
-
+    try {
+      await login(formData.email, formData.password);
       navigate("/dashboard");
-    }, 1000);
+    } catch (error) {
+      if (error.response?.data?.errors) {
+        const errors = {};
+        error.response.data.errors.forEach((err) => {
+          errors[err.field] = err.message;
+        });
+        setFormErrors(errors);
+      } else {
+        setFormErrors({ global: error.response?.data?.message || "Login failed" });
+      }
+    } finally {
+      setLoading(false);
+    }
   }
 
   return (
@@ -83,6 +78,7 @@ export default function LoginForm() {
             className="w-full bg-transparent py-4 text-white outline-none placeholder:text-slate-500"
           />
         </div>
+        {formErrors.email && <p className="mt-1 mb-4 text-sm text-red-500">{formErrors.email}</p>}
 
         {/* Password */}
 
@@ -110,6 +106,7 @@ export default function LoginForm() {
             {showPassword ? <EyeOff size={18} /> : <Eye size={18} />}
           </button>
         </div>
+        {formErrors.password && <p className="mt-1 mb-2 text-sm text-red-500">{formErrors.password}</p>}
 
         <div className="mb-7 flex justify-end">
           <button
@@ -119,6 +116,8 @@ export default function LoginForm() {
             Forgot Password?
           </button>
         </div>
+        
+        {formErrors.global && <p className="mb-4 text-center text-sm text-red-500">{formErrors.global}</p>}
 
         <button
           type="submit"

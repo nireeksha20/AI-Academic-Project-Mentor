@@ -1,5 +1,6 @@
-import { useEffect, useState } from "react";
+import { useEffect, useState, useContext } from "react";
 import { Link as RouterLink } from "react-router-dom";
+import { AuthContext } from "../context/AuthContext";
 import {
   User,
   Mail,
@@ -34,13 +35,22 @@ export default function Profile() {
     });
   }
 
-  useEffect(() => {
-    const data = localStorage.getItem("profile");
+  const { user } = useContext(AuthContext);
 
-    if (data) {
-      setProfile(JSON.parse(data));
+  useEffect(() => {
+    if (user) {
+      // eslint-disable-next-line react-hooks/set-state-in-effect
+      setProfile({
+        name: user.name,
+        email: user.email,
+        college: user.profile?.college || "",
+        department: user.profile?.department || "",
+        github: user.profile?.github || "",
+        linkedin: user.profile?.linkedin || "",
+        bio: user.profile?.bio || "",
+      });
     }
-  }, []);
+  }, [user]);
 
   function handleSave() {
     localStorage.setItem("profile", JSON.stringify(profile));
