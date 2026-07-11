@@ -1,17 +1,26 @@
 import { useEffect, useState } from "react";
 import { CheckCircle2, BrainCircuit, Database, Code2 } from "lucide-react";
-import { Link } from "react-router-dom";
+import { Link, useParams } from "react-router-dom";
+import { projectService } from "../services/projectService";
 
 export default function Requirements() {
+  const { id } = useParams();
   const [project, setProject] = useState(null);
 
   useEffect(() => {
-    const stored = JSON.parse(localStorage.getItem("currentProject"));
-
-    if (stored) {
-      setProject(stored);
+    const fetchProject = async () => {
+      try {
+        const response = await projectService.getProjectById(id);
+        setProject(response.data?.project);
+      } catch (error) {
+        console.error("Failed to fetch project details", error);
+      }
+    };
+    
+    if (id) {
+      fetchProject();
     }
-  }, []);
+  }, [id]);
 
   if (!project) {
     return (
@@ -125,7 +134,7 @@ export default function Requirements() {
           </Link>
 
           <Link
-            to="/project-dashboard"
+            to={`/project-dashboard/${project._id}`}
             className="rounded-xl bg-gradient-to-r from-cyan-400 via-sky-500 to-violet-500 px-8 py-4 font-semibold transition hover:scale-105"
           >
             Continue to Project Dashboard →

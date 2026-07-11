@@ -1,5 +1,7 @@
 import { Link, useNavigate } from "react-router-dom";
-import { useEffect, useState } from "react";
+import { useEffect, useState, useContext } from "react";
+import { AuthContext } from "../context/AuthContext";
+import { projectService } from "../services/projectService";
 import {
   FolderOpen,
   PlusCircle,
@@ -12,34 +14,27 @@ import {
 } from "lucide-react";
 
 export default function Dashboard() {
+  const { user, logout } = useContext(AuthContext);
   const navigate = useNavigate();
-  const [username, setUsername] = useState("User");
 
+  const username = user?.name || "User";
   const [projects, setProjects] = useState([]);
 
   useEffect(() => {
-    const loggedIn = localStorage.getItem("isLoggedIn");
+    const fetchProjects = async () => {
+      try {
+        const response = await projectService.getProjects();
+        setProjects(response.data?.projects || []);
+      } catch (error) {
+        console.error("Failed to fetch projects:", error);
+      }
+    };
 
-    if (!loggedIn) {
-      navigate("/login");
-      return;
-    }
-
-    const storedProfile = JSON.parse(localStorage.getItem("profile"));
-
-    if (storedProfile?.name) {
-      setUsername(storedProfile.name);
-    }
-
-    const savedProjects = JSON.parse(localStorage.getItem("projects"));
-
-    if (savedProjects) {
-      setProjects(savedProjects);
-    }
-  }, [navigate]);
+    fetchProjects();
+  }, [user]);
 
   function handleLogout() {
-    localStorage.removeItem("isLoggedIn");
+    logout();
     navigate("/login");
   }
   return (
@@ -143,7 +138,7 @@ export default function Dashboard() {
               </div>
             ) : (
               projects.map((project) => (
-                <ProjectCard key={project.id} project={project} />
+                <ProjectCard key={project._id} project={project} />
               ))
             )}
           </div>
@@ -184,7 +179,7 @@ function ProjectCard({ project }) {
     <div className="flex items-center justify-between rounded-3xl border border-white/10 bg-slate-900/60 p-6 transition hover:border-cyan-400/30 hover:bg-slate-900">
       <div>
         <h4 className="text-xl font-semibold">{project.title}</h4>
-        <p className="mt-1 text-sm text-slate-400">Owner : {project.owner}</p>
+        <p className="mt-1 text-sm text-slate-400">Domain: {project.domain}</p>
 
         <p className="mt-2">
           Status :
@@ -206,8 +201,7 @@ function ProjectCard({ project }) {
       </div>
 
       <Link
-        to="/requirements"
-        state={{ project: project.id }}
+        to={`/requirements/${project._id}`}
         className="flex items-center gap-2 rounded-xl border border-cyan-400/30 px-5 py-3 text-cyan-300 transition hover:bg-cyan-500/10"
       >
         Open

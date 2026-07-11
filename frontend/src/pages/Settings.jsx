@@ -1,7 +1,6 @@
 import { useEffect, useState } from "react";
 import { Link } from "react-router-dom";
 import {
-  Settings as SettingsIcon,
   Bell,
   BrainCircuit,
   Moon,
@@ -28,6 +27,7 @@ export default function Settings() {
     const stored = localStorage.getItem("settings");
 
     if (stored) {
+      // eslint-disable-next-line react-hooks/set-state-in-effect
       setSettings(JSON.parse(stored));
     }
   }, []);

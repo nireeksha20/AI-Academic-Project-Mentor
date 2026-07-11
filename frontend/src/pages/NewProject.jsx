@@ -1,5 +1,6 @@
 import { useState } from "react";
 import { useNavigate } from "react-router-dom";
+import { projectService } from "../services/projectService";
 import {
   Sparkles,
   FolderPlus,
@@ -35,7 +36,7 @@ export default function NewProject() {
     }));
   }
 
-  function handleGenerate() {
+  async function handleGenerate() {
     if (
       !project.title.trim() ||
       !project.domain.trim() ||
@@ -47,38 +48,27 @@ export default function NewProject() {
 
     setLoading(true);
 
-    const savedProjects = JSON.parse(localStorage.getItem("projects")) || [];
+      try {
+        const response = await projectService.createProject({
+          title: project.title,
+          domain: project.domain,
+          level: project.level,
+          team: project.team,
+          description: project.description,
+        });
 
-    const newProject = {
-      id: Date.now(),
-
-      owner: JSON.parse(localStorage.getItem("profile"))?.name || "User",
-
-      title: project.title,
-
-      domain: project.domain,
-
-      level: project.level,
-
-      team: project.team,
-
-      description: project.description,
-
-      status: "Planning",
-
-      createdAt: new Date().toISOString(),
-    };
-
-    savedProjects.push(newProject);
-
-    localStorage.setItem("projects", JSON.stringify(savedProjects));
-
-    localStorage.setItem("currentProject", JSON.stringify(newProject));
-
-    setTimeout(() => {
+        const newProject = response.data?.project;
+        if (newProject?._id) {
+          navigate(`/requirements/${newProject._id}`);
+        } else {
+          throw new Error("Project ID not found in response.");
+        }
+      } catch (error) {
+      console.error("Failed to create project:", error);
+      alert(error.response?.data?.message || "Failed to create project");
+    } finally {
       setLoading(false);
-      navigate("/requirements");
-    }, 1000);
+    }
   }
 
   const suggestions = [

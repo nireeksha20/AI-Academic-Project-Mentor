@@ -40,3 +40,10 @@ export const projectIdValidation = [
     .withMessage('Invalid Project ID'),
   handleValidationErrors,
 ];
+
+export const chatProjectIdValidation = [
+  param('projectId')
+    .custom(validateObjectId)
+    .withMessage('Invalid Project ID'),
+  handleValidationErrors,
+];

@@ -1,11 +1,9 @@
 import { motion } from "framer-motion";
 import {
-  ArrowRight,
   BrainCircuit,
   DatabaseZap,
   Layers3,
   Sparkles,
-  Zap,
 } from "lucide-react";
 import { Link as RouterLink } from "react-router-dom";
 

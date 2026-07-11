@@ -150,12 +150,6 @@ export default function AgentsSection() {
   const cardWidth = 126;
   const cardHeight = 88;
 
-  // Every card is placed on the orbit circle using polar coordinates, at
-  // perfectly equal angular increments, starting at 12 o'clock. This
-  // guarantees the orbit ring passes exactly through each card's center
-  // and that all seven cards are optically balanced around it.
-  const angleStep = (2 * Math.PI) / agents.length;
-  const startAngle = -Math.PI / 2;
   const networkNodes = [
     {
       id: agents[0].id,
@@ -221,18 +215,6 @@ export default function AgentsSection() {
     return {
       x: fromX + (dx / length) * radius,
       y: fromY + (dy / length) * radius,
-    };
-  };
-
-  const getRectBoundaryPoint = (fromX, fromY, toX, toY, width, height) => {
-    const dx = toX - fromX;
-    const dy = toY - fromY;
-    const scaleX = width / 2 / Math.max(Math.abs(dx), 1e-6);
-    const scaleY = height / 2 / Math.max(Math.abs(dy), 1e-6);
-    const scale = Math.min(scaleX, scaleY);
-    return {
-      x: fromX + dx * scale,
-      y: fromY + dy * scale,
     };
   };
 

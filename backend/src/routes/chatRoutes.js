@@ -1,7 +1,7 @@
 import express from 'express';
 import { addMessage, getHistory, clearHistory } from '../controllers/chatController.js';
 import { protect } from '../middleware/authMiddleware.js';
-import { projectIdValidation } from '../validators/projectValidator.js';
+import { chatProjectIdValidation } from '../validators/projectValidator.js';
 import { body } from 'express-validator';
 import { errorResponse } from '../utils/response.js';
 import { validationResult } from 'express-validator';
@@ -31,8 +31,8 @@ router.use(protect);
 
 router
   .route('/:projectId')
-  .post(projectIdValidation, messageValidation, addMessage)
-  .get(projectIdValidation, getHistory)
-  .delete(projectIdValidation, clearHistory);
+  .post(chatProjectIdValidation, messageValidation, addMessage)
+  .get(chatProjectIdValidation, getHistory)
+  .delete(chatProjectIdValidation, clearHistory);
 
 export default router;
