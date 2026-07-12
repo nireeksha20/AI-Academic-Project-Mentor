@@ -47,31 +47,29 @@ export default function NewProject() {
 
     setLoading(true);
 
-    const savedProjects = JSON.parse(localStorage.getItem("projects")) || [];
+    const currentUser = JSON.parse(localStorage.getItem("currentUser"));
+
+    const savedProjects =
+      JSON.parse(localStorage.getItem(`projects_${currentUser.email}`)) || [];
 
     const newProject = {
       id: Date.now(),
-
-      owner: JSON.parse(localStorage.getItem("profile"))?.name || "User",
-
+      owner: currentUser.name,
       title: project.title,
-
       domain: project.domain,
-
       level: project.level,
-
       team: project.team,
-
       description: project.description,
-
       status: "Planning",
-
       createdAt: new Date().toISOString(),
     };
 
     savedProjects.push(newProject);
 
-    localStorage.setItem("projects", JSON.stringify(savedProjects));
+    localStorage.setItem(
+      `projects_${currentUser.email}`,
+      JSON.stringify(savedProjects),
+    );
 
     localStorage.setItem("currentProject", JSON.stringify(newProject));
 

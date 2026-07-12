@@ -25,21 +25,21 @@ export default function Dashboard() {
       return;
     }
 
-    const storedProfile = JSON.parse(localStorage.getItem("profile"));
+    const currentUser = JSON.parse(localStorage.getItem("currentUser"));
 
-    if (storedProfile?.name) {
-      setUsername(storedProfile.name);
+    if (currentUser?.name) {
+      setUsername(currentUser.name);
     }
 
-    const savedProjects = JSON.parse(localStorage.getItem("projects"));
+    const savedProjects =
+      JSON.parse(localStorage.getItem(`projects_${currentUser.email}`)) || [];
 
-    if (savedProjects) {
-      setProjects(savedProjects);
-    }
+    setProjects(savedProjects);
   }, [navigate]);
 
   function handleLogout() {
     localStorage.removeItem("isLoggedIn");
+    localStorage.removeItem("currentUser");
     navigate("/login");
   }
   return (
@@ -124,7 +124,7 @@ export default function Dashboard() {
             value={projects.filter((p) => p.status === "Completed").length}
           />
 
-          <StatCard title="AI Sessions" value="28" />
+          <StatCard title="AI Sessions" value="0" />
         </div>
 
         {/* Recent Projects */}

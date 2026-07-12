@@ -26,24 +26,25 @@ export default function LoginForm() {
 
     setLoading(true);
 
-    const savedProfile = JSON.parse(localStorage.getItem("profile"));
+    const users = JSON.parse(localStorage.getItem("users")) || [];
 
     setTimeout(() => {
-      if (!savedProfile) {
-        setLoading(false);
-        alert("No account found. Please register first.");
-        return;
-      }
+      const currentUser = users.find(
+        (user) =>
+          user.email === formData.email && user.password === formData.password,
+      );
 
-      if (savedProfile.email !== formData.email) {
+      if (!currentUser) {
         setLoading(false);
-        alert("Invalid email.");
+        alert("Invalid email or password.");
         return;
       }
 
       // Password validation will be added after backend integration
 
       localStorage.setItem("isLoggedIn", "true");
+
+      localStorage.setItem("currentUser", JSON.stringify(currentUser));
 
       setLoading(false);
 

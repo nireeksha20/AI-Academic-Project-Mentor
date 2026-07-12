@@ -1,4 +1,4 @@
-import { useEffect, useState } from "react";
+import { useState } from "react";
 import { Link as RouterLink } from "react-router-dom";
 import {
   User,
@@ -11,17 +11,21 @@ import {
 } from "lucide-react";
 
 export default function Profile() {
-  const defaultProfile = {
-    name: "Nireeksha",
-    email: "nireeksha@example.com",
-    college: "Malnad College of Engineering",
-    department: "Computer Science & Engineering",
-    github: "https://github.com/nireeksha20",
-    linkedin: "https://linkedin.com/in/nireeksha",
-    bio: "Passionate Full Stack & AI Developer building intelligent software solutions.",
-  };
+  const currentUser = JSON.parse(localStorage.getItem("currentUser"));
 
-  const [profile, setProfile] = useState(defaultProfile);
+  const assessment = JSON.parse(
+    localStorage.getItem(`assessment_${currentUser?.email}`),
+  );
+
+  const [profile, setProfile] = useState({
+    name: currentUser?.name || "",
+    email: currentUser?.email || "",
+    college: currentUser?.college || "",
+    department: currentUser?.department || "",
+    github: "",
+    linkedin: "",
+    bio: "",
+  });
 
   const [editing, setEditing] = useState(false);
 
@@ -34,16 +38,22 @@ export default function Profile() {
     });
   }
 
-  useEffect(() => {
-    const data = localStorage.getItem("profile");
-
-    if (data) {
-      setProfile(JSON.parse(data));
-    }
-  }, []);
-
   function handleSave() {
-    localStorage.setItem("profile", JSON.stringify(profile));
+    const users = JSON.parse(localStorage.getItem("users")) || [];
+
+    const updatedUsers = users.map((user) =>
+      user.email === currentUser.email ? { ...user, ...profile } : user,
+    );
+
+    localStorage.setItem("users", JSON.stringify(updatedUsers));
+
+    localStorage.setItem(
+      "currentUser",
+      JSON.stringify({
+        ...currentUser,
+        ...profile,
+      }),
+    );
 
     setEditing(false);
 
@@ -111,9 +121,9 @@ export default function Profile() {
                 }
               />
 
-              <StatCard title="AI Sessions" value="28" />
+              <StatCard title="AI Sessions" value="0" />
 
-              <StatCard title="Completion" value="15%" />
+              <StatCard title="Completion" value="0%" />
             </div>
           </div>
 
@@ -158,7 +168,7 @@ export default function Profile() {
               />
             </SectionCard>
 
-            <SectionCard title="Portfolio Links">
+            {/* <SectionCard title="Portfolio Links">
               <Input
                 icon={<LinkIcon />}
                 label="GitHub"
@@ -179,62 +189,63 @@ export default function Profile() {
             </SectionCard>
 
             <SectionCard title="About Me">
-              <label className="mb-2 block text-sm text-slate-300">Bio</label>
+              <label className="mb-2 block text-sm text-slate-300">Bio</label> */}
 
-              <textarea
+            {/* <textarea
                 disabled={!editing}
                 rows={5}
                 name="bio"
                 value={profile.bio}
                 onChange={handleChange}
                 className="w-full rounded-2xl border border-white/10 bg-slate-950 px-5 py-4 outline-none transition focus:border-cyan-400 disabled:text-slate-400"
-              />
-            </SectionCard>
+              /> */}
+            {/* </SectionCard> */}
             {/* Skills */}
 
-            <SectionCard title="Skills">
+            {/* <SectionCard title="Skills">
               <div className="flex flex-wrap gap-3">
                 {[
-                  "React",
-                  "Node.js",
-                  "Express",
-                  "MongoDB",
-                  "Java",
-                  "Python",
-                  "JavaScript",
-                  "Tailwind CSS",
-                  "Git",
-                  "AI",
-                ].map((skill) => (
-                  <span
-                    key={skill}
-                    className="rounded-full border border-cyan-400/20 bg-cyan-500/10 px-4 py-2 text-sm text-cyan-300"
-                  >
-                    {skill}
-                  </span>
-                ))}
+                  assessment?.programming,
+                  assessment?.frontend,
+                  assessment?.backend,
+                  assessment?.database,
+                  assessment?.ai,
+                  assessment?.role,
+                ]
+                  .filter(Boolean)
+                  .map((skill) => (
+                    <span
+                      key={skill}
+                      className="rounded-full border border-cyan-400/20 bg-cyan-500/10 px-4 py-2 text-sm text-cyan-300"
+                    >
+                      {skill}
+                    </span>
+                  ))}
               </div>
-            </SectionCard>
+            </SectionCard> */}
 
             {/* Achievements */}
 
-            <SectionCard title="Achievements">
+            <SectionCard title="Skill Assessment Summary">
               <div className="space-y-4">
                 <Achievement
-                  title="Infosys Springboard Virtual Internship"
-                  desc="AI Academic Project Mentor"
+                  title="Programming Level"
+                  desc={assessment?.programming || "Not Selected"}
                 />
 
                 <Achievement
-                  title="Microsoft AI Skills Fest"
-                  desc="Participant"
+                  title="Development Experience"
+                  desc={assessment?.experience || "Not Selected"}
                 />
 
-                <Achievement title="WorldQuant BRAIN" desc="Gold Level" />
+                <Achievement
+                  title="Preferred Role"
+                  desc={assessment?.role || "Not Selected"}
+                />
 
                 <Achievement
-                  title="GitHub Projects"
-                  desc="Multiple Full Stack Projects"
+                  title="AI / Machine Learning"
+                  desc={assessment?.ai || "Not Selected"}
                 />
               </div>
             </SectionCard>

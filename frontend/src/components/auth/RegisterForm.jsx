@@ -54,13 +54,31 @@ export default function RegisterForm() {
       year: formData.year,
     };
 
-    localStorage.setItem("profile", JSON.stringify(profile));
+    const users = JSON.parse(localStorage.getItem("users")) || [];
+
+    // Save password for demo login
+    profile.password = formData.password;
+
+    // Check duplicate email
+    const existingUser = users.find((user) => user.email === profile.email);
+
+    if (existingUser) {
+      alert("Email already registered.");
+      setLoading(false);
+      return;
+    }
+
+    users.push(profile);
+
+    localStorage.setItem("users", JSON.stringify(users));
+
+    localStorage.setItem("currentUser", JSON.stringify(profile));
 
     setTimeout(() => {
       setLoading(false);
       localStorage.setItem("isLoggedIn", "true");
 
-      navigate("/dashboard");
+      navigate("/skill-assessment");
     }, 1000);
   }
 

@@ -1,5 +1,5 @@
 import { useState } from "react";
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 import {
   Code2,
   Database,
@@ -12,6 +12,7 @@ import {
 const levels = ["Beginner", "Intermediate", "Advanced"];
 
 export default function SkillAssessment() {
+  const navigate = useNavigate();
   const [formData, setFormData] = useState({
     programming: "",
     frontend: "",
@@ -27,6 +28,22 @@ export default function SkillAssessment() {
       ...formData,
       [e.target.name]: e.target.value,
     });
+  }
+
+  function saveAssessment() {
+    const currentUser = JSON.parse(localStorage.getItem("currentUser"));
+
+    if (!currentUser) {
+      alert("Please login first.");
+      return;
+    }
+
+    localStorage.setItem(
+      `assessment_${currentUser.email}`,
+      JSON.stringify(formData),
+    );
+
+    navigate("/dashboard");
   }
 
   return (
@@ -228,16 +245,16 @@ export default function SkillAssessment() {
             to="/dashboard"
             className="rounded-xl border border-white/10 px-8 py-4 transition hover:bg-white/5"
           >
-            Back to Dashboard
+            Back
           </Link>
 
-          <Link
-            to="/project-dashboard"
-            className="flex items-center gap-2 rounded-xl bg-gradient-to-r from-cyan-400 via-sky-500 to-violet-500 px-8 py-4 font-semibold transition hover:scale-105"
+          <button
+            onClick={saveAssessment}
+            className="flex items-center gap-2 rounded-xl bg-gradient-to-r from-cyan-400 via-sky-500 to-violet-500 px-8 py-4 font-semibold text-white transition hover:scale-105"
           >
             Save Assessment
             <ArrowRight size={18} />
-          </Link>
+          </button>
         </div>
       </div>
     </div>
