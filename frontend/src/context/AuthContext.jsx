@@ -1,17 +1,16 @@
-import { createContext, useState, useEffect } from 'react';
-import { authService } from '../services/authService';
+import { createContext, useState, useEffect } from "react";
+import { authService } from "../services/authService";
 
-// eslint-disable-next-line react-refresh/only-export-components
 export const AuthContext = createContext();
 
 export const AuthProvider = ({ children }) => {
   const [user, setUser] = useState(null);
   const [loading, setLoading] = useState(true);
 
-  // Load user on mount
   useEffect(() => {
     const loadUser = async () => {
-      const token = localStorage.getItem('token');
+      const token = localStorage.getItem("token");
+
       if (!token) {
         setLoading(false);
         return;
@@ -19,10 +18,10 @@ export const AuthProvider = ({ children }) => {
 
       try {
         const response = await authService.getMe();
-        setUser(response.data.user);
+        setUser(response.data.data.user);
       } catch (error) {
-        console.error('Error fetching user profile:', error);
-        localStorage.removeItem('token');
+        console.error("Error fetching user profile:", error);
+        localStorage.removeItem("token");
         setUser(null);
       } finally {
         setLoading(false);
@@ -32,29 +31,47 @@ export const AuthProvider = ({ children }) => {
     loadUser();
   }, []);
 
-  const login = async (email, password) => {
-    const response = await authService.login(email, password);
-    const token = response.data.token;
-    localStorage.setItem('token', token);
-    
-    // Fetch profile immediately after login
+  const login = async (credentials) => {
+    const response = await authService.login(credentials);
+
+    const token = response.data.data.token;
+
+    localStorage.setItem("token", token);
+
     const meResponse = await authService.getMe();
-    setUser(meResponse.data.user);
+
+    setUser(meResponse.data.data.user);
   };
 
   const register = async (userData) => {
     await authService.register(userData);
-    // After registration, automatically login
-    await login(userData.email, userData.password);
+
+    await login({
+      email: userData.email,
+      password: userData.password,
+    });
   };
 
   const logout = () => {
-    localStorage.removeItem('token');
+    localStorage.removeItem("token");
     setUser(null);
   };
 
+  const updateUser = (updatedUser) => {
+    setUser(updatedUser);
+  };
+
   return (
-    <AuthContext.Provider value={{ user, loading, login, register, logout }}>
+    <AuthContext.Provider
+      value={{
+        user,
+        loading,
+        login,
+        register,
+        logout,
+        updateUser,
+      }}
+    >
       {children}
     </AuthContext.Provider>
   );

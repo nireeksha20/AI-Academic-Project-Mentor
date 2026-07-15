@@ -50,7 +50,8 @@ export default function ChatBox({ projectId }) {
         // Simulate AI response for now (since backend doesn't trigger real AI yet)
         setTimeout(async () => {
           const aiResponse = await chatService.sendMessage(projectId, {
-            message: "I am an AI. I have logged your message.",
+            message:
+              "AI response generation is under development. Your message has been saved successfully.",
             sender: "ai",
           });
           if (aiResponse.success) {
@@ -92,7 +93,11 @@ export default function ChatBox({ projectId }) {
                     : "bg-cyan-500/20 text-cyan-400"
                 }`}
               >
-                {msg.sender === "user" ? <User size={16} /> : <BrainCircuit size={16} />}
+                {msg.sender === "user" ? (
+                  <User size={16} />
+                ) : (
+                  <BrainCircuit size={16} />
+                )}
               </div>
               <div
                 className={`max-w-[80%] rounded-2xl px-4 py-3 ${

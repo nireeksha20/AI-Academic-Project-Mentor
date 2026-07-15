@@ -29,7 +29,10 @@ export default function LoginForm() {
     setLoading(true);
 
     try {
-      await login(formData.email, formData.password);
+      await login({
+        email: formData.email,
+        password: formData.password,
+      });
       navigate("/dashboard");
     } catch (error) {
       if (error.response?.data?.errors) {
@@ -39,7 +42,9 @@ export default function LoginForm() {
         });
         setFormErrors(errors);
       } else {
-        setFormErrors({ global: error.response?.data?.message || "Login failed" });
+        setFormErrors({
+          global: error.response?.data?.message || "Login failed",
+        });
       }
     } finally {
       setLoading(false);
@@ -78,7 +83,9 @@ export default function LoginForm() {
             className="w-full bg-transparent py-4 text-white outline-none placeholder:text-slate-500"
           />
         </div>
-        {formErrors.email && <p className="mt-1 mb-4 text-sm text-red-500">{formErrors.email}</p>}
+        {formErrors.email && (
+          <p className="mt-1 mb-4 text-sm text-red-500">{formErrors.email}</p>
+        )}
 
         {/* Password */}
 
@@ -106,7 +113,11 @@ export default function LoginForm() {
             {showPassword ? <EyeOff size={18} /> : <Eye size={18} />}
           </button>
         </div>
-        {formErrors.password && <p className="mt-1 mb-2 text-sm text-red-500">{formErrors.password}</p>}
+        {formErrors.password && (
+          <p className="mt-1 mb-2 text-sm text-red-500">
+            {formErrors.password}
+          </p>
+        )}
 
         <div className="mb-7 flex justify-end">
           <button
@@ -116,8 +127,12 @@ export default function LoginForm() {
             Forgot Password?
           </button>
         </div>
-        
-        {formErrors.global && <p className="mb-4 text-center text-sm text-red-500">{formErrors.global}</p>}
+
+        {formErrors.global && (
+          <p className="mb-4 text-center text-sm text-red-500">
+            {formErrors.global}
+          </p>
+        )}
 
         <button
           type="submit"

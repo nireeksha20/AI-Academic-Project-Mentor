@@ -1,21 +1,23 @@
-import api from './api';
+import api from "./api";
 
 export const authService = {
-  // Register a new user
-  async register(userData) {
-    const response = await api.post('/auth/register', userData);
-    return response.data;
+  register(data) {
+    return api.post("/auth/register", data);
   },
 
-  // Login
-  async login(email, password) {
-    const response = await api.post('/auth/login', { email, password });
-    return response.data;
+  login(data) {
+    return api.post("/auth/login", data);
   },
 
-  // Get current user profile
-  async getMe() {
-    const response = await api.get('/auth/me');
-    return response.data;
+  getMe() {
+    return api.get("/auth/me");
+  },
+
+  updateProfile(data) {
+    return api.put("/auth/profile", data);
+  },
+
+  updateSkillAssessment(data) {
+    return api.put("/auth/skill-assessment", data);
   },
 };

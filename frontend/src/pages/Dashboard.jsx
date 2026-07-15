@@ -57,13 +57,21 @@ export default function Dashboard() {
           <SidebarItem
             icon={<FolderOpen size={20} />}
             title="Projects"
-            to="/project-dashboard"
+            to={
+              projects.length
+                ? `/project-dashboard/${projects[0]._id}`
+                : "/dashboard"
+            }
           />
 
           <SidebarItem
             icon={<BrainCircuit size={20} />}
             title="AI Mentor"
-            to="/requirements"
+            to={
+              projects.length
+                ? `/requirements/${projects[0]._id}`
+                : "/dashboard"
+            }
           />
 
           <SidebarItem
@@ -119,7 +127,7 @@ export default function Dashboard() {
             value={projects.filter((p) => p.status === "Completed").length}
           />
 
-          <StatCard title="AI Sessions" value="28" />
+          <StatCard title="AI Sessions" value="0" />
         </div>
 
         {/* Recent Projects */}

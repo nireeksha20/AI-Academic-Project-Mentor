@@ -1,5 +1,9 @@
 import { useState } from "react";
-import { Link } from "react-router-dom";
+import { authService } from "../services/authService";
+import { Link, useNavigate } from "react-router-dom";
+import { useEffect } from "react";
+import { AuthContext } from "../context/AuthContext";
+import { useContext } from "react";
 import {
   Code2,
   Database,
@@ -12,6 +16,8 @@ import {
 const levels = ["Beginner", "Intermediate", "Advanced"];
 
 export default function SkillAssessment() {
+  const navigate = useNavigate();
+  const { user, updateUser } = useContext(AuthContext);
   const [formData, setFormData] = useState({
     programming: "",
     frontend: "",
@@ -20,6 +26,9 @@ export default function SkillAssessment() {
     ai: "",
     experience: "",
     role: "",
+
+    interests: [],
+    preferredTech: "",
   });
 
   function handleChange(e) {
@@ -27,6 +36,83 @@ export default function SkillAssessment() {
       ...formData,
       [e.target.name]: e.target.value,
     });
+  }
+
+  function handleInterestChange(e) {
+    const { value, checked } = e.target;
+
+    if (checked) {
+      setFormData({
+        ...formData,
+        interests: [...formData.interests, value],
+      });
+    } else {
+      setFormData({
+        ...formData,
+        interests: formData.interests.filter((item) => item !== value),
+      });
+    }
+  }
+
+  useEffect(() => {
+    if (!user?.skillAssessment) return;
+
+    setFormData({
+      programming: user.skillAssessment.programming || "",
+      frontend: user.skillAssessment.frontend || "",
+      backend: user.skillAssessment.backend || "",
+      database: user.skillAssessment.database || "",
+      ai: user.skillAssessment.ai || "",
+      experience: user.skillAssessment.experience || "",
+      role: user.skillAssessment.role || "",
+
+      interests: user.skillAssessment.interests || [],
+
+      preferredTech: user.skillAssessment.preferredTech || "",
+    });
+  }, [user]);
+
+  async function saveAssessment() {
+    const requiredFields = [
+      "programming",
+      "frontend",
+      "backend",
+      "database",
+      "ai",
+      "experience",
+      "role",
+    ];
+
+    for (const field of requiredFields) {
+      if (!formData[field]) {
+        alert("Please complete all required fields.");
+        return;
+      }
+    }
+
+    try {
+      const response = await authService.updateSkillAssessment({
+        programming: formData.programming,
+        frontend: formData.frontend,
+        backend: formData.backend,
+        database: formData.database,
+        ai: formData.ai,
+        experience: formData.experience,
+        role: formData.role,
+        interests: formData.interests,
+        preferredTech: formData.preferredTech,
+      });
+
+      updateUser(response.data.data.user);
+
+      navigate("/dashboard");
+
+      alert("Skill Assessment Saved Successfully!");
+      navigate("/dashboard");
+    } catch (err) {
+      console.error(err);
+      alert("Failed to save assessment.");
+    }
   }
 
   return (
@@ -180,7 +266,13 @@ export default function SkillAssessment() {
                 key={item}
                 className="flex cursor-pointer items-center gap-3 rounded-xl border border-white/10 bg-slate-950/60 p-4 transition hover:border-cyan-400/40"
               >
-                <input type="checkbox" className="h-4 w-4 accent-cyan-400" />
+                <input
+                  type="checkbox"
+                  value={item}
+                  checked={formData.interests.includes(item)}
+                  onChange={handleInterestChange}
+                  className="h-4 w-4 accent-cyan-400"
+                />
 
                 <span>{item}</span>
               </label>
@@ -195,6 +287,9 @@ export default function SkillAssessment() {
 
           <textarea
             rows={4}
+            name="preferredTech"
+            value={formData.preferredTech}
+            onChange={handleChange}
             placeholder="Example: MERN Stack, Python + Flask, React + Firebase..."
             className="w-full rounded-2xl border border-white/10 bg-slate-950 px-5 py-4 outline-none transition focus:border-cyan-400"
           />
@@ -231,13 +326,13 @@ export default function SkillAssessment() {
             Back to Dashboard
           </Link>
 
-          <Link
-            to="/project-dashboard"
+          <button
+            onClick={saveAssessment}
             className="flex items-center gap-2 rounded-xl bg-gradient-to-r from-cyan-400 via-sky-500 to-violet-500 px-8 py-4 font-semibold transition hover:scale-105"
           >
             Save Assessment
             <ArrowRight size={18} />
-          </Link>
+          </button>
         </div>
       </div>
     </div>

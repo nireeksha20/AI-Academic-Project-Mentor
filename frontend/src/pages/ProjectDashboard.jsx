@@ -16,41 +16,6 @@ import { useParams } from "react-router-dom";
 import { projectService } from "../services/projectService";
 import ChatBox from "../components/project/ChatBox";
 
-const milestones = [
-  {
-    title: "Requirement Analysis",
-    status: "Completed",
-    color: "text-green-400",
-  },
-  {
-    title: "System Design",
-    status: "Completed",
-    color: "text-green-400",
-  },
-  {
-    title: "Frontend Development",
-    status: "In Progress",
-    color: "text-cyan-400",
-  },
-  {
-    title: "Backend Development",
-    status: "Pending",
-    color: "text-slate-400",
-  },
-  {
-    title: "AI Integration",
-    status: "Pending",
-    color: "text-slate-400",
-  },
-];
-
-const suggestions = [
-  "Implement authentication using JWT.",
-  "Prepare MongoDB schema before backend APIs.",
-  "Use Gemini API for roadmap generation.",
-  "Split frontend into reusable components.",
-];
-
 export default function ProjectDashboard() {
   const { id } = useParams();
   const [project, setProject] = useState(null);
@@ -64,7 +29,7 @@ export default function ProjectDashboard() {
         console.error("Failed to fetch project details", error);
       }
     };
-    
+
     if (id) {
       fetchProject();
     }
@@ -83,18 +48,13 @@ export default function ProjectDashboard() {
       ? [project.owner]
       : [project.owner, "Member 2", "Member 3", "Member 4"];
 
-  const documents = [
-    "Requirement Analysis",
-    "Architecture Design",
-    "ER Diagram",
-    "Project Proposal",
-  ];
+  <Card title="Project Progress">
+    <p className="text-slate-300">
+      Progress tracking, AI roadmap and document generation will be available
+      after blueprint generation.
+    </p>
+  </Card>;
 
-  const activities = [
-    "Project Created",
-    "Requirements Generated",
-    "Blueprint Generated",
-  ];
   return (
     <div className="min-h-screen bg-slate-950 text-white">
       <div className="mx-auto max-w-7xl px-8 py-10">
@@ -263,7 +223,6 @@ export default function ProjectDashboard() {
               </div>
             </Card>
           </div>
-
           {/* AI Chat Mentor */}
           <div className="lg:col-span-2 mt-6">
             <ChatBox projectId={id} />

@@ -1,123 +1,157 @@
-import bcrypt from 'bcryptjs';
-import jwt from 'jsonwebtoken';
-import User from '../models/User.js';
+import bcrypt from "bcryptjs";
+import jwt from "jsonwebtoken";
+import User from "../models/User.js";
 
 export class AuthService {
-  /**
-   * Hash a plaintext password
-   * @param {string} password 
-   * @returns {Promise<string>} hashed password
-   */
   static async hashPassword(password) {
     const salt = await bcrypt.genSalt(10);
     return bcrypt.hash(password, salt);
   }
 
-  /**
-   * Compare plaintext password with hashed password
-   * @param {string} plainPassword 
-   * @param {string} hashedPassword 
-   * @returns {Promise<boolean>}
-   */
   static async comparePassword(plainPassword, hashedPassword) {
     return bcrypt.compare(plainPassword, hashedPassword);
   }
 
-  /**
-   * Generate JWT Token
-   * @param {Object} payload 
-   * @returns {string} token
-   */
   static generateToken(payload) {
     return jwt.sign(
-      { id: payload._id, email: payload.email, role: payload.role },
+      {
+        id: payload._id,
+        email: payload.email,
+        role: payload.role,
+      },
       process.env.JWT_SECRET,
-      { expiresIn: process.env.JWT_EXPIRES_IN || '7d' }
+      {
+        expiresIn: process.env.JWT_EXPIRES_IN || "7d",
+      },
     );
   }
 
-  /**
-   * Verify JWT Token
-   * @param {string} token 
-   * @returns {Object} decoded payload
-   */
   static verifyToken(token) {
     return jwt.verify(token, process.env.JWT_SECRET);
   }
 
-  /**
-   * Register a new user
-   * @param {Object} userData 
-   * @returns {Promise<Object>} user document (without password)
-   */
-  static async registerUser(userData) {
-    const { name, email, password } = userData;
+  // ---------------- REGISTER ----------------
 
-    // Check if user exists
+  static async registerUser(userData) {
+    const { name, email, password, college, department } = userData;
+
     const existingUser = await User.findOne({ email });
+
     if (existingUser) {
-      const error = new Error('Email already registered');
-      error.statusCode = 409; // Conflict
+      const error = new Error("Email already registered");
+      error.statusCode = 409;
       throw error;
     }
 
-    // Hash the password
     const hashedPassword = await this.hashPassword(password);
 
-    // Create User
     const user = await User.create({
       name,
       email,
       password: hashedPassword,
+
+      profile: {
+        college: college || "",
+        department: department || "",
+      },
     });
 
-    // Remove password before returning
     user.password = undefined;
+
     return user;
   }
 
-  /**
-   * Authenticate a user
-   * @param {string} email 
-   * @param {string} password 
-   * @returns {Promise<{ user: Object, token: string }>}
-   */
+  // ---------------- LOGIN ----------------
+
   static async loginUser(email, password) {
-    // Note: select('+password') because it is hidden by default in schema
-    const user = await User.findOne({ email }).select('+password');
-    
-    // Generic error to prevent revealing email existence
-    const authError = new Error('Invalid email or password');
+    const user = await User.findOne({ email }).select("+password");
+
+    const authError = new Error("Invalid email or password");
     authError.statusCode = 401;
 
-    if (!user) {
-      throw authError;
-    }
+    if (!user) throw authError;
 
     const isMatch = await this.comparePassword(password, user.password);
-    if (!isMatch) {
-      throw authError;
-    }
+
+    if (!isMatch) throw authError;
 
     const token = this.generateToken(user);
-    
+
     user.password = undefined;
 
-    return { user, token };
+    return {
+      user,
+      token,
+    };
   }
 
-  /**
-   * Fetch a user by ID
-   * @param {string} userId 
-   * @returns {Promise<Object>} user document
-   */
+  // ---------------- GET USER ----------------
+
   static async getUserById(userId) {
     const user = await User.findById(userId);
+
     if (!user) {
-      const error = new Error('User not found');
+      const error = new Error("User not found");
       error.statusCode = 404;
       throw error;
     }
+
+    return user;
+  }
+
+  // ---------------- UPDATE PROFILE ----------------
+
+  static async updateProfile(userId, data) {
+    const user = await User.findById(userId);
+
+    if (!user) {
+      const error = new Error("User not found");
+      error.statusCode = 404;
+      throw error;
+    }
+
+    user.profile.college = data.college ?? user.profile.college;
+
+    user.profile.department = data.department ?? user.profile.department;
+
+    user.profile.bio = data.bio ?? user.profile.bio;
+
+    user.profile.github = data.github ?? user.profile.github;
+
+    user.profile.linkedin = data.linkedin ?? user.profile.linkedin;
+
+    await user.save();
+
+    return user;
+  }
+
+  // ---------------- UPDATE SKILL ASSESSMENT ----------------
+
+  static async updateSkillAssessment(userId, data) {
+    const user = await User.findById(userId);
+
+    if (!user) {
+      const error = new Error("User not found");
+      error.statusCode = 404;
+      throw error;
+    }
+
+    user.skillAssessment = {
+      programming: data.programming,
+      frontend: data.frontend,
+      backend: data.backend,
+      database: data.database,
+      ai: data.ai,
+      experience: data.experience,
+      role: data.role,
+
+      interests: data.interests || [],
+
+      preferredTech: data.preferredTech || "",
+    };
+
+    await user.save();
+
     return user;
   }
 }
