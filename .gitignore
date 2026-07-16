@@ -143,3 +143,20 @@ vite.config.ts.timestamp-*
 .vite/
 
 docs/
+
+# Python
+__pycache__/
+*.py[cod]
+*.pyc
+
+# Virtual environment
+venv/
+.env
+
+# VS Code
+.vscode/
+
+# Node
+node_modules/
+dist/
+build/

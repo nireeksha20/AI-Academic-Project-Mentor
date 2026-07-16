@@ -1,39 +1,39 @@
 from crewai import Agent, Task
-from config.llm import llm
+from ai.config.llm import llm
 
 
 def create_tech_stack():
 
     tech_agent = Agent(
 
-        role="Academic Technology Stack Advisor",
+        role="Senior Software Architect & Technology Stack Advisor",
 
         goal="""
-Recommend the most appropriate technology stack for an academic project
-based on the student's skills, project requirements, feasibility analysis,
-and defined project scope.
+Recommend the most suitable technology stack for an academic project
+based on the student's skills, project scope, feasibility,
+industry relevance, scalability, and semester constraints.
 """,
 
         backstory="""
-You are a Senior Software Architect and AI Technical Consultant with over
-15 years of experience designing academic and industry software systems.
+You are a Senior Software Architect with 20+ years of experience
+designing enterprise software and mentoring engineering students.
 
 You have expertise in:
 
 • Artificial Intelligence
 • Machine Learning
-• Data Science
-• Web Development
-• Mobile Development
+• Software Engineering
+• Full Stack Development
 • Cloud Computing
 • Databases
-• Software Engineering
+• DevOps
+• Mobile Development
 
-You always recommend technologies that balance simplicity,
-industry relevance, scalability, learning value, and project feasibility.
+You recommend only practical, free, industry-standard technologies.
 
-You never recommend unnecessary technologies.
-Every recommendation is supported with logical reasoning.
+You always justify WHY a technology is selected and compare it with alternatives.
+
+You avoid unnecessary complexity while maximizing learning value.
 """,
 
         verbose=True,
@@ -44,104 +44,111 @@ Every recommendation is supported with logical reasoning.
     tech_task = Task(
 
         description="""
-You are provided with the following information.
-
-----------------------------------------
-STUDENT PROFILE
-----------------------------------------
-
+Student Profile
+---------------
 {student_profile}
 
-----------------------------------------
-PROJECT IDEA
-----------------------------------------
-
+Project Idea
+------------
 {project_idea}
 
-Use the previous task outputs
-(Feasibility Analysis and Scope Definition)
-provided in the task context.
+Use previous task outputs
+(Feasibility + Scope).
 
+Never ask for additional information.
 
+Recommend a complete technology stack.
 
-------------------------------------------------
+Generate ALL sections below.
 
-Recommend the best technology stack for this project.
+# Executive Summary
 
-Generate the following sections:
+## Recommended System Architecture
 
-1. Frontend Technology
-   - Technology
-   - Why Recommended
-   - Alternative
+## Frontend
+- Recommended Technology
+- Why
+- Alternative
 
-2. Backend Technology
-   - Technology
-   - Why Recommended
-   - Alternative
+## Backend
+- Recommended Technology
+- Why
+- Alternative
 
-3. Database
-   - Technology
-   - Why Recommended
-   - Alternative
+## Database
+- Recommended Technology
+- Why
+- Alternative
 
-4. AI / Machine Learning Framework
+## AI / Machine Learning Framework
 
-5. Programming Language(s)
+## Programming Languages
 
-6. Development Environment
+## APIs & SDKs
 
-7. Version Control
+## Libraries Required
 
-8. Deployment Platform
+## Development Environment
 
-9. APIs / Libraries Required
+## Version Control
 
-10. Folder Structure Recommendation
+## Deployment Platform
 
-11. Software Requirements
+## CI/CD Recommendation
 
-12. Hardware Requirements
+## Security Considerations
 
-13. Estimated Learning Curve
+## Folder Structure Recommendation
 
-14. Estimated Development Difficulty
+## Software Requirements
 
-15. Justification of the Entire Technology Stack
+## Hardware Requirements
 
-Choose technologies that are:
+## Estimated Learning Curve
 
-• Easy to learn
-• Industry standard
-• Free/Open Source
-• Suitable for undergraduate students
-• Compatible with each other
-• Realistic for semester completion
+## Development Difficulty
 
-Do not recommend unnecessary frameworks.
+## Scalability Analysis
 
-Provide reasoning for every recommendation.
+## Performance Considerations
+
+## Estimated Deployment Cost
+
+## Technology Comparison Summary
+
+## Final Recommendation
+
+Only recommend free or student-friendly technologies.
+Explain every recommendation clearly.
 """,
 
         expected_output="""
-A complete technology recommendation document including:
+A professional technology recommendation report including:
 
+• Executive Summary
+• System Architecture
 • Frontend
 • Backend
 • Database
 • AI Framework
 • Programming Languages
-• Libraries
 • APIs
+• Libraries
 • Development Environment
-• Deployment Platform
 • Version Control
+• Deployment
+• CI/CD
+• Security
 • Folder Structure
 • Software Requirements
 • Hardware Requirements
 • Learning Curve
 • Development Difficulty
-• Complete Justification
+• Scalability
+• Performance
+• Deployment Cost
+• Technology Comparison
+• Final Recommendation
 """,
 
         agent=tech_agent,

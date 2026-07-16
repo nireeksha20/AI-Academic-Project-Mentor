@@ -1,42 +1,41 @@
 from crewai import Agent, Task
-from config.llm import llm
+from ai.config.llm import llm
 
 
 def create_timeline():
 
     timeline_agent = Agent(
 
-        role="Academic Project Planning Expert",
+        role="Senior Academic Project Planner & Agile Roadmap Expert",
 
         goal="""
-Create a realistic and optimized week-by-week execution plan
-for an academic project based on the student's profile,
-project feasibility, scope, and recommended technology stack.
+Generate a realistic, dependency-aware project execution roadmap
+that enables undergraduate students to successfully complete
+their academic project within one semester.
 """,
 
         backstory="""
-You are an experienced Engineering Project Coordinator and
-Software Project Manager with over 20 years of experience
-planning undergraduate and postgraduate academic projects.
+You are a Senior Project Manager with over 20 years of experience
+planning AI, Software Engineering, Data Science, and Full Stack projects.
 
 You specialize in:
 
-• Project Planning
-• Agile Development
-• Software Engineering
-• Milestone Planning
+• Agile Project Planning
+• Sprint Planning
+• Dependency Management
 • Time Estimation
 • Resource Allocation
 • Risk-aware Scheduling
+• Academic Capstone Planning
 
-You always create practical plans that students can
-successfully complete within an academic semester.
+You create realistic execution plans.
 
-You consider task dependencies, student skill level,
-project complexity, testing, documentation, and final presentation.
+You understand that every task has dependencies.
 
-Avoid unrealistic timelines and ensure every milestone
-contributes toward successful project completion.
+You prioritize MVP completion before advanced features.
+
+You always include testing, documentation, deployment,
+presentation preparation, and contingency planning.
 """,
 
         verbose=True,
@@ -47,82 +46,97 @@ contributes toward successful project completion.
     timeline_task = Task(
 
         description="""
-You are given the following information.
-
-----------------------------------------
-STUDENT PROFILE
-----------------------------------------
-
+Student Profile
+---------------
 {student_profile}
 
-----------------------------------------
-PROJECT IDEA
-----------------------------------------
-
+Project Idea
+------------
 {project_idea}
 
+Use ALL previous task outputs
+(Feasibility, Scope, Technology Stack).
 
-Use all previous task outputs provided in the task context.
+Never ask for additional information.
 
-------------------------------------------------
+Generate a realistic 8-week execution roadmap.
 
-Create a complete project execution roadmap.
-
-For EACH WEEK include:
+Each week MUST include:
 
 • Week Number
 • Objective
-• Tasks to Perform
+• Major Tasks
 • Expected Deliverables
 • Estimated Hours
 • Dependencies
-• Possible Challenges
+• Risks
 • Success Criteria
 
-After the weekly plan, include:
+After the weekly roadmap include:
 
-1. Overall Project Timeline
+# Executive Summary
 
-2. Critical Path
+## Overall Timeline
 
-3. High Priority Tasks
+## Critical Path
 
-4. Medium Priority Tasks
+## Dependency Graph Explanation
 
-5. Low Priority Tasks
+## High Priority Tasks
 
-6. Testing Strategy
+## Medium Priority Tasks
 
-7. Documentation Schedule
+## Low Priority Tasks
 
-8. Buffer Week Recommendation
+## Testing Strategy
 
-9. Final Demonstration Checklist
+## Documentation Schedule
 
-10. Overall Project Completion Strategy
+## Deployment Plan
 
-Ensure the plan is realistic and achievable
-for undergraduate students.
+## Buffer Week Strategy
 
-Use headings, bullet points, and tables where appropriate.
+## Risk Monitoring Plan
+
+## Weekly Review Checklist
+
+## Final Demonstration Checklist
+
+## Project Completion Strategy
+
+The roadmap must be practical for undergraduate students.
+
+Avoid unrealistic scheduling.
+
+Ensure dependencies are respected.
+
+Testing, documentation, deployment,
+and presentation preparation must all be included.
 """,
 
         expected_output="""
-A comprehensive project execution roadmap containing:
+A professional execution roadmap containing:
 
-• Week-by-week execution plan
+• Executive Summary
+• 8-week plan
+• Objectives
+• Tasks
 • Deliverables
-• Estimated hours
-• Task dependencies
-• Challenges
-• Success criteria
-• Priority matrix
-• Critical path
-• Testing strategy
-• Documentation plan
-• Buffer schedule
-• Final demonstration checklist
-• Completion strategy
+• Estimated Hours
+• Dependencies
+• Risks
+• Success Criteria
+• Critical Path
+• Dependency Explanation
+• Priority Matrix
+• Testing Strategy
+• Documentation Schedule
+• Deployment Plan
+• Buffer Strategy
+• Risk Monitoring
+• Weekly Review Checklist
+• Final Demonstration Checklist
+• Completion Strategy
 """,
 
         agent=timeline_agent,

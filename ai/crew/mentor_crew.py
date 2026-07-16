@@ -1,163 +1,124 @@
-from unittest import result
-
 from crewai import Crew, Process
-from agents.documentation_agent import create_documentation
-from agents import mentor_agent
-from agents.feasibility_agent import create_feasibility
-from agents.scope_agent import create_scope
-from agents.tech_stack_agent import create_tech_stack
-from agents.timeline_agent import create_timeline
-from agents.risk_agent import create_risk
 
-from crewai import Crew
-from agents.mentor_agent import create_mentor
-import crew
+from ai.agents.feasibility_agent import create_feasibility
+from ai.agents.scope_agent import create_scope
+from ai.agents.tech_stack_agent import create_tech_stack
+from ai.agents.timeline_agent import create_timeline
+from ai.agents.risk_agent import create_risk
+from ai.services.blueprint_service import blueprint_service
+
 
 class MentorCrew:
 
+    def __init__(self):
+
+        self.feasibility_agent, self.feasibility_task = create_feasibility()
+
+        self.scope_agent, self.scope_task = create_scope()
+
+        self.tech_agent, self.tech_task = create_tech_stack()
+
+        self.timeline_agent, self.timeline_task = create_timeline()
+
+        self.risk_agent, self.risk_task = create_risk()
+
+
     def generate_blueprint(self, student_profile, project_idea):
 
-        # -----------------------------
-        # Create Agents & Tasks
-        # -----------------------------
+        inputs = {
+            "student_profile": student_profile,
+            "project_idea": project_idea
+        }
 
-        feasibility_agent, feasibility_task = create_feasibility()
-
-        scope_agent, scope_task = create_scope()
-
-        tech_agent, tech_task = create_tech_stack()
-
-        timeline_agent, timeline_task = create_timeline()
-
-        risk_agent, risk_task = create_risk()
-
-        # -----------------------------
-        # Task Context
-        # -----------------------------
-
-        scope_task.context = [feasibility_task]
-
-        tech_task.context = [
-            feasibility_task,
-            scope_task
-        ]
-
-        timeline_task.context = [
-            feasibility_task,
-            scope_task,
-            tech_task
-        ]
-
-        risk_task.context = [
-            feasibility_task,
-            scope_task,
-            tech_task,
-            timeline_task
-        ]
-
-        # -----------------------------
-        # Crew
-        # -----------------------------
-
-        crew = Crew(
-            agents=[
-                feasibility_agent,
-                scope_agent,
-                tech_agent,
-                timeline_agent,
-                risk_agent
-            ],
-
-            tasks=[
-                feasibility_task,
-                scope_task,
-                tech_task,
-                timeline_task,
-                risk_task
-            ],
-
-            process=Process.sequential,
-
+        # 1. Feasibility
+        feasibility = Crew(
+            agents=[self.feasibility_agent],
+            tasks=[self.feasibility_task],
             verbose=True
-        )
+        ).kickoff(inputs=inputs)
 
-        crew.kickoff(
-            inputs={
-                "student_profile": student_profile,
-                "project_idea": project_idea
-            }
-        )
+        # 2. Scope
+        scope_inputs = {
+            **inputs,
+            "feasibility": str(feasibility)
+        }
+
+        scope = Crew(
+            agents=[self.scope_agent],
+            tasks=[self.scope_task],
+            verbose=True
+        ).kickoff(inputs=scope_inputs)
+
+        # 3. Technology
+        technology_inputs = {
+            **scope_inputs,
+            "scope": str(scope)
+        }
+
+        technology = Crew(
+            agents=[self.tech_agent],
+            tasks=[self.tech_task],
+            verbose=True
+        ).kickoff(inputs=technology_inputs)
+
+        # 4. Timeline
+        timeline_inputs = {
+            **technology_inputs,
+            "technology": str(technology)
+        }
+
+        timeline = Crew(
+            agents=[self.timeline_agent],
+            tasks=[self.timeline_task],
+            verbose=True
+        ).kickoff(inputs=timeline_inputs)
+
+        # 5. Risk
+        risk_inputs = {
+            **timeline_inputs,
+            "timeline": str(timeline)
+        }
+
+        risk = Crew(
+            agents=[self.risk_agent],
+            tasks=[self.risk_task],
+            verbose=True
+        ).kickoff(inputs=risk_inputs)
 
         blueprint = {
-            "student_profile": student_profile,
-            "project_idea": project_idea,
-            "feasibility": str(feasibility_task.output),
-            "scope": str(scope_task.output),
-            "technology": str(tech_task.output),
-            "timeline": str(timeline_task.output),
-            "risk": str(risk_task.output)
+
+        "student_profile": student_profile,
+
+        "project_idea": project_idea,
+
+        "feasibility": str(feasibility),
+
+        "scope": str(scope),
+
+        "technology": str(technology),
+
+        "timeline": str(timeline),
+
+        "risk": str(risk)
+
         }
 
-        return blueprint
-    
-    def mentor_chat(
-        self,
-        student_profile,
-        project_idea,
-        project_blueprint,
-        progress,
-        question
-    ):
+        blueprint_service.save(
 
-        mentor_agent, mentor_task = create_mentor()
+            student_profile,
 
-        crew = Crew(
-        agents=[mentor_agent],
-        tasks=[mentor_task],
-        verbose=True
+            blueprint
+
         )
 
-        result = crew.kickoff(
-        inputs={
+        return blueprint
+
+        return {
             "student_profile": student_profile,
             "project_idea": project_idea,
-            "project_blueprint": project_blueprint,
-            "progress": progress,
-            "question": question
+            "feasibility": str(feasibility),
+            "scope": str(scope),
+            "technology": str(technology),
+            "timeline": str(timeline),
+            "risk": str(risk)
         }
-    )
-
-        return result
-    def generate_document(
-
-        self,
-
-        student_profile,
-
-        project_idea,
-
-        project_blueprint,
-
-        progress,
-
-        document_type
-
-):
-
-        agent, task = create_documentation()
-        crew = Crew(
-        agents=[agent],
-        tasks=[task],
-        verbose=True
-    )
-
-        result = crew.kickoff(
-        inputs={
-            "student_profile":student_profile,
-            "project_idea":project_idea,
-            "project_blueprint":project_blueprint,
-            "progress":progress,
-            "document_type":document_type
-        }
-    )
-        return result
