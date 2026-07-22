@@ -6,7 +6,7 @@ export default function ChatBox({ projectId }) {
   const [messages, setMessages] = useState([]);
   const [input, setInput] = useState("");
   const [loading, setLoading] = useState(false);
-  const messagesEndRef = useRef(null);
+  const messagesContainerRef = useRef(null);
 
   useEffect(() => {
     const loadChat = async () => {
@@ -25,7 +25,10 @@ export default function ChatBox({ projectId }) {
   }, [projectId]);
 
   useEffect(() => {
-    messagesEndRef.current?.scrollIntoView({ behavior: "smooth" });
+    if (messagesContainerRef.current) {
+      messagesContainerRef.current.scrollTop =
+        messagesContainerRef.current.scrollHeight;
+    }
   }, [messages]);
 
   const handleSend = async (e) => {
@@ -41,23 +44,16 @@ export default function ChatBox({ projectId }) {
       const response = await chatService.sendMessage(projectId, userMessage);
       if (response.success) {
         setMessages((prev) => {
-          // Replace the optimistic message with the one from the DB
           const newMessages = [...prev];
-          newMessages[newMessages.length - 1] = response.data.chat;
+
+          // Replace optimistic message with the saved user message
+          newMessages[newMessages.length - 1] = response.data.userMessage;
+
+          // Append AI reply
+          newMessages.push(response.data.aiMessage);
+
           return newMessages;
         });
-
-        // Simulate AI response for now (since backend doesn't trigger real AI yet)
-        setTimeout(async () => {
-          const aiResponse = await chatService.sendMessage(projectId, {
-            message:
-              "AI response generation is under development. Your message has been saved successfully.",
-            sender: "ai",
-          });
-          if (aiResponse.success) {
-            setMessages((prev) => [...prev, aiResponse.data.chat]);
-          }
-        }, 1000);
       }
     } catch (error) {
       console.error("Failed to send message", error);
@@ -73,7 +69,10 @@ export default function ChatBox({ projectId }) {
         <h2 className="text-xl font-semibold text-white">AI Mentor Chat</h2>
       </div>
 
-      <div className="flex-1 overflow-y-auto pr-2 space-y-4">
+      <div
+        ref={messagesContainerRef}
+        className="flex-1 overflow-y-auto pr-2 space-y-4"
+      >
         {messages.length === 0 ? (
           <div className="flex h-full items-center justify-center text-slate-500">
             Start a conversation with your AI Mentor.
@@ -111,7 +110,6 @@ export default function ChatBox({ projectId }) {
             </div>
           ))
         )}
-        <div ref={messagesEndRef} />
       </div>
 
       <form onSubmit={handleSend} className="mt-4 flex gap-3">

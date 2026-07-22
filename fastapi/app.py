@@ -40,13 +40,15 @@ def home():
 
 @app.post("/generate-blueprint")
 def generate_blueprint(data: BlueprintRequest):
-
-    result = crew.generate_blueprint(
-        student_profile=data.student_profile,
-        project_idea=data.project_idea
-    )
-
-    return result
+    try:
+        return crew.generate_blueprint(
+            student_profile=data.student_profile,
+            project_idea=data.project_idea
+        )
+    except Exception as e:
+        import traceback
+        traceback.print_exc()
+        raise
 
 @app.post("/mentor-chat")
 def mentor_chat(data: MentorRequest):

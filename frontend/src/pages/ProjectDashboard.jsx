@@ -9,22 +9,42 @@ import {
   FileText,
   CalendarDays,
   FolderGit2,
-  ChevronRight,
-  Sparkles,
 } from "lucide-react";
 import { useParams } from "react-router-dom";
+import FeasibilityCard from "../components/FeasibilityCard";
+import ScopeCard from "../components/ScopeCard";
+import TechnologyCard from "../components/TechnologyCard";
+import TimelineCard from "../components/TimelineCard";
+import RiskCard from "../components/RiskCard";
 import { projectService } from "../services/projectService";
-import ChatBox from "../components/project/ChatBox";
 
 export default function ProjectDashboard() {
   const { id } = useParams();
   const [project, setProject] = useState(null);
+  const [blueprint, setBlueprint] = useState(null);
+  useEffect(() => {
+    console.log("========== BLUEPRINT ==========");
+    console.log(blueprint);
+    console.log("Timeline:", blueprint?.timeline);
+    console.log("Technology:", blueprint?.technology);
+    console.log("Risk:", blueprint?.risk);
+    console.log("===============================");
+  }, [blueprint]);
 
   useEffect(() => {
     const fetchProject = async () => {
       try {
         const response = await projectService.getProjectById(id);
         setProject(response.data?.project);
+        try {
+          const blueprintResponse = await projectService.getBlueprint(id);
+
+          if (blueprintResponse.success) {
+            setBlueprint(blueprintResponse.data.blueprint);
+          }
+        } catch (err) {
+          console.log("Blueprint not found yet.");
+        }
       } catch (error) {
         console.error("Failed to fetch project details", error);
       }
@@ -43,17 +63,41 @@ export default function ProjectDashboard() {
     );
   }
 
-  const teamMembers =
-    project.team === "Individual"
-      ? [project.owner]
-      : [project.owner, "Member 2", "Member 3", "Member 4"];
-
-  <Card title="Project Progress">
-    <p className="text-slate-300">
-      Progress tracking, AI roadmap and document generation will be available
-      after blueprint generation.
-    </p>
-  </Card>;
+  const milestones = blueprint
+    ? [
+        {
+          title: "Feasibility Analysis",
+          status: "Completed",
+          color: "text-green-400",
+        },
+        {
+          title: "Project Scope",
+          status: "Completed",
+          color: "text-green-400",
+        },
+        {
+          title: "Technology Selection",
+          status: "Completed",
+          color: "text-green-400",
+        },
+        {
+          title: "Development Timeline",
+          status: "Completed",
+          color: "text-green-400",
+        },
+        {
+          title: "Implementation",
+          status: "Pending",
+          color: "text-yellow-400",
+        },
+      ]
+    : [
+        {
+          title: "Generate AI Blueprint",
+          status: "Pending",
+          color: "text-yellow-400",
+        },
+      ];
 
   return (
     <div className="min-h-screen bg-slate-950 text-white">
@@ -84,45 +128,17 @@ export default function ProjectDashboard() {
           </div>
         </div>
 
-        {/* Progress */}
-
-        <div className="mb-10 rounded-3xl border border-white/10 bg-slate-900/60 p-8">
-          <div className="mb-3 flex items-center justify-between">
-            <h2 className="text-2xl font-semibold">Overall Progress</h2>
-
-            <span className="text-cyan-400 font-bold">65%</span>
-          </div>
-
-          <div className="h-4 overflow-hidden rounded-full bg-slate-800">
-            <div className="h-full w-[65%] rounded-full bg-gradient-to-r from-cyan-400 via-sky-500 to-violet-500"></div>
-          </div>
-        </div>
-
-        {/* Overview */}
-
-        <div className="grid gap-6 md:grid-cols-4">
-          <OverviewCard
-            icon={<FolderGit2 size={26} />}
-            title="Modules"
-            value="6"
-          />
-
-          <OverviewCard
-            icon={<Clock3 size={26} />}
-            title="Days Left"
-            value="30"
-          />
-
-          <OverviewCard
-            icon={<Users size={26} />}
-            title="Team"
-            value={teamMembers.length}
-          />
-
+        <div className="mb-10 grid gap-6 md:grid-cols-4">
           <OverviewCard
             icon={<BrainCircuit size={26} />}
-            title="Domain"
-            value={project.domain}
+            title="AI Blueprint"
+            value={blueprint ? "Generated" : "Pending"}
+          />
+
+          <OverviewCard
+            icon={<CheckCircle2 size={26} />}
+            title="Current Phase"
+            value={blueprint ? "Development" : "Planning"}
           />
 
           <OverviewCard
@@ -132,103 +148,105 @@ export default function ProjectDashboard() {
           />
 
           <OverviewCard
-            icon={<CheckCircle2 size={26} />}
-            title="Completed"
-            value="15%"
+            icon={<Users size={26} />}
+            title="Team"
+            value={project.team}
           />
         </div>
 
         {/* Main Grid */}
 
         <div className="mt-10 grid gap-6 lg:grid-cols-2">
-          {" "}
-          {/* Roadmap */}
-          <Card title="Project Roadmap" icon={<CalendarDays size={22} />}>
-            <div className="space-y-4">
-              {milestones.map((item) => (
-                <div
-                  key={item.title}
-                  className="flex items-center justify-between rounded-xl border border-white/10 bg-slate-950/50 px-4 py-3"
-                >
-                  <span>{item.title}</span>
-
-                  <span className={`font-medium ${item.color}`}>
-                    {item.status}
-                  </span>
-                </div>
-              ))}
+          {blueprint && (
+            <div className="lg:col-span-2">
+              <FeasibilityCard data={blueprint.feasibility} />
             </div>
-          </Card>
-          {/* AI Suggestions */}
-          <Card title="AI Suggestions" icon={<BrainCircuit size={22} />}>
-            <div className="space-y-3">
-              {suggestions.map((item) => (
-                <div
-                  key={item}
-                  className="flex items-start gap-3 rounded-xl border border-cyan-400/20 bg-cyan-500/5 p-4"
-                >
-                  <Sparkles size={18} className="mt-1 text-cyan-400" />
-
-                  <p className="text-slate-300">{item}</p>
-                </div>
-              ))}
+          )}
+          {blueprint && (
+            <div className="lg:col-span-2">
+              <ScopeCard data={blueprint.scope} />
             </div>
-          </Card>
+          )}{" "}
+          {blueprint && (
+            <div className="lg:col-span-2">
+              <TimelineCard data={blueprint.timeline} />
+            </div>
+          )}
+          {blueprint && <TechnologyCard data={blueprint.technology} />}
+          {blueprint && <RiskCard data={blueprint.risk} />}
+          <div className="lg:col-span-2">
+            <Card title="AI Agent Pipeline" icon={<BrainCircuit size={22} />}>
+              <div className="grid gap-4 md:grid-cols-3">
+                <PipelineStep title="Student Profile" status="Completed" />
+
+                <PipelineStep title="Feasibility Agent" status="Completed" />
+
+                <PipelineStep title="Scope Agent" status="Completed" />
+
+                <PipelineStep title="Technology Agent" status="Completed" />
+
+                <PipelineStep title="Timeline Agent" status="Completed" />
+
+                <PipelineStep title="Risk Agent" status="Completed" />
+
+                <PipelineStep title="Documentation Agent" status="Completed" />
+              </div>
+            </Card>
+          </div>
           {/* Team */}
-          <Card title="Team Members" icon={<Users size={22} />}>
-            <div className="grid gap-3">
-              {teamMembers.map((member) => (
-                <div
-                  key={member || "Unknown"}
-                  className="flex items-center justify-between rounded-xl border border-white/10 bg-slate-950/50 px-4 py-3"
-                >
-                  <span>{member || "Unknown"}</span>
+          <Card title="Project Team" icon={<Users size={22} />}>
+            <div className="rounded-xl border border-white/10 bg-slate-950/50 p-5">
+              <p className="text-lg font-semibold">{project.team}</p>
 
-                  <span className="rounded-full bg-green-500/20 px-3 py-1 text-sm text-green-400">
-                    Active
-                  </span>
-                </div>
-              ))}
+              <p className="mt-2 text-slate-400">
+                {project.team === "Individual"
+                  ? "This is an individual project."
+                  : "Team collaboration is enabled."}
+              </p>
             </div>
           </Card>
           {/* Documents */}
           <Card title="Project Documents" icon={<FileText size={22} />}>
-            <div className="space-y-3">
-              {documents.map((doc) => (
-                <button
-                  key={doc}
-                  className="flex w-full items-center justify-between rounded-xl border border-white/10 bg-slate-950/50 px-4 py-3 transition hover:border-cyan-400/30 hover:bg-slate-900"
-                >
-                  <span>{doc}</span>
+            {blueprint ? (
+              <div className="space-y-3">
+                <button className="flex w-full items-center justify-between rounded-xl border border-cyan-400/20 bg-cyan-500/5 px-4 py-3 transition hover:border-cyan-400">
+                  <span>📘 AI Blueprint Report</span>
 
-                  <ChevronRight size={18} />
+                  <span className="text-sm text-cyan-400">Coming Soon</span>
                 </button>
-              ))}
-            </div>
+              </div>
+            ) : (
+              <div className="rounded-xl border border-dashed border-white/10 p-6 text-center text-slate-400">
+                Generate an AI Blueprint to unlock project documents.
+              </div>
+            )}
           </Card>
           {/* Recent Activity */}
           <div className="lg:col-span-2">
             <Card title="Recent Activity" icon={<Clock3 size={22} />}>
               <div className="space-y-4">
-                {activities.map((activity) => (
-                  <div
-                    key={activity}
-                    className="flex items-center gap-4 rounded-xl border border-white/10 bg-slate-950/50 px-4 py-4"
-                  >
-                    <CheckCircle2 size={18} className="text-green-400" />
+                <ActivityItem text="Project created successfully." />
 
-                    <span>{activity}</span>
-                  </div>
-                ))}
+                {blueprint ? (
+                  <ActivityItem text="AI Blueprint generated." />
+                ) : (
+                  <ActivityItem text="Waiting for AI Blueprint generation." />
+                )}
               </div>
             </Card>
           </div>
-          {/* AI Chat Mentor */}
-          <div className="lg:col-span-2 mt-6">
-            <ChatBox projectId={id} />
-          </div>
         </div>
       </div>
+    </div>
+  );
+}
+
+function ActivityItem({ text }) {
+  return (
+    <div className="flex items-center gap-4 rounded-xl border border-white/10 bg-slate-950/50 px-4 py-4">
+      <CheckCircle2 size={18} className="text-green-400" />
+
+      <span>{text}</span>
     </div>
   );
 }
@@ -255,6 +273,16 @@ function Card({ title, icon, children }) {
       </div>
 
       {children}
+    </div>
+  );
+}
+
+function PipelineStep({ title, status }) {
+  return (
+    <div className="rounded-xl border border-emerald-500/20 bg-emerald-500/10 p-5">
+      <p className="font-semibold">{title}</p>
+
+      <p className="mt-2 text-sm text-emerald-400">✓ {status}</p>
     </div>
   );
 }

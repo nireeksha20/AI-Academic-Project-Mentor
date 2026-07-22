@@ -1,43 +1,49 @@
 from crewai import Agent, Task
 from ai.config.llm import llm
+from ai.models.blueprint_models import RiskOutput
 
 
 def create_risk():
 
     risk_agent = Agent(
 
-        role="Senior Software Risk Analyst & Academic Project Reviewer",
+        role="Software Project Risk Analyst",
 
         goal="""
-Identify every major risk that could affect the successful completion
-of an academic software project and recommend practical mitigation
-strategies suitable for undergraduate students.
+Analyze the proposed software project and identify realistic risks
+that may affect successful project completion.
+
+Focus on practical software engineering risks rather than theoretical ones.
+
+Provide concise and actionable mitigation strategies.
+
+Prioritize risks that undergraduate students commonly face during
+academic software projects.
 """,
 
         backstory="""
-You are a Senior Software Engineering Consultant with over
-20 years of experience supervising AI, ML, IoT,
-Cyber Security and Software Engineering projects.
+You are an experienced Software Engineering Consultant specializing in
+software quality, project planning, and risk management.
 
-You specialize in:
+You have reviewed hundreds of academic software projects.
 
-• Technical Risk Analysis
-• Project Planning
-• Software Quality Assurance
-• Security Assessment
-• AI Risk Management
-• Deployment Planning
-• Academic Project Review
+You identify risks related to:
 
-You always think ahead.
+- Development
+- Technology
+- AI Integration
+- Deployment
+- Testing
+- Documentation
+- Time Management
 
-Instead of only identifying risks,
-you also suggest prevention,
-mitigation,
-backup plans,
-and best practices.
+Your recommendations are practical,
+easy to understand,
+and suitable for undergraduate students.
 
-Your reports resemble professional software risk assessment documents.
+You never generate lengthy reports.
+
+You only return structured project planning data.
 """,
 
         verbose=True,
@@ -56,105 +62,61 @@ Project Idea
 ------------
 {project_idea}
 
-Use all previous task outputs
-(Feasibility, Scope,
-Technology Stack,
-Timeline).
+Feasibility
+-----------
+{feasibility}
 
-Never ask for additional information.
+Scope
+-----
+{scope}
 
-Generate a professional project risk assessment report.
+Technology Stack
+----------------
+{technology}
 
-Include ALL sections below.
+Timeline
+--------
+{timeline}
 
-# Executive Summary
+Analyze the project and generate ONLY a valid RiskOutput object.
 
-## Overall Risk Level
+Guidelines:
 
-## Technical Risks
+- Overall risk should be one of:
+    - Low
+    - Medium
+    - High
 
-## AI / Machine Learning Risks
+- Include 5–8 realistic risks.
 
-## Dataset Risks
+- Every risk must contain:
+    - risk
+    - severity
+    - mitigation
 
-## Security Risks
+- Severity should be one of:
+    - Low
+    - Medium
+    - High
 
-## Performance Risks
+- Mitigation should be short and actionable.
 
-## Scalability Risks
+Return ONLY valid JSON.
 
-## Timeline Risks
+Do NOT return:
 
-## Team Collaboration Risks
-
-## Deployment Risks
-
-## Documentation Risks
-
-## Testing Risks
-
-## Budget Risks
-
-## Legal & Ethical Risks
-
-## Risk Priority Matrix
-
-For every risk include
-
-• Description
-
-• Probability
-
-• Impact
-
-• Severity
-
-• Prevention
-
-• Mitigation Strategy
-
-• Contingency Plan
-
-Afterwards include
-
-## Best Practices
-
-## Preventive Measures
-
-## Monitoring Strategy
-
-## Final Recommendations
-
-## Final Risk Summary
+- Markdown
+- Headings
+- Explanations
+- Code blocks
+- Extra fields
 """,
 
         expected_output="""
-A professional software project risk report containing:
-
-• Executive Summary
-• Overall Risk Level
-• Technical Risks
-• AI Risks
-• Dataset Risks
-• Security Risks
-• Performance Risks
-• Scalability Risks
-• Timeline Risks
-• Team Risks
-• Deployment Risks
-• Documentation Risks
-• Testing Risks
-• Budget Risks
-• Legal Risks
-• Risk Matrix
-• Prevention
-• Mitigation
-• Contingency Plans
-• Best Practices
-• Monitoring Strategy
-• Final Recommendations
-• Final Summary
+A valid JSON object matching RiskOutput.
 """,
+
+        output_pydantic=RiskOutput,
 
         agent=risk_agent,
     )

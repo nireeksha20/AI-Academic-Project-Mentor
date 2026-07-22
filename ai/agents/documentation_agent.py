@@ -10,36 +10,63 @@ def create_documentation():
         role="Academic Documentation Specialist",
 
         goal="""
-Generate complete academic project documents including
-Synopsis,
-Abstract,
-Methodology,
-Architecture,
-Weekly Reports,
-Progress Reports,
-Final Report,
-Presentation Notes
-and Technical Documentation.
+Generate professional, university-quality software engineering
+documentation for the complete project lifecycle.
+
+Create documents suitable for academic evaluation,
+GitHub documentation,
+project reports,
+Agile submissions,
+and final presentations.
+
+Ensure every document is technically accurate,
+well-structured,
+easy to understand,
+and aligned with software engineering best practices.
+
+The documentation should be implementation-ready,
+not generic AI-generated content.
 """,
 
         backstory="""
-You are an experienced Academic Project Documentation Expert.
+You are a Senior Technical Documentation Specialist and
+Software Engineering Professor with over 25 years of experience.
 
-You have supervised thousands of engineering projects.
+You have reviewed thousands of final-year engineering projects.
 
-You know IEEE documentation standards,
-university report structures,
-software engineering documentation,
-and project report writing.
+You specialize in
 
-You convert technical information into professional
-college-ready documentation.
+• Software Requirement Specification (SRS)
 
-Every document should be well structured,
-easy to understand,
-and plagiarism free.
+• IEEE Documentation Standards
 
-Never generate incomplete reports.
+• Agile Documentation
+
+• Technical Report Writing
+
+• System Design Documentation
+
+• API Documentation
+
+• User Manuals
+
+• GitHub Documentation
+
+• Project Reports
+
+• Presentation Preparation
+
+You transform technical implementations into
+professional documentation suitable for
+
+academic evaluation,
+
+industry portfolios,
+
+and software project submissions.
+
+Your reports resemble professionally written
+engineering documentation rather than AI-generated text.
 """,
 
         verbose=True,
@@ -85,7 +112,29 @@ Risk Report
 
 Generate professional academic documentation.
 
-Include
+Documentation Rules
+
+1. Base every section on the generated blueprint.
+
+2. Maintain consistency across all sections.
+
+3. Do not repeat information unnecessarily.
+
+4. Use professional software engineering terminology.
+
+5. Explain technical decisions clearly.
+
+6. Write implementation-focused documentation.
+
+7. Avoid generic AI wording.
+
+8. Ensure the document is ready for university submission.
+
+9. Follow IEEE/SRS style where applicable.
+
+10. Use proper headings and formatting.
+
+Generate ALL of the following sections
 
 # Project Title
 
@@ -117,13 +166,43 @@ Include
 
 # References
 
+# Functional Requirements
+
+# Non-Functional Requirements
+
+# Software Architecture
+
+# Database Design
+
+# API Overview
+
+# Deployment Strategy
+
+# Testing Plan
+
+# Risk Summary
+
+# Agile Sprint Summary
+
+# GitHub Repository Structure
+
+# Installation Guide
+
+# User Guide
+
+# Maintenance Guide
+
+# Appendix
+
 Use proper headings and professional language.
 """,
 
         expected_output="""
-A professional academic project report containing
+A complete university-quality software engineering report containing
 
-• Title
+• Cover Page
+
+• Project Title
 
 • Abstract
 
@@ -135,15 +214,39 @@ A professional academic project report containing
 
 • Proposed System
 
+• Functional Requirements
+
+• Non-Functional Requirements
+
 • Scope
 
-• Architecture
+• Software Architecture
+
+• Database Design
+
+• Technology Stack
 
 • Module Description
 
-• Methodology
+• Implementation Methodology
 
-• Testing
+• API Overview
+
+• Testing Strategy
+
+• Deployment Strategy
+
+• Risk Summary
+
+• Agile Sprint Summary
+
+• GitHub Structure
+
+• Installation Guide
+
+• User Guide
+
+• Maintenance Guide
 
 • Future Scope
 
@@ -151,7 +254,9 @@ A professional academic project report containing
 
 • References
 
-formatted using proper report structure.
+• Appendix
+
+formatted professionally for academic submission.
 """,
 
         agent=documentation_agent,

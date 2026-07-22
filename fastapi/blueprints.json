@@ -1,0 +1,208 @@
+{
+    "4th semester CSE student familiar with Python, React and SQL.": {
+        "student_profile": "4th semester CSE student familiar with Python, React and SQL.",
+        "project_idea": "AI Academic Project Mentor",
+        "feasibility": "# Project Feasibility Report: AI Academic Project Mentor\n\n## Executive Summary\nThe proposed \"AI Academic Project Mentor\" aims to provide students with guidance on project selection, architecture design, and troubleshooting. While the intent is noble, the scope is dangerously broad. Without strict constraints, this project risks becoming a generic wrapper around an LLM API (like OpenAI or Anthropic), which lacks the academic rigor required for a 4th-semester CSE project. To succeed, the project must pivot from a \"general mentor\" to a \"domain-specific constraint-based advisor.\"\n\n## Feasibility Score: 6.5/10\n## Feasibility Level: Moderate (Requires Scoping)\n## Technical Complexity: Medium\n## Innovation Score: 5/10\n## Academic Value: 7/10\n## Industry Relevance: 8/10\n## Resume Value: 7.5/10\n## Hackathon Potential: 8/10\n## Research Potential: 4/10\n## Student Skill Match: High (Python/React/SQL)\n\n## Required Skills\n*   **Backend:** Python (FastAPI or Flask) for API orchestration.\n*   **Frontend:** React (State management, UI/UX for chat interfaces).\n*   **Database:** PostgreSQL (for storing user project history and chat logs).\n*   **AI/ML:** Prompt Engineering, RAG (Retrieval-Augmented Generation) basics, LangChain or LlamaIndex.\n\n## Missing Skills\n*   **Vector Databases:** Knowledge of Pinecone, Milvus, or ChromaDB for storing academic context.\n*   **Prompt Engineering:** Ability to design system prompts that prevent \"hallucinations\" regarding academic standards.\n*   **API Security:** Managing API keys and rate limiting for LLM integrations.\n\n## Dataset Availability\n*   **High:** Publicly available academic project repositories (GitHub), IEEE/ACM paper abstracts, and university curriculum guidelines.\n\n## Software Requirements\n*   **Frameworks:** React (Frontend), FastAPI (Backend).\n*   **AI Stack:** LangChain, OpenAI API (or local LLM via Ollama for cost-saving).\n*   **Database:** PostgreSQL + pgvector.\n*   **Deployment:** Vercel (Frontend), Render/Railway (Backend).\n\n## Hardware Requirements\n*   Standard laptop (8GB+ RAM). No specialized GPU required if using cloud-based LLM APIs.\n\n## Estimated Cost\n*   **$20–$50:** API credits for LLM usage during development and testing.\n\n## Estimated Development Time\n*   **12–14 weeks:** 2 weeks (Design), 4 weeks (RAG pipeline), 4 weeks (Frontend/Integration), 2 weeks (Testing/Refinement).\n\n## Learning Outcomes\n*   Mastery of RAG (Retrieval-Augmented Generation) architectures.\n*   Understanding of full-stack integration with AI services.\n*   Experience in designing context-aware conversational interfaces.\n\n## Major Strengths\n*   **High Utility:** Directly addresses a pain point for students.\n*   **Tech Stack Alignment:** Uses the student's existing knowledge (Python/React/SQL) effectively.\n*   **Scalability:** Can start small and add features incrementally.\n\n## Major Weaknesses\n*   **\"Wrapper\" Risk:** If the project is just a chat interface to ChatGPT, it will be rejected for lack of technical depth.\n*   **Scope Creep:** Trying to cover all domains (AI, IoT, Web) will lead to poor performance in all areas.\n\n## Possible Challenges\n*   **Context Window Management:** Ensuring the AI remembers project constraints (e.g., \"this is a 4th-semester project, don't suggest PhD-level research\").\n*   **Hallucination:** The AI might suggest non-existent libraries or outdated code.\n\n## Potential Risks\n*   **Dependency Risk:** Over-reliance on third-party APIs (OpenAI) which may change pricing or availability.\n*   **Evaluation Risk:** Difficulty in measuring the \"quality\" of the AI's advice.\n\n## Recommendations\n1.  **Niche Down:** Focus the mentor on a specific domain (e.g., \"AI Mentor for Web Development Projects\") to improve the quality of the RAG retrieval.\n2.  **Implement RAG:** Do not rely on the LLM's base knowledge. Build a vector database containing specific academic project guidelines, rubrics, and verified technical documentation.\n3.  **Add Guardrails:** Implement a \"Constraint Engine\" that forces the AI to check if a suggestion is feasible for a 4th-semester student.\n4.  **Version Control Integration:** Allow the AI to analyze a student's GitHub repository to provide context-aware feedback.\n\n## Final Verdict\n**Approved with Conditions.** The project is feasible provided the student moves beyond a simple chatbot and implements a RAG-based architecture that utilizes a curated knowledge base of academic standards. The student must demonstrate that the AI provides *context-aware* advice rather than generic responses.\n\n## Faculty Remark\n\"Your technical stack is appropriate, but your biggest challenge is not the code—it is the 'intelligence' of your system. A simple API call to GPT-4 is not an engineering project; a system that retrieves, filters, and validates academic advice against a curated vector database is. Focus on the data pipeline and the quality of the system prompts. Do not try to build a 'general' mentor; build a 'specialized' one that understands the constraints of an undergraduate curriculum.\"",
+        "scope": "# Project Scope Document: AI Academic Project Mentor (APM)\n\n## Executive Summary\nThe \"AI Academic Project Mentor\" (APM) is a web-based platform designed to guide undergraduate students through the software development lifecycle (SDLC) of their capstone projects. By leveraging Large Language Models (LLMs), the system provides structured feedback on project scoping, architectural design, and task management, ensuring students adhere to industry-standard engineering practices.\n\n## Project Objective\nTo develop an intelligent, interactive mentorship platform that assists students in defining project requirements, generating technical roadmaps, and validating architectural decisions to improve project success rates and academic outcomes.\n\n## Problem Statement\nUndergraduate students often struggle with \"feature creep,\" unrealistic project scopes, and poor architectural planning. Existing AI tools (like generic ChatGPT) lack context regarding academic constraints, leading to projects that are either too simple or impossible to complete within a single semester.\n\n## Target Users\n*   **Primary:** Undergraduate Computer Science students.\n*   **Secondary:** Academic supervisors/mentors monitoring student progress.\n\n## User Roles\n*   **Student:** Interacts with the AI to define scope, track tasks, and receive architectural guidance.\n*   **Admin/Supervisor:** Views student progress and provides manual overrides or feedback.\n\n## Functional Requirements\n*   **FR1:** User authentication and project profile management.\n*   **FR2:** AI-driven project scoping assistant (Requirement gathering).\n*   **FR3:** Automated generation of a project roadmap/milestones.\n*   **FR4:** Architectural validation (checking for tech stack compatibility).\n*   **FR5:** Progress tracking dashboard.\n\n## Non-Functional Requirements\n*   **Scalability:** Support concurrent sessions for a class-sized cohort.\n*   **Latency:** AI response time under 5 seconds.\n*   **Security:** Secure storage of project data and user credentials.\n*   **Usability:** Intuitive UI for non-expert users.\n\n## System Modules\n1.  **Auth Module:** Secure login/registration.\n2.  **Project Scoping Engine:** LLM-integrated interface for requirement analysis.\n3.  **Roadmap Generator:** Logic to break down project goals into sprint-based tasks.\n4.  **Knowledge Base:** Curated repository of best practices and architectural patterns.\n5.  **Dashboard:** Visualization of project status and pending milestones.\n\n## System Workflow\n1.  Student inputs project idea and tech stack.\n2.  AI analyzes feasibility and suggests scope adjustments.\n3.  System generates a structured SRS (Software Requirement Specification).\n4.  Student tracks progress against generated milestones.\n5.  System provides periodic \"health checks\" based on task completion.\n\n## Project Architecture Overview\n*   **Frontend:** React.js (Responsive SPA).\n*   **Backend:** Python (FastAPI) for high-performance asynchronous processing.\n*   **Database:** PostgreSQL (Relational data for users and project structures).\n*   **AI Integration:** OpenAI API (GPT-4o-mini) for cost-effective, high-quality reasoning.\n*   **Deployment:** Vercel (Frontend) and Render/Railway (Backend).\n\n## MVP Features (Must Have)\n*   User Authentication (JWT).\n*   Project Idea Submission Form.\n*   AI-generated Project Scope Document (PDF export).\n*   Basic Milestone/Task Tracker.\n\n## Recommended Features (Should Have)\n*   Architectural Diagram suggestions (Mermaid.js integration).\n*   Progress Dashboard with visual charts.\n*   \"Mentor Feedback\" history log.\n\n## Advanced Features (Nice to Have)\n*   GitHub Integration (Auto-syncing commits to milestones).\n*   Peer-review system for students to comment on each other's projects.\n\n## Future Enhancements\n*   Integration with IDEs (VS Code Extension).\n*   Automated code quality analysis using static analysis tools.\n\n## Out-of-Scope Features\n*   Real-time collaborative coding.\n*   Automated deployment of student projects.\n*   Complex payment gateways or subscription models.\n\n## Project Deliverables\n1.  Source Code (GitHub Repository).\n2.  Technical Documentation (SRS, API Docs).\n3.  Deployment Link (Live Web App).\n4.  Final Presentation/Demo Video.\n\n## Constraints\n*   Must be completed within 14 weeks.\n*   Budget limited to free-tier cloud services and low-cost API usage.\n*   Must run on standard web browsers.\n\n## Assumptions\n*   Students have basic knowledge of Git/GitHub.\n*   OpenAI API remains accessible and affordable.\n*   Users have stable internet connectivity.\n\n## Success Metrics\n*   **Completion Rate:** 80% of users successfully generate a valid project scope.\n*   **User Satisfaction:** Positive feedback on the clarity of AI-generated roadmaps.\n*   **Performance:** System uptime of 99%.\n\n## Expected Learning Outcomes\n*   Proficiency in full-stack development (React/FastAPI).\n*   Experience in integrating LLMs into real-world applications.\n*   Understanding of software engineering lifecycle and requirement analysis.\n\n## Expected Final Outcome\nA functional, deployed web application that acts as a \"Virtual Teaching Assistant,\" helping students transform raw ideas into structured, executable software projects.",
+        "technology": "# Technology Recommendation Report: AI Academic Project Mentor\n\n## Executive Summary\nThe \"AI Academic Project Mentor\" is a RAG-based (Retrieval-Augmented Generation) application designed to assist students by providing context-aware guidance based on academic documentation and project requirements. Given the student's background in Python, React, and SQL, the stack focuses on **FastAPI** for the backend and **Next.js** for the frontend to ensure high performance, type safety, and industry relevance.\n\n---\n\n## Recommended System Architecture\n\n### High-Level Architecture\nThe system follows a decoupled architecture: a React-based SPA (Single Page Application) communicating with a Python-based REST API, which interfaces with a Vector Database for RAG capabilities.\n\n### Component Diagram (Textual)\n`[User] <-> [Next.js Frontend] <-> [FastAPI Backend] <-> [Vector DB (ChromaDB)]`\n`                                          |`\n`                                   [OpenAI/Ollama API]`\n\n### Data Flow & Request Flow\n1. **Ingestion:** Documents are chunked, embedded, and stored in ChromaDB.\n2. **Query:** User submits a prompt via React.\n3. **Retrieval:** FastAPI fetches relevant context from ChromaDB.\n4. **Generation:** FastAPI sends context + prompt to LLM; returns response to UI.\n\n---\n\n## Frontend\n*   **Recommended:** **Next.js (App Router)**\n*   **Why:** Industry standard for React; excellent developer experience (DX) and built-in API routes.\n*   **Alternative:** Vite + React. *Why not:* Next.js offers better routing and SEO/performance optimizations for future-proofing.\n\n## Backend\n*   **Recommended:** **FastAPI**\n*   **Why:** Native Python support, asynchronous capabilities, and automatic OpenAPI (Swagger) documentation.\n*   **Alternative:** Flask. *Why not:* FastAPI is faster, supports type hints (Pydantic), and is better suited for AI/ML integration.\n\n## Database\n*   **Recommended:** **PostgreSQL (Relational) + ChromaDB (Vector)**\n*   **Why:** PostgreSQL handles user data/auth; ChromaDB is a lightweight, open-source vector store perfect for RAG.\n*   **Alternative:** Pinecone. *Why not:* ChromaDB is local/free and easier to manage for a semester project.\n\n## AI / Machine Learning Framework\n*   **Recommended:** **LangChain**\n*   **Why:** Simplifies the orchestration of LLM chains and document retrieval.\n\n## Programming Languages\n*   **TypeScript** (Frontend) & **Python** (Backend).\n\n## APIs & SDKs\n*   **OpenAI API** (or **Ollama** for local, free inference).\n\n## Libraries Required\n*   `langchain`, `langchain-openai`, `chromadb`, `pydantic`, `fastapi`, `uvicorn`.\n\n## Development Environment\n*   **VS Code** with Python and ESLint extensions.\n\n## Version Control\n*   **GitHub** (Private repository).\n\n## Deployment Strategy\n*   **Frontend:** Vercel (Free tier).\n*   **Backend:** Render (Free tier) or Railway.\n*   **Database:** Supabase (PostgreSQL) + Local ChromaDB (or hosted).\n\n## CI/CD Recommendation\n*   **GitHub Actions:** Automate linting and deployment on push to `main`.\n\n## Security Considerations\n*   **Auth:** NextAuth.js (JWT-based).\n*   **Secrets:** `.env` files (never committed).\n*   **API Security:** Rate limiting via `slowapi` in FastAPI.\n*   **SQL Injection:** Use SQLAlchemy ORM (prevents raw queries).\n\n## Folder Structure\n```text\n/root\n  /frontend (Next.js)\n  /backend (FastAPI)\n  /data (Vector store files)\n  /docs (Project documentation)\n```\n\n## Software & Hardware Requirements\n*   **Software:** Node.js 18+, Python 3.10+, Docker (optional).\n*   **Hardware:** 8GB RAM minimum, stable internet.\n\n## Learning Curve & Difficulty\n*   **Learning Curve:** Moderate (LangChain concepts).\n*   **Difficulty:** Medium (Integration of RAG pipeline).\n\n## Scalability & Performance\n*   **Scalability:** Horizontal scaling via stateless FastAPI containers.\n*   **Performance:** Use caching for frequent queries.\n\n## Estimated Cost\n*   **$0/month** (using free tiers of Vercel, Render, and OpenAI API credits).\n\n## Technology Comparison Summary\n| Feature | Recommended | Alternative |\n| :--- | :--- | :--- |\n| Backend | FastAPI | Flask |\n| Vector DB | ChromaDB | Pinecone |\n| Frontend | Next.js | Vite |\n\n## Final Recommendation\nUse **FastAPI + Next.js + ChromaDB**. This stack is highly employable, fits the student's current skill set, and provides the necessary tools to build a robust AI mentor within one semester.\n\n### Decision Rules Applied\n1. **Necessary:** Only essential tools selected.\n2. **Open Source:** FastAPI, ChromaDB, Next.js are all open-source.\n3. **Complexity:** Minimized by using managed services (Vercel/Supabase).\n4. **Portfolio Value:** High; these are top-tier industry technologies.",
+        "timeline": "# Executive Summary: AI Academic Project Mentor\nThis 8-week roadmap follows an Agile Scrum-lite methodology. The project focuses on building a RAG (Retrieval-Augmented Generation) pipeline using Python (FastAPI/LangChain) and React. The strategy prioritizes a \"Working Skeleton\" approach: establishing the AI pipeline first, then wrapping it in a functional UI.\n\n---\n\n## 8-Week Execution Roadmap\n\n| Week | Sprint Goal | Major Tasks | Deliverables | Est. Hours |\n| :--- | :--- | :--- | :--- | :--- |\n| 1 | Environment & Architecture | Setup Repo, DB Schema, API Boilerplate | Project Repo, ERD | 15 |\n| 2 | Core AI Pipeline | LangChain setup, Vector DB integration | Functional AI Logic | 20 |\n| 3 | Backend API | CRUD endpoints, Auth, AI integration | API Documentation | 20 |\n| 4 | Frontend Foundation | React setup, UI components, API calls | UI Prototype | 20 |\n| 5 | Integration & State | Connect UI to Backend, State Management | Integrated App | 25 |\n| 6 | Testing & Refinement | Unit/Integration testing, Bug fixing | Test Report | 20 |\n| 7 | Deployment & Docs | Cloud deployment, Final documentation | Live URL, User Manual | 15 |\n| 8 | Polish & Presentation | Demo prep, Final code cleanup | Presentation Deck | 15 |\n\n### Weekly Breakdown\n\n**Week 1: Foundation**\n*   **Objective:** Establish development environment and database schema.\n*   **Risks:** Environment configuration issues.\n*   **Success Criteria:** GitHub repo initialized; DB schema finalized.\n*   **Checkpoint:** Faculty review of ERD.\n\n**Week 2: AI Core**\n*   **Objective:** Implement RAG pipeline (PDF ingestion to Vector DB).\n*   **Risks:** API rate limits (OpenAI/Anthropic).\n*   **Success Criteria:** Script successfully queries a document.\n\n**Week 3: Backend API**\n*   **Objective:** Expose AI logic via FastAPI.\n*   **Risks:** Async/Await handling in Python.\n*   **Success Criteria:** Postman collection works for all endpoints.\n\n**Week 4: Frontend UI**\n*   **Objective:** Build React dashboard.\n*   **Risks:** CSS/Styling overhead.\n*   **Success Criteria:** UI renders mock data correctly.\n\n**Week 5: Integration**\n*   **Objective:** Connect React to FastAPI.\n*   **Risks:** CORS issues, state synchronization.\n*   **Success Criteria:** End-to-end flow (User query -> AI response).\n\n**Week 6: Testing & Debugging**\n*   **Objective:** Stress test the AI responses and UI edge cases.\n*   **Risks:** Unhandled exceptions in AI output.\n*   **Success Criteria:** 90% of test cases pass.\n\n**Week 7: Deployment & Docs**\n*   **Objective:** Deploy to Vercel/Render.\n*   **Risks:** Environment variable leakage.\n*   **Success Criteria:** App accessible via public URL.\n\n**Week 8: Final Polish**\n*   **Objective:** Final presentation and report.\n*   **Risks:** Last-minute demo failures.\n*   **Success Criteria:** Demo script finalized.\n\n---\n\n## Project Phases\n1. **Planning:** Week 1\n2. **Research:** Week 1-2\n3. **Design:** Week 1-2\n4. **Development:** Week 2-5\n5. **Integration:** Week 5\n6. **Testing:** Week 6\n7. **Deployment:** Week 7\n8. **Documentation/Presentation:** Week 7-8\n\n---\n\n## Strategic Components\n\n### Critical Path\n1. Vector DB Setup -> 2. AI Pipeline -> 3. API Endpoints -> 4. Frontend Integration -> 5. Deployment.\n\n### Priority Matrix\n*   **High:** RAG Pipeline, API Authentication, Frontend Chat Interface.\n*   **Medium:** User History, PDF Upload UI, Error Handling.\n*   **Low:** Dark mode, User profile settings, Advanced analytics.\n\n### Testing Strategy\n*   **Unit Testing:** PyTest for backend logic.\n*   **Integration Testing:** Postman for API-to-DB connectivity.\n*   **User Acceptance:** Peer testing for UI/UX flow.\n\n### Documentation Schedule\n*   **Technical:** Week 3 (API Docs).\n*   **User:** Week 7 (README/Manual).\n*   **Final Report:** Week 8.\n\n### Deployment Plan\n*   **Backend:** Render (Free Tier).\n*   **Frontend:** Vercel.\n*   **Database:** Supabase (PostgreSQL + Vector).\n\n### Buffer Strategy\n*   Week 6 is designated as the \"Stabilization Sprint.\" If development falls behind, non-essential UI features are cut to prioritize core functionality.\n\n---\n\n## Final Checklist\n- [ ] Backend Completed (FastAPI)\n- [ ] Frontend Completed (React)\n- [ ] AI Integrated (LangChain/RAG)\n- [ ] Database Integrated (Supabase)\n- [ ] Testing Completed (Unit/Integration)\n- [ ] Documentation Completed (README/Report)\n- [ ] Deployment Completed (Live URL)\n- [ ] GitHub Repository Updated\n- [ ] API Documentation Ready (Swagger/OpenAPI)\n- [ ] Presentation Slides Ready\n- [ ] Demo Ready (Scripted)\n- [ ] Final Report Ready",
+        "risk": "# Software Risk Assessment Report: AI Academic Project Mentor\n\n## Executive Summary\nThe \"AI Academic Project Mentor\" project is an ambitious undertaking for a 4th-semester CSE student. While the technology stack (Python, React, SQL) is appropriate, the integration of LLM-based AI introduces significant complexity regarding prompt engineering, API costs, and response latency. This report identifies key risks that could jeopardize the project’s completion within a single semester.\n\n## Overall Risk Level: **Medium-High**\nThe project is achievable, but the primary risk lies in \"feature creep\" and the unpredictability of AI model behavior. Success depends on strict adherence to the MVP (Minimum Viable Product) scope.\n\n---\n\n## Risk Analysis\n\n### 1. Technical Risks\n*   **Risk:** Integration failure between React frontend and Python/LLM backend.\n*   **Root Cause:** Asynchronous state management issues and API latency.\n*   **Probability:** Medium | **Impact:** High | **Severity:** High\n*   **Prevention:** Use standardized RESTful APIs (FastAPI).\n*   **Mitigation:** Implement loading states and robust error handling.\n*   **Contingency:** Fallback to a mock-data service if the LLM API fails.\n\n### 2. AI / Machine Learning Risks\n*   **Risk:** \"Hallucinations\" or incorrect academic advice.\n*   **Root Cause:** LLMs are probabilistic, not deterministic.\n*   **Probability:** High | **Impact:** High | **Severity:** High\n*   **Prevention:** Implement strict System Prompts and RAG (Retrieval-Augmented Generation).\n*   **Mitigation:** Add a disclaimer that the AI is a \"mentor, not an authority.\"\n*   **Contingency:** Provide a \"Report Issue\" button for users to flag bad advice.\n\n### 3. Dataset Risks\n*   **Risk:** Lack of high-quality, domain-specific academic data.\n*   **Root Cause:** Insufficient curated content for the RAG pipeline.\n*   **Probability:** Medium | **Impact:** Medium | **Severity:** Medium\n*   **Prevention:** Use open-source academic datasets or university-provided documentation.\n\n### 4. Security Risks\n*   **Risk:** API Key exposure in client-side code.\n*   **Root Cause:** Improper environment variable management.\n*   **Probability:** High | **Impact:** Critical | **Severity:** Critical\n*   **Prevention:** Use `.env` files and server-side proxying for API calls.\n\n### 5. Performance & Scalability Risks\n*   **Risk:** High latency in AI response times.\n*   **Root Cause:** LLM inference time.\n*   **Probability:** Medium | **Impact:** Medium | **Severity:** Medium\n*   **Prevention:** Implement streaming responses (Server-Sent Events).\n\n### 6. Timeline Risks\n*   **Risk:** Scope creep leading to missed deadlines.\n*   **Root Cause:** Over-engineering features (e.g., adding voice-to-text).\n*   **Probability:** High | **Impact:** High | **Severity:** High\n*   **Prevention:** Strict adherence to a 12-week sprint plan.\n\n---\n\n## Risk Priority Matrix\n\n| Risk | Probability | Impact | Severity |\n| :--- | :--- | :--- | :--- |\n| API Key Exposure | High | Critical | **Critical** |\n| AI Hallucinations | High | High | **High** |\n| Scope Creep | High | High | **High** |\n| Integration Failure | Medium | High | **High** |\n| Performance Latency | Medium | Medium | **Medium** |\n\n---\n\n## Best Practices & Monitoring\n*   **Monitoring Strategy:** Weekly code reviews and daily stand-ups (self-reflection).\n*   **Responsible Person:** Student (Project Lead).\n*   **Monitoring Frequency:** Daily during development, hourly during final testing.\n\n## Risk Acceptance\n*   **Eliminate:** API Key exposure (Non-negotiable).\n*   **Mitigate:** AI Hallucinations (via prompt engineering).\n*   **Accept:** Minor UI/UX inconsistencies (Low impact on academic grading).\n\n---\n\n## Final Recommendations\n1.  **Prioritize the MVP:** Focus on the core \"Mentor\" chat functionality before adding bells and whistles.\n2.  **Secure the Backend:** Never expose API keys in the React frontend.\n3.  **Document Everything:** Maintain a simple README and API documentation to ensure the project is presentable for grading.\n4.  **Use RAG:** Do not rely on the LLM's internal knowledge alone; ground it in provided academic documents.\n\n## Final Risk Summary\nThe project is viable if the student treats the AI as a tool rather than a black box. By securing the API keys, managing the scope, and implementing a robust RAG pipeline, the student can deliver a high-quality, functional academic mentor within the semester.\n\n**Root Cause Analysis:** Most failures in student projects stem from poor planning and lack of modularity. By breaking the project into small, testable components (Frontend, Backend, AI Service), the student minimizes the blast radius of any single failure."
+    },
+    "\nProgramming: Beginner\nFrontend: Advanced\nBackend: Advanced\nDatabase: Intermediate\nAI: Advanced\nExperience: 6-12 Months\nPreferred Role: Data Scientist\nPreferred Tech: React, MERN, python\nInterests: Cloud Computing, DevOps, Artificial Intelligence, Web Development\n": {
+        "student_profile": "\nProgramming: Beginner\nFrontend: Advanced\nBackend: Advanced\nDatabase: Intermediate\nAI: Advanced\nExperience: 6-12 Months\nPreferred Role: Data Scientist\nPreferred Tech: React, MERN, python\nInterests: Cloud Computing, DevOps, Artificial Intelligence, Web Development\n",
+        "project_idea": "\nTitle: AI Resume Analyzer & Interview Coach\nDomain: Artificial Intelligence\nDescription: Build an AI-powered web application that analyzes resumes, identifies strengths and weaknesses, matches resumes with job descriptions, calculates ATS scores, and provides personalized interview questions and improvement suggestions.\nLevel: Beginner\nTeam: 2 Members\nIdea: \n\nRequirements:\n\n\nPreferred Technologies:\n\n\nProject Type:\n\n\nExpected Duration:\n\n\nAdditional Requirements:\n\n",
+        "feasibility": {
+            "verdict": "The project is highly feasible and academically sound, provided the scope is strictly limited to a Minimum Viable Product (MVP) within the semester timeframe.",
+            "feasibility_score": 8,
+            "complexity": "Moderate",
+            "industry_value": 7,
+            "portfolio_value": 8,
+            "strengths": [
+                "Clear problem definition with measurable outcomes",
+                "Well-defined technology stack that aligns with current industry standards",
+                "High potential for demonstrating full-stack development proficiency",
+                "Modular architecture allows for incremental development and testing"
+            ],
+            "challenges": [
+                "Potential scope creep if additional features are added mid-semester",
+                "Data privacy and security compliance if handling user-sensitive information",
+                "Integration complexity between the frontend and backend services",
+                "Managing state consistency in a distributed or real-time environment"
+            ],
+            "skills_to_learn": [
+                "Advanced API design and RESTful principles",
+                "Database schema optimization and indexing",
+                "CI/CD pipeline configuration for automated deployment",
+                "Unit and integration testing frameworks"
+            ],
+            "suggestions": [
+                "Prioritize core functionality over aesthetic or secondary features",
+                "Implement a robust authentication system using industry-standard libraries like OAuth2 or JWT",
+                "Use containerization (Docker) to ensure environment consistency",
+                "Document the API endpoints early using tools like Swagger or Postman to facilitate frontend-backend decoupling"
+            ]
+        },
+        "scope": {
+            "goal": "Develop an AI-powered web application that allows users to upload resumes and job descriptions to receive automated feedback, ATS scoring, and tailored interview preparation questions to improve their job application success.",
+            "core_features": [
+                "User authentication and profile management",
+                "PDF resume upload and text extraction",
+                "Job description input field",
+                "AI-based resume analysis and ATS score calculation",
+                "Generation of personalized interview questions based on resume and job description"
+            ],
+            "optional_features": [
+                "Resume improvement suggestions in real-time",
+                "Downloadable PDF report of analysis results",
+                "History of past resume analyses",
+                "Dark mode UI"
+            ],
+            "future_features": [
+                "Integration with LinkedIn API for profile syncing",
+                "Cover letter generation module",
+                "Mock interview video analysis using computer vision",
+                "Multi-language support"
+            ],
+            "out_of_scope": [
+                "Real-time video mock interview platform",
+                "Direct job application submission to company portals",
+                "Advanced data analytics dashboard for recruiters",
+                "Payment gateway integration"
+            ],
+            "deliverables": [
+                "Source code repository with documentation",
+                "Functional web application deployed on a cloud platform",
+                "API documentation using Swagger or Postman",
+                "Final project presentation and user manual"
+            ]
+        },
+        "technology": {
+            "frontend": "React with Tailwind CSS",
+            "backend": "FastAPI",
+            "database": "PostgreSQL",
+            "ai_stack": "LangChain with OpenAI API",
+            "deployment": "Vercel and Render",
+            "architecture": "Decoupled client-server architecture with RESTful API communication",
+            "recommendations": [
+                "React provides a component-based structure ideal for complex UI forms and data visualization.",
+                "FastAPI is high-performance, beginner-friendly, and natively supports asynchronous Python code for AI tasks.",
+                "PostgreSQL is a robust, industry-standard relational database for managing user data and analysis history.",
+                "LangChain simplifies the integration of LLMs for resume parsing and interview question generation.",
+                "Vercel and Render offer seamless CI/CD pipelines and free tiers perfect for student projects.",
+                "Decoupled architecture allows for independent scaling and easier debugging of the AI logic."
+            ]
+        },
+        "timeline": {
+            "estimated_duration": "8 weeks",
+            "phases": [
+                {
+                    "title": "Week 1: Project Setup and Requirements",
+                    "tasks": [
+                        "Initialize GitHub repository and project structure",
+                        "Design database schema for PostgreSQL",
+                        "Set up FastAPI environment and project skeleton",
+                        "Define API endpoints and Swagger documentation"
+                    ]
+                },
+                {
+                    "title": "Week 2: Backend Core Development",
+                    "tasks": [
+                        "Implement user authentication with JWT",
+                        "Develop PDF text extraction service",
+                        "Integrate LangChain with OpenAI API",
+                        "Create basic resume analysis logic"
+                    ]
+                },
+                {
+                    "title": "Week 3: AI Integration and Logic",
+                    "tasks": [
+                        "Build ATS scoring algorithm",
+                        "Implement interview question generation module",
+                        "Create API endpoints for analysis results",
+                        "Perform unit testing on backend services"
+                    ]
+                },
+                {
+                    "title": "Week 4: Frontend Foundation",
+                    "tasks": [
+                        "Initialize React project with Tailwind CSS",
+                        "Implement user registration and login forms",
+                        "Create dashboard layout",
+                        "Set up API service layer for frontend"
+                    ]
+                },
+                {
+                    "title": "Week 5: Frontend Integration",
+                    "tasks": [
+                        "Build resume upload component",
+                        "Implement job description input form",
+                        "Connect frontend to backend analysis endpoints",
+                        "Display ATS scores and interview questions"
+                    ]
+                },
+                {
+                    "title": "Week 6: Testing and Refinement",
+                    "tasks": [
+                        "Conduct integration testing between frontend and backend",
+                        "Perform bug fixing and error handling",
+                        "Optimize UI/UX based on initial feedback",
+                        "Implement loading states and form validation"
+                    ]
+                },
+                {
+                    "title": "Week 7: Deployment and DevOps",
+                    "tasks": [
+                        "Configure Docker containers for the application",
+                        "Deploy backend to Render",
+                        "Deploy frontend to Vercel",
+                        "Perform end-to-end testing in production environment"
+                    ]
+                },
+                {
+                    "title": "Week 8: Documentation and Presentation",
+                    "tasks": [
+                        "Finalize API documentation",
+                        "Write user manual and README",
+                        "Prepare project presentation slides",
+                        "Conduct final demo and code review"
+                    ]
+                }
+            ]
+        },
+        "risk": {
+            "overall_risk": "Medium",
+            "risks": [
+                {
+                    "risk": "API cost and rate limits for OpenAI",
+                    "severity": "High",
+                    "mitigation": "Implement caching for repeated requests and set strict usage limits on the OpenAI developer dashboard."
+                },
+                {
+                    "risk": "Inconsistent PDF text extraction quality",
+                    "severity": "Medium",
+                    "mitigation": "Use robust libraries like PyMuPDF or Tika and implement fallback logic for non-standard resume formats."
+                },
+                {
+                    "risk": "Scope creep during AI prompt engineering",
+                    "severity": "Medium",
+                    "mitigation": "Freeze prompt iterations after Week 3 and focus on core ATS scoring logic rather than perfecting conversational nuances."
+                },
+                {
+                    "risk": "Data privacy concerns with user resumes",
+                    "severity": "High",
+                    "mitigation": "Anonymize user data before sending it to the LLM and ensure all uploaded files are deleted from the server after processing."
+                },
+                {
+                    "risk": "Frontend-backend integration delays",
+                    "severity": "Medium",
+                    "mitigation": "Define a strict API contract using Swagger/OpenAPI in Week 1 and use mock data to develop frontend components in parallel."
+                },
+                {
+                    "risk": "Deployment environment configuration errors",
+                    "severity": "Low",
+                    "mitigation": "Use Docker containers from the start to ensure parity between local development and production environments."
+                }
+            ]
+        }
+    }
+}

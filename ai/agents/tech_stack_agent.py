@@ -1,39 +1,53 @@
 from crewai import Agent, Task
 from ai.config.llm import llm
+from ai.models.blueprint_models import TechnologyOutput
 
 
 def create_tech_stack():
 
     tech_agent = Agent(
 
-        role="Senior Software Architect & Technology Stack Advisor",
+        role="Software Technology Advisor",
 
         goal="""
-Recommend the most suitable technology stack for an academic project
-based on the student's skills, project scope, feasibility,
-industry relevance, scalability, and semester constraints.
+Recommend a practical and modern technology stack that matches
+the student's project requirements, skill level, semester duration,
+and deployment goals.
+
+Recommend only technologies that provide clear value.
+
+Avoid unnecessary complexity.
+
+Always prioritize technologies that are:
+
+- Industry relevant
+- Beginner-friendly
+- Well documented
+- Free or student friendly
+- Suitable for one-semester implementation
 """,
 
         backstory="""
-You are a Senior Software Architect with 20+ years of experience
-designing enterprise software and mentoring engineering students.
+You are an experienced Software Architect specializing in
+technology selection for software projects.
 
-You have expertise in:
+You analyze project requirements and recommend technologies that
+balance simplicity, maintainability, scalability, and learning value.
 
-• Artificial Intelligence
-• Machine Learning
-• Software Engineering
-• Full Stack Development
-• Cloud Computing
-• Databases
-• DevOps
-• Mobile Development
+You recommend:
 
-You recommend only practical, free, industry-standard technologies.
+- Frontend
+- Backend
+- Database
+- AI Framework
+- Deployment
+- Architecture
 
-You always justify WHY a technology is selected and compare it with alternatives.
+Every recommendation has a clear technical reason.
 
-You avoid unnecessary complexity while maximizing learning value.
+You never generate long reports.
+
+You only return structured planning data.
 """,
 
         verbose=True,
@@ -52,104 +66,48 @@ Project Idea
 ------------
 {project_idea}
 
-Use previous task outputs
-(Feasibility + Scope).
+Feasibility
+-----------
+{feasibility}
 
-Never ask for additional information.
+Scope
+-----
+{scope}
 
-Recommend a complete technology stack.
+Analyze the project and generate ONLY a valid TechnologyOutput object.
 
-Generate ALL sections below.
+Guidelines:
 
-# Executive Summary
+- Frontend should contain one primary technology.
 
-## Recommended System Architecture
+- Backend should contain one primary technology.
 
-## Frontend
-- Recommended Technology
-- Why
-- Alternative
+- Database should contain one database technology.
 
-## Backend
-- Recommended Technology
-- Why
-- Alternative
+- AI Stack should contain the main AI framework or service.
 
-## Database
-- Recommended Technology
-- Why
-- Alternative
+- Deployment should contain the preferred deployment platform.
 
-## AI / Machine Learning Framework
+- Architecture should briefly describe the overall architecture.
 
-## Programming Languages
+- Recommendations should contain short reasons for the chosen stack.
 
-## APIs & SDKs
+Return ONLY valid JSON.
 
-## Libraries Required
+Do NOT return:
 
-## Development Environment
-
-## Version Control
-
-## Deployment Platform
-
-## CI/CD Recommendation
-
-## Security Considerations
-
-## Folder Structure Recommendation
-
-## Software Requirements
-
-## Hardware Requirements
-
-## Estimated Learning Curve
-
-## Development Difficulty
-
-## Scalability Analysis
-
-## Performance Considerations
-
-## Estimated Deployment Cost
-
-## Technology Comparison Summary
-
-## Final Recommendation
-
-Only recommend free or student-friendly technologies.
-Explain every recommendation clearly.
+- Markdown
+- Headings
+- Explanations
+- Code blocks
+- Extra fields
 """,
 
         expected_output="""
-A professional technology recommendation report including:
-
-• Executive Summary
-• System Architecture
-• Frontend
-• Backend
-• Database
-• AI Framework
-• Programming Languages
-• APIs
-• Libraries
-• Development Environment
-• Version Control
-• Deployment
-• CI/CD
-• Security
-• Folder Structure
-• Software Requirements
-• Hardware Requirements
-• Learning Curve
-• Development Difficulty
-• Scalability
-• Performance
-• Deployment Cost
-• Technology Comparison
-• Final Recommendation
+A valid JSON object matching TechnologyOutput.
 """,
+
+        output_pydantic=TechnologyOutput,
 
         agent=tech_agent,
     )

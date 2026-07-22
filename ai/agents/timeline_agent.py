@@ -1,41 +1,54 @@
 from crewai import Agent, Task
 from ai.config.llm import llm
+from ai.models.blueprint_models import TimelineOutput
 
 
 def create_timeline():
 
     timeline_agent = Agent(
 
-        role="Senior Academic Project Planner & Agile Roadmap Expert",
+        role="Software Project Planner",
 
         goal="""
-Generate a realistic, dependency-aware project execution roadmap
-that enables undergraduate students to successfully complete
-their academic project within one semester.
+Create a realistic implementation roadmap that enables an undergraduate
+student to successfully complete the project within one semester.
+
+The roadmap should prioritize:
+
+- Incremental development
+- Realistic workload
+- Proper testing
+- Documentation
+- Deployment
+- Presentation readiness
+
+Always focus on completing a working MVP before additional features.
 """,
 
         backstory="""
-You are a Senior Project Manager with over 20 years of experience
-planning AI, Software Engineering, Data Science, and Full Stack projects.
+You are an experienced Technical Project Manager with expertise in
+Agile software development and academic project mentoring.
 
-You specialize in:
+You specialize in converting software ideas into structured execution plans.
 
-• Agile Project Planning
-• Sprint Planning
-• Dependency Management
-• Time Estimation
-• Resource Allocation
-• Risk-aware Scheduling
-• Academic Capstone Planning
+Your plans are:
 
-You create realistic execution plans.
+- Realistic
+- Sequential
+- Easy to follow
+- Suitable for undergraduate students
 
-You understand that every task has dependencies.
+You always allocate time for:
 
-You prioritize MVP completion before advanced features.
+- Development
+- Testing
+- Debugging
+- Documentation
+- Deployment
 
-You always include testing, documentation, deployment,
-presentation preparation, and contingency planning.
+You never generate long roadmap documents.
+
+You only produce structured project planning data.
 """,
 
         verbose=True,
@@ -54,90 +67,56 @@ Project Idea
 ------------
 {project_idea}
 
-Use ALL previous task outputs
-(Feasibility, Scope, Technology Stack).
+Feasibility
+-----------
+{feasibility}
 
-Never ask for additional information.
+Scope
+-----
+{scope}
 
-Generate a realistic 8-week execution roadmap.
+Technology Stack
+----------------
+{technology}
 
-Each week MUST include:
+Analyze the project and generate ONLY a valid TimelineOutput object.
 
-• Week Number
-• Objective
-• Major Tasks
-• Expected Deliverables
-• Estimated Hours
-• Dependencies
-• Risks
-• Success Criteria
+Guidelines:
 
-After the weekly roadmap include:
+- Assume an 8-week implementation timeline.
 
-# Executive Summary
+- Each phase should represent one week.
 
-## Overall Timeline
+- Every phase must contain:
+    - title
+    - tasks
 
-## Critical Path
+- Tasks should be short and actionable.
 
-## Dependency Graph Explanation
+- Build the project incrementally.
 
-## High Priority Tasks
+- Complete backend before frontend integration.
 
-## Medium Priority Tasks
+- Include testing before deployment.
 
-## Low Priority Tasks
+- Finish with documentation and presentation preparation.
 
-## Testing Strategy
+Return ONLY valid JSON.
 
-## Documentation Schedule
+Do NOT return:
 
-## Deployment Plan
-
-## Buffer Week Strategy
-
-## Risk Monitoring Plan
-
-## Weekly Review Checklist
-
-## Final Demonstration Checklist
-
-## Project Completion Strategy
-
-The roadmap must be practical for undergraduate students.
-
-Avoid unrealistic scheduling.
-
-Ensure dependencies are respected.
-
-Testing, documentation, deployment,
-and presentation preparation must all be included.
+- Markdown
+- Headings
+- Explanations
+- Code blocks
+- Extra fields
 """,
 
         expected_output="""
-A professional execution roadmap containing:
-
-• Executive Summary
-• 8-week plan
-• Objectives
-• Tasks
-• Deliverables
-• Estimated Hours
-• Dependencies
-• Risks
-• Success Criteria
-• Critical Path
-• Dependency Explanation
-• Priority Matrix
-• Testing Strategy
-• Documentation Schedule
-• Deployment Plan
-• Buffer Strategy
-• Risk Monitoring
-• Weekly Review Checklist
-• Final Demonstration Checklist
-• Completion Strategy
+A valid JSON object matching TimelineOutput.
 """,
+
+        output_pydantic=TimelineOutput,
 
         agent=timeline_agent,
     )

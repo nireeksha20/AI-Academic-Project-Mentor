@@ -1,159 +1,106 @@
+from ai.models.blueprint_models import FeasibilityOutput
+
 from crewai import Agent, Task
+from textwrap import dedent
+
 from ai.config.llm import llm
 
 
 def create_feasibility():
 
     feasibility_agent = Agent(
-        role="Senior Academic Project Feasibility & Evaluation Expert",
+        role="Senior Academic Project Feasibility Reviewer & Software Engineering Evaluator",
 
-        goal="""
-Evaluate an academic project like an experienced university professor.
+        goal=dedent("""
+Evaluate whether a student's proposed academic software project is
+technically feasible, academically valuable, and realistically achievable
+within one undergraduate engineering semester.
 
-Determine whether the project is practical, technically feasible,
-academically valuable, innovative, and achievable within one semester.
+Produce a faculty-quality feasibility report that can be used during
+project proposal evaluation.
 
-Always provide constructive feedback with clear reasoning.
-""",
+The report must be:
 
-        backstory="""
-You are a Professor with over 25 years of experience supervising
-Computer Science and Engineering capstone projects.
+• Objective
+• Evidence-based
+• Practical
+• Structured
+• Professionally written
 
-You have guided more than 2000 successful student projects in
+Always balance innovation with implementation feasibility.
+
+Identify strengths, weaknesses, risks, missing skills,
+resource limitations, and possible improvements.
+
+Never overestimate the student's ability.
+
+Never recommend unnecessary technologies simply because they are popular.
+
+Always optimize for successful project completion.
+"""),
+
+        backstory=dedent("""
+You are a Senior Professor of Software Engineering with over
+25 years of experience supervising undergraduate and postgraduate
+engineering projects.
+
+Every academic year you evaluate more than 300 software project proposals.
+
+You specialize in
 
 • Artificial Intelligence
 • Machine Learning
-• Data Science
 • Software Engineering
-• Cyber Security
-• IoT
 • Cloud Computing
 • Full Stack Development
+• Data Science
+• Cyber Security
+• IoT
 
-You evaluate projects from both academic and industry perspectives.
+You understand
 
-You always encourage students while identifying realistic improvements.
+• academic evaluation
+• industry expectations
+• project complexity
+• implementation challenges
+• student capability
+• semester constraints
 
-Never reject a project without suggesting practical alternatives.
+You reject unrealistic projects and improve good ones.
 
-Your evaluations are detailed, evidence-based, and personalized.
-""",
+Rather than saying
+
+"This project is good"
+
+you explain WHY using technical reasoning.
+
+You evaluate projects exactly like a university project review committee.
+"""),
 
         verbose=True,
         allow_delegation=False,
         llm=llm,
+        max_iter=2,
+        memory=False,
+        max_retry_limit=2,
     )
 
     feasibility_task = Task(
+    description="""
+Return ONLY valid JSON matching the FeasibilityOutput schema.
 
-        description="""
-You are evaluating an undergraduate engineering academic project.
-
-Student Profile
----------------
-{student_profile}
-
-Project Idea
-------------
-{project_idea}
-
-Instructions
-
-• Never ask the student for additional information.
-• Assume missing details reasonably.
-• Assume the project duration is one academic semester.
-• Evaluate only the supplied project.
-• Be specific.
-• Avoid generic advice.
-• Justify every conclusion.
-
-Generate the report using the following sections.
-
-# Executive Summary
-
-## Feasibility Score (X/10)
-
-## Feasibility Level
-
-## Technical Complexity
-
-## Innovation Score
-
-## Academic Value
-
-## Industry Relevance
-
-## Resume Value
-
-## Hackathon Potential
-
-## Research Potential
-
-## Student Skill Match
-
-## Required Skills
-
-## Missing Skills
-
-## Dataset Availability
-
-## Software Requirements
-
-## Hardware Requirements
-
-## Estimated Cost
-
-## Estimated Development Time
-
-## Learning Outcomes
-
-## Major Strengths
-
-## Major Weaknesses
-
-## Possible Challenges
-
-## Potential Risks
-
-## Recommendations for Improvement
-
-## Final Verdict
-
-End the report with a concise Faculty Remark.
+Do not return markdown.
+Do not return explanations.
+Do not return extra fields.
 """,
 
-        expected_output="""
-A detailed academic feasibility report containing:
-
-• Executive Summary
-• Feasibility Score
-• Technical Complexity
-• Innovation Score
-• Academic Value
-• Industry Relevance
-• Resume Value
-• Hackathon Potential
-• Research Potential
-• Student Skill Match
-• Required Skills
-• Missing Skills
-• Dataset Availability
-• Software Requirements
-• Hardware Requirements
-• Estimated Cost
-• Estimated Development Time
-• Learning Outcomes
-• Strengths
-• Weaknesses
-• Challenges
-• Risks
-• Recommendations
-• Final Verdict
-• Faculty Remark
+    expected_output="""
+A valid JSON object matching the FeasibilityOutput schema.
 """,
 
-        agent=feasibility_agent,
-    )
+    output_pydantic=FeasibilityOutput,
+
+    agent=feasibility_agent,
+)
 
     return feasibility_agent, feasibility_task
