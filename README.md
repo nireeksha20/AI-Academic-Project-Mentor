@@ -8,7 +8,7 @@
 
 Students often have innovative project ideas but struggle to convert them into well-structured software projects. They need guidance on architecture, technology selection, database design, implementation planning, and continuous mentoring.
 
-**AI Academic Project Mentor** addresses this challenge through a collaborative **Multi-Agent AI Pipeline**. Instead of acting like a traditional chatbot, the system uses specialized AI agents that work together to analyze ideas, generate project blueprints, recommend technologies, design databases, create development roadmaps, and mentor students throughout their project journey.
+**AI-Guided Academic Project Progress Tracking Platform with Planning & Mentorship Assistance** addresses this challenge through a collaborative **Multi-Agent AI Pipeline**. Instead of acting like a traditional chatbot, the system uses specialized AI agents that work together to analyze ideas, generate project blueprints, recommend technologies, design databases, create development roadmaps, and mentor students throughout their project journey.
 
 ---
 
