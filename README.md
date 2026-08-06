@@ -1,4 +1,4 @@
-# 🎓 AI Academic Project Mentor
+# 🎓 AI-Guided Academic Project Progress Tracking Platform with Planning & Mentorship Assistance
 
 > A Multi-Agent AI platform that transforms student project ideas into structured software blueprints and provides personalized academic mentoring throughout the project lifecycle.
 
