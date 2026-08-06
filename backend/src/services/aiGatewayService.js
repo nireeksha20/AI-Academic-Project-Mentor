@@ -19,13 +19,6 @@ export class AIGatewayService {
       });
 
       return data;
-      // } catch (error) {
-      //   console.error("Blueprint API Error:", error.response?.data || error);
-
-      //   throw new Error(
-      //     error.response?.data?.detail || "Failed to generate AI blueprint.",
-      //   );
-      // }
     } catch (error) {
       console.error("========== AI ERROR ==========");
 
@@ -41,21 +34,33 @@ export class AIGatewayService {
   }
 
   static async mentorChat(payload) {
+    console.log("========== PAYLOAD TO FASTAPI ==========");
+    console.dir(payload, { depth: null });
+    console.log("========================================");
     try {
       const { data } = await api.post("/mentor-chat", {
         student_profile: payload.studentProfile,
         project_idea: payload.projectIdea,
+        project_blueprint: payload.projectBlueprint,
         progress: payload.progress,
         question: payload.question,
+        duration: payload.duration,
+        team: payload.team,
+        phase: payload.phase,
       });
 
       return data;
     } catch (error) {
-      console.error("Mentor API Error:", error.response?.data || error);
+      console.error("========== MENTOR ERROR ==========");
 
-      throw new Error(
-        error.response?.data?.detail || "Failed to get mentor response.",
-      );
+      if (error.response) {
+        console.error("Status:", error.response.status);
+        console.error("Data:", error.response.data);
+      } else {
+        console.error(error);
+      }
+
+      throw error;
     }
   }
 

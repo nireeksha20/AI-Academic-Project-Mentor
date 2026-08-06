@@ -23,11 +23,22 @@ class BlueprintRequest(BaseModel):
     student_profile: str
     project_idea: str
 
+from typing import Optional
+
 class MentorRequest(BaseModel):
-    student_profile: str
-    project_idea: str
-    progress: str
     question: str
+
+    response_style: Optional[str] = "chat"
+
+    student_profile: Optional[str] = ""
+    project_idea: Optional[str] = ""
+    project_blueprint: Optional[str] = ""
+    progress: Optional[str] = ""
+    duration: Optional[str] = ""
+    team: Optional[str] = ""
+    phase: Optional[str] = ""
+
+    first_message: bool = False
 
 
 @app.get("/")
@@ -52,17 +63,52 @@ def generate_blueprint(data: BlueprintRequest):
 
 @app.post("/mentor-chat")
 def mentor_chat(data: MentorRequest):
+    print("\n========== MENTOR CHAT REQUEST ==========")
+    print("student_profile:")
+    print(data.student_profile)
 
-    response = mentor.chat(
-        student_profile=data.student_profile,
-        project_idea=data.project_idea,
-        progress=data.progress,
-        question=data.question,
-    )
+    print("\nproject_idea:")
+    print(data.project_idea)
 
-    return {
-        "response": response
-    }
+    print("\nproject_blueprint:")
+    print(data.project_blueprint)
+
+    print("\nprogress:")
+    print(data.progress)
+
+    print("\nquestion:")
+    print(data.question)
+
+    print("\nduration:")
+    print(data.duration)
+
+    print("\nteam:")
+    print(data.team)
+
+    print("\nphase:")
+    print(data.phase)
+
+    print("========================================\n")
+    try:
+        
+        response = mentor.chat(
+            student_profile=data.student_profile,
+            project_idea=data.project_idea,
+            project_blueprint=data.project_blueprint,
+            progress=data.progress,
+            question=data.question,
+            duration=data.duration,
+            team=data.team,
+            phase=data.phase,
+            response_style=data.response_style,
+            first_message=data.first_message,
+        )
+        return {"response": response}
+
+    except Exception as e:
+        import traceback
+        traceback.print_exc()
+        raise
 
 
 @app.get("/blueprints")

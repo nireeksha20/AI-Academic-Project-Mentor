@@ -20,7 +20,7 @@ export default function RiskCard({ data }) {
     <div className="rounded-3xl border border-white/10 bg-slate-900/60 p-8 transition-all duration-300 hover:-translate-y-1 hover:border-cyan-500/40 hover:shadow-2xl">
       <h2 className="mb-8 flex items-center gap-3 border-b border-red-500/20 pb-5 text-3xl font-bold">
         <ShieldAlert className="text-red-400" />
-        Risk Assessment
+        Risk Assessment & Mitigation
       </h2>
 
       {/* Overall Risk */}
@@ -30,7 +30,9 @@ export default function RiskCard({ data }) {
           Overall Risk
         </p>
 
-        <h3 className="mt-2 text-2xl font-bold">{data.overall_risk}</h3>
+        <p className="mt-3 text-base leading-8 font-medium text-slate-100">
+          {data.overall_risk}
+        </p>
       </div>
 
       <div className="space-y-6">

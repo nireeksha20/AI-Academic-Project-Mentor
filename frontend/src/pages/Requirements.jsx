@@ -156,7 +156,7 @@ export default function Requirements() {
             </h2>
 
             <p className="mx-auto mt-5 max-w-3xl text-lg text-slate-400">
-              Your AI agents successfully analyzed the project and generated a
+              AI agents successfully analyzed the project and generated a
               complete implementation blueprint.
             </p>
 
@@ -171,7 +171,7 @@ export default function Requirements() {
 
               <Badge>Risk</Badge>
 
-              <Badge>Documentation</Badge>
+              {/* <Badge>Documentation</Badge> */}
             </div>
           </div>
         ) : (

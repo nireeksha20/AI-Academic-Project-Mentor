@@ -11,6 +11,276 @@
     "\nProgramming: Beginner\nFrontend: Advanced\nBackend: Advanced\nDatabase: Intermediate\nAI: Advanced\nExperience: 6-12 Months\nPreferred Role: Data Scientist\nPreferred Tech: React, MERN, python\nInterests: Cloud Computing, DevOps, Artificial Intelligence, Web Development\n": {
         "student_profile": "\nProgramming: Beginner\nFrontend: Advanced\nBackend: Advanced\nDatabase: Intermediate\nAI: Advanced\nExperience: 6-12 Months\nPreferred Role: Data Scientist\nPreferred Tech: React, MERN, python\nInterests: Cloud Computing, DevOps, Artificial Intelligence, Web Development\n",
         "project_idea": "\nTitle: AI Resume Analyzer & Interview Coach\nDomain: Artificial Intelligence\nDescription: Build an AI-powered web application that analyzes resumes, identifies strengths and weaknesses, matches resumes with job descriptions, calculates ATS scores, and provides personalized interview questions and improvement suggestions.\nLevel: Beginner\nTeam: 2 Members\nIdea: \n\nRequirements:\n\n\nPreferred Technologies:\n\n\nProject Type:\n\n\nExpected Duration:\n\n\nAdditional Requirements:\n\n",
+        "status": "Approved",
+        "feasibility": {
+            "verdict": "Approved with Scope Refinement",
+            "clarification_required": false,
+            "clarification_questions": [],
+            "suggested_interpretations": [],
+            "feasibility_score": 8,
+            "complexity": "Medium",
+            "technical_feasibility": "High, provided the team utilizes established LLM APIs or pre-trained NLP models rather than attempting to train custom models from scratch within the semester.",
+            "implementation_feasibility": "High, given the team's proficiency in MERN and Python, which aligns well with the required full-stack architecture.",
+            "academic_suitability": "High, as it requires integration of data processing pipelines, prompt engineering, and secure user authentication.",
+            "industry_value": 8,
+            "portfolio_value": 9,
+            "strengths": [
+                "Strong alignment between student technical stack (MERN/Python) and project requirements",
+                "Clear, measurable deliverables (ATS score, interview questions)",
+                "High relevance to current industry trends in AI-assisted recruitment"
+            ],
+            "challenges": [
+                "Parsing unstructured PDF/DOCX resume data reliably",
+                "Managing API costs and latency for LLM integration",
+                "Ensuring data privacy and secure handling of sensitive user documents"
+            ],
+            "skills_to_learn": [
+                "Advanced PDF parsing libraries (e.g., PyMuPDF or LangChain document loaders)",
+                "Prompt engineering best practices for structured JSON output from LLMs",
+                "Vector database implementation for semantic job matching"
+            ],
+            "suggestions": [
+                "Focus on a specific industry or job role to improve the accuracy of the ATS scoring algorithm",
+                "Implement a robust document parsing layer before passing data to the AI to ensure high-quality input",
+                "Prioritize data security by implementing ephemeral storage for uploaded resumes",
+                "Use a local vector store like ChromaDB for semantic matching to keep costs low and performance high"
+            ]
+        },
+        "scope": {
+            "goal": "To develop an AI-driven web application that parses user resumes and job descriptions to provide automated ATS scoring, gap analysis, and tailored interview preparation questions.",
+            "core_features": [
+                "PDF/DOCX resume text extraction and cleaning pipeline",
+                "Job description input interface",
+                "LLM-based ATS score calculation based on keyword matching and semantic relevance",
+                "Automated generation of personalized interview questions based on resume-job description gaps",
+                "Ephemeral document processing to ensure user data privacy"
+            ],
+            "optional_features": [
+                "Downloadable PDF summary report of resume improvements",
+                "Comparison history for multiple job applications",
+                "Keyword highlighting within the resume text"
+            ],
+            "future_features": [
+                "Integration with LinkedIn API for direct job import",
+                "Mock interview voice-to-text feedback loop",
+                "Industry-specific fine-tuned models for niche ATS scoring"
+            ],
+            "out_of_scope": [
+                "User authentication and persistent account management",
+                "Job board aggregation or search functionality",
+                "Social media sharing or networking features",
+                "Payment gateway integration",
+                "Long-term cloud storage of user resumes"
+            ],
+            "deliverables": [
+                "Web application source code repository",
+                "Technical documentation detailing the prompt engineering strategy and parsing logic",
+                "Project report including ATS scoring accuracy evaluation",
+                "Demonstration video showcasing the resume-to-interview-question workflow"
+            ]
+        },
+        "technology": {
+            "frontend": "Next.js with Tailwind CSS",
+            "frontend_reason": "Leverages the student's advanced React skills while providing server-side rendering capabilities for faster initial load times and better SEO, which is beneficial for a professional-facing tool.",
+            "backend": "Python with FastAPI",
+            "backend_reason": "Provides a high-performance, asynchronous environment that is the industry standard for AI integration, allowing seamless use of Python-native NLP libraries like PyMuPDF and LangChain.",
+            "database": "ChromaDB",
+            "database_reason": "An open-source, lightweight vector database that is ideal for semantic search and matching tasks, fitting the project's requirement for ephemeral data handling without the overhead of a full-scale database server.",
+            "ai_stack": "LangChain with OpenAI GPT-4o-mini",
+            "ai_stack_reason": "LangChain provides the necessary abstractions for document parsing and prompt chaining, while GPT-4o-mini offers the best balance of cost-efficiency and reasoning capability for structured JSON output generation.",
+            "deployment": "Vercel for Frontend and Railway for Backend",
+            "deployment_reason": "Vercel offers optimized hosting for Next.js, while Railway provides a simple, containerized environment for Python backends, ensuring easy deployment for a two-person team.",
+            "architecture": "Decoupled Client-Server architecture with an ephemeral processing pipeline.",
+            "recommendations": [
+                "Use PyMuPDF for high-fidelity text extraction from PDFs to ensure the AI receives clean, structured input.",
+                "Implement Pydantic models in FastAPI to enforce strict schema validation for LLM responses.",
+                "Utilize ephemeral storage (in-memory or temporary file system) to ensure resume data is purged immediately after processing, adhering to privacy requirements.",
+                "Adopt a modular prompt engineering strategy using LangChain templates to maintain consistency across ATS scoring and interview question generation."
+            ]
+        },
+        "timeline": {
+            "estimated_duration": "8 weeks",
+            "phases": [
+                {
+                    "week": 1,
+                    "title": "Environment Setup and Document Parsing Pipeline",
+                    "objective": "Establish the core document processing logic to convert unstructured resumes into clean text.",
+                    "tasks": [
+                        "Initialize FastAPI backend and Next.js frontend repositories",
+                        "Implement PyMuPDF integration for PDF text extraction",
+                        "Develop text cleaning and normalization utility functions",
+                        "Create unit tests for document parsing accuracy"
+                    ]
+                },
+                {
+                    "week": 2,
+                    "title": "LLM Integration and Prompt Engineering",
+                    "objective": "Configure LangChain and define structured prompts for ATS analysis.",
+                    "tasks": [
+                        "Set up LangChain with OpenAI GPT-4o-mini",
+                        "Design Pydantic models for structured JSON output",
+                        "Develop prompt templates for ATS scoring and gap analysis",
+                        "Validate LLM response consistency against schema"
+                    ]
+                },
+                {
+                    "week": 3,
+                    "title": "Vector Database and Semantic Matching",
+                    "objective": "Implement semantic search capabilities for job description alignment.",
+                    "tasks": [
+                        "Initialize ChromaDB instance",
+                        "Implement document embedding logic using LangChain",
+                        "Develop semantic matching algorithm for resume-to-job comparison",
+                        "Test retrieval accuracy with sample job descriptions"
+                    ]
+                },
+                {
+                    "week": 4,
+                    "title": "Backend API Development",
+                    "objective": "Expose core AI functionality through secure, ephemeral API endpoints.",
+                    "tasks": [
+                        "Create FastAPI endpoints for resume upload and analysis",
+                        "Implement ephemeral storage logic to purge files after processing",
+                        "Integrate ATS scoring and interview question generation services",
+                        "Add CORS and error handling for frontend communication"
+                    ]
+                },
+                {
+                    "week": 5,
+                    "title": "Frontend Interface Development",
+                    "objective": "Build the user-facing dashboard for resume submission and results display.",
+                    "tasks": [
+                        "Develop file upload component with drag-and-drop support",
+                        "Create job description input form",
+                        "Implement state management for handling analysis results",
+                        "Build result visualization components for ATS scores and feedback"
+                    ]
+                },
+                {
+                    "week": 6,
+                    "title": "Integration and Workflow Refinement",
+                    "objective": "Connect frontend and backend to ensure a seamless user experience.",
+                    "tasks": [
+                        "Connect frontend forms to FastAPI endpoints",
+                        "Implement loading states and progress indicators for AI processing",
+                        "Refine UI/UX based on data flow requirements",
+                        "Conduct end-to-end integration testing"
+                    ]
+                },
+                {
+                    "week": 7,
+                    "title": "Testing, Optimization, and Deployment",
+                    "objective": "Ensure system stability and deploy to production environments.",
+                    "tasks": [
+                        "Perform load testing on API endpoints",
+                        "Optimize prompt latency and token usage",
+                        "Deploy frontend to Vercel and backend to Railway",
+                        "Conduct final security audit of ephemeral data handling"
+                    ]
+                },
+                {
+                    "week": 8,
+                    "title": "Documentation and Final Presentation",
+                    "objective": "Finalize project artifacts and prepare for demonstration.",
+                    "tasks": [
+                        "Document prompt engineering strategy and parsing logic",
+                        "Compile ATS scoring accuracy evaluation report",
+                        "Record demonstration video of the workflow",
+                        "Final code cleanup and repository documentation"
+                    ]
+                }
+            ]
+        },
+        "risk": {
+            "overall_risk": "Medium-High: The project relies heavily on the consistency of LLM-generated structured data and the reliability of PDF text extraction, which can lead to unpredictable application behavior if not strictly constrained.",
+            "risks": [
+                {
+                    "risk": "Inconsistent LLM output format breaking the frontend JSON parser",
+                    "probability": "High",
+                    "severity": "High",
+                    "mitigation": "Implement Pydantic models in FastAPI to enforce strict schema validation and use OpenAI's 'json_mode' or 'structured_outputs' feature to guarantee valid JSON responses."
+                },
+                {
+                    "risk": "PDF parsing failure due to complex resume layouts or non-standard formatting",
+                    "probability": "High",
+                    "severity": "Medium",
+                    "mitigation": "Use PyMuPDF's text extraction with layout preservation and implement a fallback mechanism that prompts the user to upload a cleaner version if the extracted text length falls below a specific threshold."
+                },
+                {
+                    "risk": "API latency causing frontend timeouts during synchronous resume analysis",
+                    "probability": "Medium",
+                    "severity": "Medium",
+                    "mitigation": "Implement an asynchronous task pattern using FastAPI background tasks or WebSockets to provide real-time progress updates to the user while the LLM processes the document."
+                },
+                {
+                    "risk": "ChromaDB vector search returning irrelevant matches due to poor embedding quality",
+                    "probability": "Medium",
+                    "severity": "Medium",
+                    "mitigation": "Pre-process job descriptions by stripping boilerplate text and use a domain-specific embedding model or add a reranking step to ensure the most relevant resume sections are prioritized."
+                },
+                {
+                    "risk": "Unintended persistence of sensitive user data in temporary storage",
+                    "probability": "Low",
+                    "severity": "High",
+                    "mitigation": "Use Python's 'tempfile' module with 'delete=True' and ensure the FastAPI endpoint explicitly clears the file buffer immediately after the LLM response is generated."
+                }
+            ]
+        }
+    },
+    "\nProgramming: Intermediate\nFrontend: Beginner\nBackend: Advanced\nDatabase: Advanced\nAI: Intermediate\nExperience: 0-6 Months\nPreferred Role: Software Engineer\nPreferred Tech: python\nInterests: Cloud Computing, Artificial Intelligence\n": {
+        "student_profile": "\nProgramming: Intermediate\nFrontend: Beginner\nBackend: Advanced\nDatabase: Advanced\nAI: Intermediate\nExperience: 0-6 Months\nPreferred Role: Software Engineer\nPreferred Tech: python\nInterests: Cloud Computing, Artificial Intelligence\n",
+        "project_idea": "\nTitle: AI Crop Disease Detection System\nDomain: Artificial Intelligence\nDescription: Develop an AI-based system that analyzes crop leaf images to detect diseases at an early stage and recommends suitable treatments for farmers.\nLevel: Beginner\nTeam: Individual\nIdea: \n\nRequirements:\n\n\nPreferred Technologies:\n\n\nProject Type:\n\n\nExpected Duration:\n\n\nAdditional Requirements:\n\n",
+        "status": "Needs Clarification",
+        "feasibility": {
+            "verdict": "Needs Clarification",
+            "clarification_required": true,
+            "clarification_questions": [
+                "What is the specific source and scale of the image dataset intended for training the model?",
+                "Will the system be a mobile application, a web-based platform, or a command-line tool?",
+                "How will the 'treatment recommendation' logic be implemented: via a static rule-based engine, a database lookup, or an LLM-integrated agent?",
+                "What specific crop types and diseases are within the scope of this MVP?"
+            ],
+            "suggested_interpretations": [
+                "A web-based dashboard where users upload images and receive a classification result from a pre-trained CNN model.",
+                "A mobile-first application utilizing TensorFlow Lite for on-device inference to support farmers in low-connectivity areas.",
+                "A cloud-native API service that processes images and returns JSON-formatted disease data and treatment protocols for integration into existing agricultural management software."
+            ],
+            "feasibility_score": 6,
+            "complexity": "Medium",
+            "technical_feasibility": "High, provided the student has access to a labeled dataset like PlantVillage.",
+            "implementation_feasibility": "Medium, as the student lacks frontend experience, which is critical for an image-based system.",
+            "academic_suitability": "High, as it demonstrates application of computer vision and backend architecture.",
+            "industry_value": 7,
+            "portfolio_value": 8,
+            "strengths": [
+                "Strong alignment with student's backend and AI skill set.",
+                "Clear, well-defined problem domain with existing open-source datasets.",
+                "High potential for demonstrating end-to-end cloud deployment skills."
+            ],
+            "challenges": [
+                "Data acquisition and preprocessing for model training.",
+                "Frontend development gap for the user interface.",
+                "Balancing model accuracy with inference latency in a production environment."
+            ],
+            "skills_to_learn": [
+                "Computer Vision libraries (OpenCV, PyTorch/TensorFlow).",
+                "Frontend framework (React or Streamlit for rapid prototyping).",
+                "Cloud deployment (AWS/GCP/Azure) for model hosting."
+            ],
+            "suggestions": [
+                "Use Streamlit for the frontend to minimize development time given the student's beginner status in that area.",
+                "Focus on a single crop type to ensure high model accuracy rather than a broad, shallow system.",
+                "Prioritize the creation of a robust API endpoint before building the UI."
+            ]
+        },
+        "scope": null,
+        "technology": null,
+        "timeline": null,
+        "risk": null
+    },
+    "\nProgramming: Intermediate\nFrontend: Beginner\nBackend: Advanced\nDatabase: Advanced\nAI: Intermediate\nExperience: 0-6 Months\nPreferred Role: AI Engineer\nPreferred Tech: MERN, Python, API\nInterests: Web Development, Cloud Computing, DevOps, Mobile Development\n": {
+        "student_profile": "\nProgramming: Intermediate\nFrontend: Beginner\nBackend: Advanced\nDatabase: Advanced\nAI: Intermediate\nExperience: 0-6 Months\nPreferred Role: AI Engineer\nPreferred Tech: MERN, Python, API\nInterests: Web Development, Cloud Computing, DevOps, Mobile Development\n",
+        "project_idea": "\nTitle: AI Crop Disease Detection System\nDomain: Artificial Intelligence\nDescription: Develop an AI-based system that analyzes crop leaf images to detect diseases at an early stage and recommends suitable treatments for farmers.\nLevel: Advanced\nTeam: Individual\nIdea: \n\nRequirements:\n\n\nPreferred Technologies:\n\n\nProject Type:\n\n\nExpected Duration:\n\n\nAdditional Requirements:\n\n",
         "feasibility": {
             "verdict": "The project is highly feasible and academically sound, provided the scope is strictly limited to a Minimum Viable Product (MVP) within the semester timeframe.",
             "feasibility_score": 8,
@@ -37,134 +307,134 @@
             ],
             "suggestions": [
                 "Prioritize core functionality over aesthetic or secondary features",
-                "Implement a robust authentication system using industry-standard libraries like OAuth2 or JWT",
+                "Implement a robust authentication system early in the development cycle",
                 "Use containerization (Docker) to ensure environment consistency",
-                "Document the API endpoints early using tools like Swagger or Postman to facilitate frontend-backend decoupling"
+                "Adopt an Agile methodology with two-week sprints to track progress effectively"
             ]
         },
         "scope": {
-            "goal": "Develop an AI-powered web application that allows users to upload resumes and job descriptions to receive automated feedback, ATS scoring, and tailored interview preparation questions to improve their job application success.",
+            "goal": "Develop a web-based AI system that allows farmers to upload images of crop leaves to receive an automated disease diagnosis and corresponding treatment recommendations.",
             "core_features": [
-                "User authentication and profile management",
-                "PDF resume upload and text extraction",
-                "Job description input field",
-                "AI-based resume analysis and ATS score calculation",
-                "Generation of personalized interview questions based on resume and job description"
+                "User authentication system",
+                "Image upload interface for leaf analysis",
+                "AI model integration for disease classification",
+                "Database storage for diagnosis history",
+                "Results dashboard displaying disease name and treatment advice"
             ],
             "optional_features": [
-                "Resume improvement suggestions in real-time",
-                "Downloadable PDF report of analysis results",
-                "History of past resume analyses",
-                "Dark mode UI"
+                "User profile management",
+                "Export diagnosis reports as PDF",
+                "Searchable database of common crop diseases"
             ],
             "future_features": [
-                "Integration with LinkedIn API for profile syncing",
-                "Cover letter generation module",
-                "Mock interview video analysis using computer vision",
-                "Multi-language support"
+                "Real-time camera integration for mobile devices",
+                "Community forum for farmers",
+                "Integration with weather APIs for environmental risk assessment",
+                "Multilingual support"
             ],
             "out_of_scope": [
-                "Real-time video mock interview platform",
-                "Direct job application submission to company portals",
-                "Advanced data analytics dashboard for recruiters",
-                "Payment gateway integration"
+                "Hardware integration with IoT sensors",
+                "E-commerce functionality for purchasing treatments",
+                "Social media sharing features",
+                "Advanced data analytics dashboard for agricultural trends"
             ],
             "deliverables": [
-                "Source code repository with documentation",
-                "Functional web application deployed on a cloud platform",
-                "API documentation using Swagger or Postman",
-                "Final project presentation and user manual"
+                "Source code repository",
+                "Trained AI model file",
+                "Technical documentation including API schema",
+                "Project demonstration video",
+                "Final project report"
             ]
         },
         "technology": {
-            "frontend": "React with Tailwind CSS",
+            "frontend": "React",
             "backend": "FastAPI",
             "database": "PostgreSQL",
-            "ai_stack": "LangChain with OpenAI API",
-            "deployment": "Vercel and Render",
-            "architecture": "Decoupled client-server architecture with RESTful API communication",
+            "ai_stack": "PyTorch",
+            "deployment": "Render",
+            "architecture": "Client-Server architecture with a RESTful API separating the React frontend from the Python-based AI inference engine.",
             "recommendations": [
-                "React provides a component-based structure ideal for complex UI forms and data visualization.",
-                "FastAPI is high-performance, beginner-friendly, and natively supports asynchronous Python code for AI tasks.",
-                "PostgreSQL is a robust, industry-standard relational database for managing user data and analysis history.",
-                "LangChain simplifies the integration of LLMs for resume parsing and interview question generation.",
-                "Vercel and Render offer seamless CI/CD pipelines and free tiers perfect for student projects.",
-                "Decoupled architecture allows for independent scaling and easier debugging of the AI logic."
+                "React provides a modern, component-based approach for building the user interface efficiently.",
+                "FastAPI is highly performant for Python-based backends and integrates seamlessly with AI libraries.",
+                "PostgreSQL is a robust, industry-standard relational database for managing user data and diagnosis history.",
+                "PyTorch is the preferred framework for deep learning, offering excellent documentation and community support for image classification tasks.",
+                "Render simplifies deployment for full-stack applications with built-in support for containerized services and database hosting.",
+                "The chosen stack leverages the student's Python expertise while providing a clear path to learn modern web development."
             ]
         },
         "timeline": {
             "estimated_duration": "8 weeks",
             "phases": [
                 {
-                    "title": "Week 1: Project Setup and Requirements",
+                    "title": "Week 1: Project Setup and AI Model Training",
                     "tasks": [
-                        "Initialize GitHub repository and project structure",
-                        "Design database schema for PostgreSQL",
-                        "Set up FastAPI environment and project skeleton",
-                        "Define API endpoints and Swagger documentation"
+                        "Set up development environment and Git repository",
+                        "Collect and preprocess crop leaf image dataset",
+                        "Train initial PyTorch image classification model",
+                        "Validate model accuracy and save model weights"
                     ]
                 },
                 {
-                    "title": "Week 2: Backend Core Development",
+                    "title": "Week 2: Backend Foundation",
                     "tasks": [
-                        "Implement user authentication with JWT",
-                        "Develop PDF text extraction service",
-                        "Integrate LangChain with OpenAI API",
-                        "Create basic resume analysis logic"
+                        "Initialize FastAPI project structure",
+                        "Design PostgreSQL database schema for users and history",
+                        "Implement user authentication and JWT token logic",
+                        "Set up database connection and migrations"
                     ]
                 },
                 {
-                    "title": "Week 3: AI Integration and Logic",
+                    "title": "Week 3: AI Integration and API Development",
                     "tasks": [
-                        "Build ATS scoring algorithm",
-                        "Implement interview question generation module",
-                        "Create API endpoints for analysis results",
-                        "Perform unit testing on backend services"
+                        "Create FastAPI endpoint for image upload",
+                        "Integrate PyTorch model into the backend service",
+                        "Develop logic for disease diagnosis and treatment mapping",
+                        "Test API endpoints using Postman"
                     ]
                 },
                 {
-                    "title": "Week 4: Frontend Foundation",
+                    "title": "Week 4: Frontend Development - Core UI",
                     "tasks": [
                         "Initialize React project with Tailwind CSS",
-                        "Implement user registration and login forms",
-                        "Create dashboard layout",
-                        "Set up API service layer for frontend"
+                        "Build user authentication pages (Login/Register)",
+                        "Create main dashboard layout",
+                        "Implement image upload component"
                     ]
                 },
                 {
-                    "title": "Week 5: Frontend Integration",
+                    "title": "Week 5: Frontend-Backend Integration",
                     "tasks": [
-                        "Build resume upload component",
-                        "Implement job description input form",
-                        "Connect frontend to backend analysis endpoints",
-                        "Display ATS scores and interview questions"
+                        "Connect React frontend to FastAPI authentication endpoints",
+                        "Implement image upload and diagnosis result display",
+                        "Create history view to fetch past diagnoses from database",
+                        "Handle loading states and error messages"
                     ]
                 },
                 {
-                    "title": "Week 6: Testing and Refinement",
+                    "title": "Week 6: Testing and Debugging",
                     "tasks": [
-                        "Conduct integration testing between frontend and backend",
-                        "Perform bug fixing and error handling",
-                        "Optimize UI/UX based on initial feedback",
-                        "Implement loading states and form validation"
+                        "Perform unit testing on backend API functions",
+                        "Conduct integration testing for user workflows",
+                        "Fix UI/UX bugs and responsiveness issues",
+                        "Optimize database queries for history retrieval"
                     ]
                 },
                 {
-                    "title": "Week 7: Deployment and DevOps",
+                    "title": "Week 7: Deployment",
                     "tasks": [
-                        "Configure Docker containers for the application",
-                        "Deploy backend to Render",
-                        "Deploy frontend to Vercel",
-                        "Perform end-to-end testing in production environment"
+                        "Configure Dockerfiles for backend and frontend",
+                        "Set up Render environment for web service and database",
+                        "Deploy application to production environment",
+                        "Perform final smoke testing on live site"
                     ]
                 },
                 {
                     "title": "Week 8: Documentation and Presentation",
                     "tasks": [
-                        "Finalize API documentation",
-                        "Write user manual and README",
-                        "Prepare project presentation slides",
-                        "Conduct final demo and code review"
+                        "Write technical documentation and API schema",
+                        "Prepare project demonstration video",
+                        "Finalize project report and presentation slides",
+                        "Conduct final code review and cleanup"
                     ]
                 }
             ]
@@ -173,34 +443,34 @@
             "overall_risk": "Medium",
             "risks": [
                 {
-                    "risk": "API cost and rate limits for OpenAI",
+                    "risk": "Model overfitting or poor generalization due to limited or low-quality training data.",
                     "severity": "High",
-                    "mitigation": "Implement caching for repeated requests and set strict usage limits on the OpenAI developer dashboard."
+                    "mitigation": "Use data augmentation techniques and pre-trained models (transfer learning) to improve accuracy with smaller datasets."
                 },
                 {
-                    "risk": "Inconsistent PDF text extraction quality",
+                    "risk": "Scope creep during the 8-week timeline leading to incomplete features.",
                     "severity": "Medium",
-                    "mitigation": "Use robust libraries like PyMuPDF or Tika and implement fallback logic for non-standard resume formats."
+                    "mitigation": "Strictly adhere to the defined MVP features and defer all optional/future features to a post-submission phase."
                 },
                 {
-                    "risk": "Scope creep during AI prompt engineering",
+                    "risk": "Integration issues between the React frontend and FastAPI backend, specifically regarding CORS and image handling.",
                     "severity": "Medium",
-                    "mitigation": "Freeze prompt iterations after Week 3 and focus on core ATS scoring logic rather than perfecting conversational nuances."
+                    "mitigation": "Test API endpoints independently using Postman before connecting the frontend; ensure proper CORS middleware configuration in FastAPI."
                 },
                 {
-                    "risk": "Data privacy concerns with user resumes",
+                    "risk": "Deployment failures on Render due to environment configuration or dependency conflicts.",
+                    "severity": "Medium",
+                    "mitigation": "Use Docker to containerize the application early to ensure the production environment matches the development environment."
+                },
+                {
+                    "risk": "Inadequate testing leading to runtime errors during the final demonstration.",
                     "severity": "High",
-                    "mitigation": "Anonymize user data before sending it to the LLM and ensure all uploaded files are deleted from the server after processing."
+                    "mitigation": "Implement basic unit tests for critical API endpoints and perform end-to-end manual testing of the user workflow."
                 },
                 {
-                    "risk": "Frontend-backend integration delays",
-                    "severity": "Medium",
-                    "mitigation": "Define a strict API contract using Swagger/OpenAPI in Week 1 and use mock data to develop frontend components in parallel."
-                },
-                {
-                    "risk": "Deployment environment configuration errors",
+                    "risk": "Performance bottlenecks when processing large image files through the AI inference engine.",
                     "severity": "Low",
-                    "mitigation": "Use Docker containers from the start to ensure parity between local development and production environments."
+                    "mitigation": "Implement image resizing and compression on the client side before uploading to the server."
                 }
             ]
         }

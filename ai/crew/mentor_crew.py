@@ -39,6 +39,32 @@ class MentorCrew:
         feasibility_data = feasibility.pydantic.model_dump()
 
         # ------------------------
+        # Feasibility Decision
+        # ------------------------
+
+        verdict = feasibility_data["verdict"]
+
+        if verdict in ["Rejected", "Needs Clarification"]:
+
+            blueprint = {
+                "student_profile": student_profile,
+                "project_idea": project_idea,
+                "status": verdict,
+                "feasibility": feasibility_data,
+                "scope": None,
+                "technology": None,
+                "timeline": None,
+                "risk": None,
+            }
+
+            blueprint_service.save(
+                student_profile,
+                blueprint
+            )
+
+            return blueprint
+
+        # ------------------------
         # 2. Scope
         # ------------------------
 
@@ -113,14 +139,15 @@ class MentorCrew:
         risk_data = risk.pydantic.model_dump()
 
         blueprint = {
-            "student_profile": student_profile,
-            "project_idea": project_idea,
-            "feasibility": feasibility_data,
-            "scope": scope_data,
-            "technology": technology_data,
-            "timeline": timeline_data,
-            "risk": risk_data,
-        }
+    "student_profile": student_profile,
+    "project_idea": project_idea,
+    "status": "Approved",
+    "feasibility": feasibility_data,
+    "scope": scope_data,
+    "technology": technology_data,
+    "timeline": timeline_data,
+    "risk": risk_data,
+}
 
         blueprint_service.save(
             student_profile,

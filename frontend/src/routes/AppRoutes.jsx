@@ -24,12 +24,62 @@ export default function AppRoutes() {
         <Route path="/loading" element={<LoadingPage />} />
 
         {/* Protected Routes */}
-        <Route path="/dashboard" element={<ProtectedRoute><Dashboard /></ProtectedRoute>} />
-        <Route path="/new-project" element={<ProtectedRoute><NewProject /></ProtectedRoute>} />
-        <Route path="/profile" element={<ProtectedRoute><Profile /></ProtectedRoute>} />
-        <Route path="/settings" element={<ProtectedRoute><Settings /></ProtectedRoute>} />
-        <Route path="/project-dashboard/:id" element={<ProtectedRoute><ProjectDashboard /></ProtectedRoute>} />
-        <Route path="/requirements/:id" element={<ProtectedRoute><Requirements /></ProtectedRoute>} />
+        <Route
+          path="/dashboard"
+          element={
+            <ProtectedRoute>
+              <Dashboard />
+            </ProtectedRoute>
+          }
+        />
+        <Route
+          path="/new-project"
+          element={
+            <ProtectedRoute>
+              <NewProject />
+            </ProtectedRoute>
+          }
+        />
+        <Route
+          path="/profile"
+          element={
+            <ProtectedRoute>
+              <Profile />
+            </ProtectedRoute>
+          }
+        />
+        <Route
+          path="/edit-project/:id"
+          element={
+            <ProtectedRoute>
+              <NewProject />
+            </ProtectedRoute>
+          }
+        />
+        <Route
+          path="/settings"
+          element={
+            <ProtectedRoute>
+              <Settings />
+            </ProtectedRoute>
+          }
+        />
+        <Route
+          path="/project-dashboard/:id"
+          element={
+            <ProtectedRoute>
+              <ProjectDashboard />
+            </ProtectedRoute>
+          }
+        />
+        <Route
+          path="/requirements/:id"
+          element={
+            <ProtectedRoute>
+              <Requirements />
+            </ProtectedRoute>
+          }
+        />
       </Routes>
     </BrowserRouter>
   );

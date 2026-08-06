@@ -1,9 +1,9 @@
-import express from 'express';
-import cors from 'cors';
-import helmet from 'helmet';
-import { requestLogger } from './config/logger.js';
-import { notFoundHandler } from './middleware/notFoundHandler.js';
-import { errorHandler } from './middleware/errorHandler.js';
+import express from "express";
+import cors from "cors";
+import helmet from "helmet";
+import { requestLogger } from "./config/logger.js";
+import { notFoundHandler } from "./middleware/notFoundHandler.js";
+import { errorHandler } from "./middleware/errorHandler.js";
 
 const app = express();
 
@@ -23,17 +23,23 @@ app.use(express.urlencoded({ extended: true }));
 app.use(requestLogger);
 
 // Basic health check route
-app.get('/health', (req, res) => {
-  res.status(200).json({ status: 'OK', message: 'Backend is running correctly.' });
+app.get("/health", (req, res) => {
+  res
+    .status(200)
+    .json({ status: "OK", message: "Backend is running correctly." });
 });
 
-import authRoutes from './routes/authRoutes.js';
-import projectRoutes from './routes/projectRoutes.js';
-import chatRoutes from './routes/chatRoutes.js';
+import authRoutes from "./routes/authRoutes.js";
+import projectRoutes from "./routes/projectRoutes.js";
+import chatRoutes from "./routes/chatRoutes.js";
+import mentorRoutes from "./routes/mentorRoutes.js";
+import progressRoutes from "./routes/progressRoutes.js";
 
-app.use('/api/v1/auth', authRoutes);
-app.use('/api/v1/projects', projectRoutes);
-app.use('/api/v1/chat', chatRoutes);
+app.use("/api/v1/auth", authRoutes);
+app.use("/api/v1/projects", projectRoutes);
+app.use("/api/v1/chat", chatRoutes);
+app.use("/api/v1/mentor", mentorRoutes);
+app.use("/api/v1/progress", progressRoutes);
 
 // Handle unknown routes
 app.use(notFoundHandler);

@@ -18,7 +18,7 @@ export default function EmptyBlueprint({ onGenerate, generating }) {
         <Feature text="Project Scope" />
         <Feature text="Technology Recommendation" />
         <Feature text="Development Timeline" />
-        <Feature text="Risk Assessment" />
+        <Feature text="Risk Assessment & Mitigation" />
         <Feature text="Implementation Suggestions" />
       </div>
 

@@ -49,7 +49,27 @@ export class ProjectService {
   static async updateProject(projectId, ownerId, updateData) {
     await this.getProjectById(projectId, ownerId);
 
-    return ProjectRepository.updateById(projectId, updateData);
+    const allowedUpdates = {
+      title: updateData.title,
+      description: updateData.description,
+      domain: updateData.domain,
+      level: updateData.level,
+      team: updateData.team,
+      idea: updateData.idea,
+      requirements: updateData.requirements,
+      preferredTech: updateData.preferredTech,
+      projectType: updateData.projectType,
+      expectedDuration: updateData.expectedDuration,
+      additionalRequirements: updateData.additionalRequirements,
+    };
+
+    Object.keys(allowedUpdates).forEach((key) => {
+      if (allowedUpdates[key] === undefined) {
+        delete allowedUpdates[key];
+      }
+    });
+
+    return ProjectRepository.updateById(projectId, allowedUpdates);
   }
 
   /**

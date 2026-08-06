@@ -2,6 +2,8 @@ import { ChatService } from "../services/chatService.js";
 import { successResponse } from "../utils/response.js";
 
 export const addMessage = async (req, res, next) => {
+  console.log("====== CHAT CONTROLLER ======");
+  console.log(req.body);
   try {
     const { projectId } = req.params;
     const { userMessage, aiMessage } = await ChatService.addMessage(

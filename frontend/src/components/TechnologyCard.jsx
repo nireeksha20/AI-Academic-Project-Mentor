@@ -15,7 +15,7 @@ export default function TechnologyCard({ data }) {
     <div className="rounded-3xl border border-white/10 bg-slate-900/60 p-8 transition-all duration-300 hover:-translate-y-1 hover:border-cyan-500/40 hover:shadow-2xl">
       <h2 className="mb-8 flex items-center gap-3 border-b border-violet-500/20 pb-5 text-3xl font-bold">
         <Database className="text-cyan-400" />
-        Technology Recommendation
+        Technology Recommendations
       </h2>
 
       <div className="grid gap-5 md:grid-cols-2">

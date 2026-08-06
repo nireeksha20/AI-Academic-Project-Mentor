@@ -1,5 +1,5 @@
-import { useState } from "react";
-import { useNavigate } from "react-router-dom";
+import { useEffect, useState } from "react";
+import { useNavigate, useParams } from "react-router-dom";
 import { projectService } from "../services/projectService";
 import {
   Sparkles,
@@ -12,6 +12,9 @@ import {
 
 export default function NewProject() {
   const navigate = useNavigate();
+  const { id } = useParams();
+
+  const isEdit = Boolean(id);
   const [project, setProject] = useState({
     title: "",
     domain: "",
@@ -21,6 +24,31 @@ export default function NewProject() {
   });
 
   const [loading, setLoading] = useState(false);
+
+  useEffect(() => {
+    if (!isEdit) return;
+
+    async function loadProject() {
+      try {
+        const response = await projectService.getProjectById(id);
+
+        const p = response.data.project;
+
+        setProject({
+          title: p.title,
+          domain: p.domain,
+          level: p.level,
+          team: p.team,
+          description: p.description,
+        });
+      } catch (err) {
+        console.error(err);
+        alert("Unable to load project.");
+      }
+    }
+
+    loadProject();
+  }, [id, isEdit]);
 
   const handleChange = (e) => {
     setProject({
@@ -48,36 +76,38 @@ export default function NewProject() {
 
     setLoading(true);
 
-      try {
-        const response = await projectService.createProject({
-          title: project.title,
-          domain: project.domain,
-          level: project.level,
-          team: project.team,
-          description: project.description,
-        });
+    try {
+      if (isEdit) {
+        await projectService.updateProject(id, project);
 
-        const newProject = response.data?.project;
-        if (newProject?._id) {
-          navigate(`/requirements/${newProject._id}`);
-        } else {
-          throw new Error("Project ID not found in response.");
-        }
-      } catch (error) {
-      console.error("Failed to create project:", error);
-      alert(error.response?.data?.message || "Failed to create project");
+        alert("Project updated successfully.");
+
+        navigate(`/project-dashboard/${id}`);
+
+        return;
+      }
+
+      const response = await projectService.createProject(project);
+
+      const newProject = response.data.project;
+
+      navigate(`/requirements/${newProject._id}`);
+    } catch (error) {
+      console.error(error);
+
+      alert(error.response?.data?.message || "Something went wrong");
     } finally {
       setLoading(false);
     }
   }
 
   const suggestions = [
-    "AI Academic Project Mentor",
-    "Smart Attendance System",
-    "AI Resume Analyzer",
-    "Campus Placement Portal",
-    "Hospital Management System",
-    "Food Waste Management",
+    "Smart Crop Disease Detection",
+    "AI Resume Screening System",
+    "Smart Parking Management",
+    "Water Quality Monitoring",
+    "Library Management Portal",
+    "Phishing Email Detection",
   ];
 
   return (
@@ -88,10 +118,12 @@ export default function NewProject() {
         <div className="mb-12 flex items-center justify-between">
           <div>
             <p className="text-cyan-400 font-semibold uppercase tracking-widest">
-              New Project
+              {isEdit ? "Edit Project" : "New Project"}
             </p>
 
-            <h1 className="mt-3 text-5xl font-bold">Create Your AI Project</h1>
+            <h1 className="mt-3 text-5xl font-bold">
+              {isEdit ? "Edit Project" : "Create Your AI Project"}
+            </h1>
 
             <p className="mt-4 max-w-2xl text-lg text-slate-400">
               Describe your software idea and let AI generate a complete
@@ -126,7 +158,7 @@ export default function NewProject() {
                 required
                 value={project.title}
                 onChange={handleChange}
-                placeholder="AI Academic Project Mentor"
+                placeholder="Smart Crop Disease Detection System"
                 className="w-full bg-transparent py-4 outline-none text-white placeholder:text-slate-500"
               />
             </div>
@@ -214,7 +246,7 @@ export default function NewProject() {
               value={project.description}
               onChange={handleChange}
               placeholder="Example:
-Develop an AI-powered mentor that guides students through software project development by generating architecture, roadmap, database schema and implementation steps."
+Develop an AI-powered crop disease detection system that allows farmers to upload leaf images, identifies plant diseases using deep learning, recommends suitable treatments, and provides crop health analytics through a web dashboard."
               className="mb-8 w-full rounded-xl border border-white/10 bg-slate-950/60 p-4 text-white outline-none placeholder:text-slate-500"
             />
 
@@ -251,7 +283,13 @@ Develop an AI-powered mentor that guides students through software project devel
             >
               <BrainCircuit size={22} />
 
-              {loading ? "Generating..." : "Generate AI Blueprint"}
+              {loading
+                ? isEdit
+                  ? "Saving..."
+                  : "Generating..."
+                : isEdit
+                  ? "Save Changes"
+                  : "Generate AI Blueprint"}
 
               <ArrowRight size={18} />
             </button>
