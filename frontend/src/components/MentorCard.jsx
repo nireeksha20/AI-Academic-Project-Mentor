@@ -9,16 +9,46 @@ export default function MentorCard({ projectId }) {
 
   const [messages, setMessages] = useState([
     {
-      role: "assistant",
-      content:
+      sender: "ai",
+      message:
         "Hello! I'm your AI Faculty Mentor. Ask me anything about your project implementation, debugging, planning, architecture or deployment.",
     },
   ]);
-  const [isFetching, setIsFetching] = useState(true);
 
   const bottomRef = useRef(null);
 
   const chatContainerRef = useRef(null);
+
+  async function loadHistory() {
+    try {
+      const token = localStorage.getItem("token");
+
+      const res = await fetch(
+        `http://localhost:5000/api/v1/chat/${projectId}`,
+        {
+          headers: {
+            Authorization: `Bearer ${token}`,
+          },
+        },
+      );
+
+      const data = await res.json();
+
+      if (!data.success) return;
+
+      const history = data.data.history;
+
+      console.log(history);
+
+      if (history.length > 0) {
+        setMessages(history);
+      } else {
+        setMessages([greeting]);
+      }
+    } catch (err) {
+      console.error(err);
+    }
+  }
 
   useEffect(() => {
     if (!chatContainerRef.current) return;
@@ -28,31 +58,6 @@ export default function MentorCard({ projectId }) {
       behavior: "smooth",
     });
   }, [messages]);
-
-  useEffect(() => {
-    const fetchHistory = async () => {
-      try {
-        setIsFetching(true);
-        const token = localStorage.getItem("token");
-        const res = await fetch(`http://localhost:5000/api/v1/chat/${projectId}`, {
-          headers: {
-            Authorization: `Bearer ${token}`,
-          },
-        });
-        const data = await res.json();
-        if (data.success && data.data.history && data.data.history.length > 0) {
-          setMessages(data.data.history);
-        }
-      } catch (error) {
-        console.error("Failed to load history", error);
-      } finally {
-        setIsFetching(false);
-      }
-    };
-    if (projectId) {
-      fetchHistory();
-    }
-  }, [projectId]);
 
   const askMentor = async () => {
     if (!question.trim()) return;
@@ -150,51 +155,54 @@ export default function MentorCard({ projectId }) {
                     : "rounded-bl-md border border-white/10 bg-slate-800 text-slate-100"
                 }`}
               >
-              <ReactMarkdown
-                remarkPlugins={[remarkGfm]}
-                components={{
-                  p: ({ children }) => (
-                    <p className="mb-3 leading-7">{children}</p>
-                  ),
+                <ReactMarkdown
+                  remarkPlugins={[remarkGfm]}
+                  components={{
+                    p: ({ children }) => (
+                      <p className="mb-3 leading-7">{children}</p>
+                    ),
 
-                  ul: ({ children }) => (
-                    <ul className="ml-6 list-disc space-y-2">{children}</ul>
-                  ),
+                    ul: ({ children }) => (
+                      <ul className="ml-6 list-disc space-y-2">{children}</ul>
+                    ),
 
-                  ol: ({ children }) => (
-                    <ol className="ml-6 list-decimal space-y-2">{children}</ol>
-                  ),
+                    ol: ({ children }) => (
+                      <ol className="ml-6 list-decimal space-y-2">
+                        {children}
+                      </ol>
+                    ),
 
-                  li: ({ children }) => <li>{children}</li>,
+                    li: ({ children }) => <li>{children}</li>,
 
-                  code({ inline, children }) {
-                    if (inline) {
+                    code({ inline, children }) {
+                      if (inline) {
+                        return (
+                          <code className="rounded bg-slate-900 px-1 py-0.5 text-cyan-300">
+                            {children}
+                          </code>
+                        );
+                      }
+
                       return (
-                        <code className="rounded bg-slate-900 px-1 py-0.5 text-cyan-300">
-                          {children}
-                        </code>
+                        <pre className="overflow-x-auto rounded-xl bg-slate-950 p-4">
+                          <code>{children}</code>
+                        </pre>
                       );
-                    }
-
-                    return (
-                      <pre className="overflow-x-auto rounded-xl bg-slate-950 p-4">
-                        <code>{children}</code>
-                      </pre>
-                    );
-                  },
-                }}
-              >
-                {msg.content}
-              </ReactMarkdown>
-            </div>
-
-            {msg.role === "user" && (
-              <div className="flex h-10 w-10 items-center justify-center rounded-full bg-slate-700">
-                <User size={20} />
+                    },
+                  }}
+                >
+                  {msg.content}
+                </ReactMarkdown>
               </div>
-            )}
-          </div>
-        )))}
+
+              {msg.role === "user" && (
+                <div className="flex h-10 w-10 items-center justify-center rounded-full bg-slate-700">
+                  <User size={20} />
+                </div>
+              )}
+            </div>
+          ))
+        )}
 
         {loading && (
           <div className="flex items-center gap-3">
