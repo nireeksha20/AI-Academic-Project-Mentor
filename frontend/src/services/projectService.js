@@ -46,4 +46,17 @@ export const projectService = {
 
     return response.data;
   },
+
+  // Generate on-demand documentation (synopsis / methodology / progress_report)
+  async generateDocumentation(projectId, docType) {
+    const response = await api.post(
+      `/projects/${projectId}/generate-documentation`,
+      { docType },
+    );
+    return response.data;
+  },
+  
 };
+
+export const generateDocumentation = (projectId, docType) =>
+  api.post(`/projects/${projectId}/generate-documentation`, { docType });
