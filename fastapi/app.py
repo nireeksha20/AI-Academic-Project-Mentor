@@ -114,3 +114,24 @@ def mentor_chat(data: MentorRequest):
 @app.get("/blueprints")
 def get_blueprints():
     return blueprint_service.get_all()
+
+
+class DocumentationRequest(BaseModel):
+    student_profile: str
+    blueprint: str
+    progress: Optional[str] = ""
+    doc_type: str  # "synopsis" | "methodology" | "progress_report"
+
+@app.post("/generate-documentation")
+def generate_documentation(data: DocumentationRequest):
+    try:
+        content = crew.generate_documentation(
+            student_profile=data.student_profile,
+            blueprint=data.blueprint,
+            progress=data.progress,
+            doc_type=data.doc_type,
+        )
+        return {"content": content, "doc_type": data.doc_type}
+    except Exception as e:
+        import traceback; traceback.print_exc()
+        raise
