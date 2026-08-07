@@ -84,23 +84,22 @@ Additional Requirements:
 ${project.additionalRequirements}
 `;
 
-    const history = await ChatRepository.findByProjectId(projectId);
+    const chatDoc = await ChatRepository.findByProjectId(projectId);
+    const history = chatDoc?.messages || [];
 
     const recentMessages = history.slice(-40);
 
     const progress = recentMessages
       .map(
         (msg) =>
-          `${msg.sender === "ai" ? "Mentor" : "Student"}: ${msg.message}`,
+          `${msg.role === "assistant" ? "Mentor" : "Student"}: ${msg.content}`,
       )
       .join("\n");
 
-    const userMessage = await ChatRepository.createMessage({
-      projectId,
-      userId,
-      sender: "user",
-      message: messageData.message,
-    });
+    const userMessageData = {
+      role: "user",
+      content: messageData.content,
+    };
 
     const projectBlueprint = await ProjectRepository.getBlueprint(projectId);
 
@@ -110,7 +109,7 @@ ${project.additionalRequirements}
     // -----------------------------
     // Quick Responses (No AI Call)
     // -----------------------------
-    const question = messageData.message.trim().toLowerCase();
+    const question = messageData.content.trim().toLowerCase();
 
     const quickReplies = {
       hello: "Hi! 👋 How can I help you with your project today?",
@@ -145,23 +144,23 @@ ${project.additionalRequirements}
     if (quickReplies[normalized] || quickReplies[question]) {
       const reply = quickReplies[normalized] || quickReplies[question];
 
-      const aiMessage = await ChatRepository.createMessage({
-        projectId,
-        userId,
-        sender: "ai",
-        message: reply,
-      });
+      const aiMessageData = {
+        role: "assistant",
+        content: reply,
+      };
+
+      const addedMessages = await ChatRepository.addMessagesToChat(projectId, userId, [userMessageData, aiMessageData]);
 
       return {
-        userMessage,
-        aiMessage,
+        userMessage: addedMessages[0],
+        aiMessage: addedMessages[1],
       };
     }
 
     const formattedBlueprint = summarizeBlueprint(projectBlueprint);
 
     const payload = {
-      question: messageData.message.trim(),
+      question: messageData.content.trim(),
       response_style: "chat",
       first_message: history.length === 0,
     };
@@ -255,9 +254,9 @@ ${project.additionalRequirements}
 
 Previous assistant response:
 ${history
-  .filter((m) => m.sender === "ai")
+  .filter((m) => m.role === "assistant")
   .slice(-1)
-  .map((m) => m.message)
+  .map((m) => m.content)
   .join("\n")}
 
 Recent conversation:
@@ -279,16 +278,16 @@ ${progress}`;
     const mentor = await AIGatewayService.mentorChat(payload);
 
     // Save AI reply
-    const aiMessage = await ChatRepository.createMessage({
-      projectId,
-      userId,
-      sender: "ai",
-      message: mentor.response,
-    });
+    const aiMessageData = {
+      role: "assistant",
+      content: mentor.response,
+    };
+    
+    const addedMessages = await ChatRepository.addMessagesToChat(projectId, userId, [userMessageData, aiMessageData]);
 
     return {
-      userMessage,
-      aiMessage,
+      userMessage: addedMessages[0],
+      aiMessage: addedMessages[1],
     };
   }
 
@@ -299,7 +298,8 @@ ${progress}`;
     // Ensure the user owns the project
     await ProjectService.getProjectById(projectId, userId);
 
-    return ChatRepository.findByProjectId(projectId);
+    const chatDoc = await ChatRepository.findByProjectId(projectId);
+    return chatDoc?.messages || [];
   }
 
   /**

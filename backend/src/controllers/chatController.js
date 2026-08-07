@@ -12,7 +12,7 @@ export const addMessage = async (req, res, next) => {
       req.body,
     );
 
-    return successResponse(res, 201, "Message added", {
+    return successResponse(res, 201, "Message saved", {
       userMessage,
       aiMessage,
     });

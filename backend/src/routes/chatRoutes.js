@@ -21,8 +21,8 @@ const handleValidationErrors = (req, res, next) => {
 };
 
 const messageValidation = [
-  body('message').trim().notEmpty().withMessage('Message content is required'),
-  body('sender').optional().isIn(['user', 'ai']).withMessage('Sender must be user or ai'),
+  body('content').trim().notEmpty().withMessage('Message content is required'),
+  body('role').optional().isIn(['user', 'assistant']).withMessage('Role must be user or assistant'),
   handleValidationErrors,
 ];
 

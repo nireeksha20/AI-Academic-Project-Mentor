@@ -1,34 +1,38 @@
 import mongoose from 'mongoose';
 
+const messageSchema = new mongoose.Schema({
+  role: {
+    type: String,
+    enum: ['user', 'assistant'],
+    required: true,
+  },
+  content: {
+    type: String,
+    required: true,
+  },
+  timestamp: {
+    type: Date,
+    default: Date.now,
+  },
+});
+
 const chatSchema = new mongoose.Schema(
   {
     projectId: {
       type: mongoose.Schema.Types.ObjectId,
       ref: 'Project',
       required: true,
-      index: true,
+      unique: true,
     },
     userId: {
       type: mongoose.Schema.Types.ObjectId,
       ref: 'User',
       required: true,
     },
-    sender: {
-      type: String,
-      enum: ['user', 'ai'],
-      required: true,
-    },
-    message: {
-      type: String,
-      required: true,
-    },
-    timestamp: {
-      type: Date,
-      default: Date.now,
-    },
+    messages: [messageSchema],
   },
   {
-    timestamps: true, // Will add createdAt and updatedAt as well
+    timestamps: true, // Will add createdAt and updatedAt to the main document
   }
 );
 

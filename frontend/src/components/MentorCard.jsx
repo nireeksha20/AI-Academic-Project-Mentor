@@ -9,11 +9,12 @@ export default function MentorCard({ projectId }) {
 
   const [messages, setMessages] = useState([
     {
-      sender: "ai",
-      message:
+      role: "assistant",
+      content:
         "Hello! I'm your AI Faculty Mentor. Ask me anything about your project implementation, debugging, planning, architecture or deployment.",
     },
   ]);
+  const [isFetching, setIsFetching] = useState(true);
 
   const bottomRef = useRef(null);
 
@@ -28,12 +29,37 @@ export default function MentorCard({ projectId }) {
     });
   }, [messages]);
 
+  useEffect(() => {
+    const fetchHistory = async () => {
+      try {
+        setIsFetching(true);
+        const token = localStorage.getItem("token");
+        const res = await fetch(`http://localhost:5000/api/v1/chat/${projectId}`, {
+          headers: {
+            Authorization: `Bearer ${token}`,
+          },
+        });
+        const data = await res.json();
+        if (data.success && data.data.history && data.data.history.length > 0) {
+          setMessages(data.data.history);
+        }
+      } catch (error) {
+        console.error("Failed to load history", error);
+      } finally {
+        setIsFetching(false);
+      }
+    };
+    if (projectId) {
+      fetchHistory();
+    }
+  }, [projectId]);
+
   const askMentor = async () => {
     if (!question.trim()) return;
 
     const userMessage = {
-      sender: "user",
-      message: question,
+      role: "user",
+      content: question,
     };
 
     setMessages((prev) => [...prev, userMessage]);
@@ -56,7 +82,7 @@ export default function MentorCard({ projectId }) {
             Authorization: `Bearer ${token}`,
           },
           body: JSON.stringify({
-            message: currentQuestion,
+            content: currentQuestion,
           }),
         },
       );
@@ -67,16 +93,16 @@ export default function MentorCard({ projectId }) {
         setMessages((prev) => [
           ...prev,
           {
-            sender: "ai",
-            message: data.data.aiMessage.message,
+            role: "assistant",
+            content: data.data.aiMessage.content,
           },
         ]);
       } else {
         setMessages((prev) => [
           ...prev,
           {
-            sender: "ai",
-            message: "Unable to generate a response.",
+            role: "assistant",
+            content: "Unable to generate a response.",
           },
         ]);
       }
@@ -84,8 +110,8 @@ export default function MentorCard({ projectId }) {
       setMessages((prev) => [
         ...prev,
         {
-          sender: "ai",
-          message: "Server error.",
+          role: "assistant",
+          content: "Server error.",
         },
       ]);
     } finally {
@@ -99,26 +125,31 @@ export default function MentorCard({ projectId }) {
         ref={chatContainerRef}
         className="h-[550px] overflow-y-auto rounded-3xl border border-white/10 bg-slate-950/80 p-6 space-y-6"
       >
-        {messages.map((msg, index) => (
-          <div
-            key={index}
-            className={`flex items-end gap-3 ${
-              msg.sender === "user" ? "justify-end" : "justify-start"
-            }`}
-          >
-            {msg.sender === "ai" && (
-              <div className="flex h-10 w-10 items-center justify-center rounded-full bg-cyan-500 text-black">
-                <Bot size={20} />
-              </div>
-            )}
-
+        {isFetching ? (
+          <div className="flex h-full items-center justify-center">
+            <LoaderCircle className="animate-spin text-cyan-400" size={32} />
+          </div>
+        ) : (
+          messages.map((msg, index) => (
             <div
-              className={`max-w-[75%] rounded-3xl px-5 py-4 whitespace-pre-wrap leading-7 shadow-lg ${
-                msg.sender === "user"
-                  ? "rounded-br-md bg-cyan-500 text-black"
-                  : "rounded-bl-md border border-white/10 bg-slate-800 text-slate-100"
+              key={index}
+              className={`flex items-end gap-3 ${
+                msg.role === "user" ? "justify-end" : "justify-start"
               }`}
             >
+              {msg.role === "assistant" && (
+                <div className="flex h-10 w-10 items-center justify-center rounded-full bg-cyan-500 text-black">
+                  <Bot size={20} />
+                </div>
+              )}
+
+              <div
+                className={`max-w-[75%] rounded-3xl px-5 py-4 whitespace-pre-wrap leading-7 shadow-lg ${
+                  msg.role === "user"
+                    ? "rounded-br-md bg-cyan-500 text-black"
+                    : "rounded-bl-md border border-white/10 bg-slate-800 text-slate-100"
+                }`}
+              >
               <ReactMarkdown
                 remarkPlugins={[remarkGfm]}
                 components={{
@@ -153,17 +184,17 @@ export default function MentorCard({ projectId }) {
                   },
                 }}
               >
-                {msg.message}
+                {msg.content}
               </ReactMarkdown>
             </div>
 
-            {msg.sender === "user" && (
+            {msg.role === "user" && (
               <div className="flex h-10 w-10 items-center justify-center rounded-full bg-slate-700">
                 <User size={20} />
               </div>
             )}
           </div>
-        ))}
+        )))}
 
         {loading && (
           <div className="flex items-center gap-3">
