@@ -1,5 +1,6 @@
 import { Link } from "react-router-dom";
 import { useEffect, useState } from "react";
+import ReactMarkdown from "react-markdown";
 import {
   ArrowLeft,
   CheckCircle2,
@@ -28,6 +29,23 @@ export default function ProjectDashboard() {
   const [project, setProject] = useState(null);
   const [blueprint, setBlueprint] = useState(null);
   const [generating, setGenerating] = useState(false);
+  const [docType, setDocType] = useState(null);
+  const [docContent, setDocContent] = useState(null);
+  const [docLoading, setDocLoading] = useState(false);
+
+  const handleGenerateDocumentation = async (type) => {
+  try {
+    setDocLoading(true);
+    setDocType(type);
+    const res = await projectService.generateDocumentation(project._id, type);
+    setDocContent(res.data.doc.content);
+  } catch (err) {
+    console.error(err);
+    alert("Failed to generate documentation.");
+  } finally {
+    setDocLoading(false);
+  }
+};
 
   const handleGenerateBlueprint = async () => {
     try {
@@ -283,6 +301,38 @@ export default function ProjectDashboard() {
               </p>
             </div>
           </Card>
+
+          {/* Documents */}
+<Card title="Project Documents" icon={<BrainCircuit size={22} />}>
+  {blueprint ? (
+    <div className="space-y-3">
+      {["synopsis", "methodology", "progress_report"].map((type) => (
+        <button
+          key={type}
+          onClick={() => handleGenerateDocumentation(type)}
+          disabled={docLoading}
+          className="flex w-full items-center justify-between rounded-xl border border-cyan-400/20 bg-cyan-500/5 px-4 py-3 transition hover:border-cyan-400 disabled:opacity-50"
+        >
+          <span className="capitalize">
+            {docLoading && docType === type
+              ? "Generating..."
+              : `📘 ${type.replace("_", " ")}`}
+          </span>
+        </button>
+      ))}
+
+      {docContent && (
+        <div className="mt-4 rounded-xl border border-white/10 bg-slate-950/50 p-6 prose prose-invert max-w-none">
+          <ReactMarkdown>{docContent}</ReactMarkdown>
+        </div>
+      )}
+    </div>
+  ) : (
+    <div className="rounded-xl border border-dashed border-white/10 p-6 text-center text-slate-400">
+      Generate an AI Blueprint to unlock project documents.
+    </div>
+  )}
+</Card>
           {/* Documents */}
           {/* <Card title="Project Documents" icon={<FileText size={22} />}>
             {blueprint ? (
