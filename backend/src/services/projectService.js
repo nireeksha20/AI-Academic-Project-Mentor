@@ -1,6 +1,7 @@
 import { ProjectRepository } from "../repositories/projectRepository.js";
 import User from "../models/User.js";
 import { AIGatewayService } from "./aiGatewayService.js";
+import { ProgressRepository } from "../repositories/progressRepository.js";
 
 export class ProjectService {
   /**
@@ -25,6 +26,30 @@ export class ProjectService {
   /**
    * Get a specific project, ensuring the user owns it
    */
+
+
+// inside class ProjectService
+  static async generateDocumentation(projectId, ownerId, docType) {
+    const project = await this.getProjectById(projectId, ownerId);
+
+  if (!project.blueprint) {
+    const err = new Error("Generate a blueprint before generating documentation");
+    err.statusCode = 400;
+    throw err;
+  }
+
+  const progressDoc = docType === "progress_report"
+    ? await ProgressRepository.findByProject(projectId)
+    : null;
+
+  return AIGatewayService.generateDocumentation({
+    studentProfile: "", // reuse the same string-building logic as generateBlueprint if you want it accurate
+    blueprint: JSON.stringify(project.blueprint),
+    progress: progressDoc ? JSON.stringify(progressDoc) : "",
+    docType,
+  });
+}
+
   static async getProjectById(projectId, ownerId) {
     const project = await ProjectRepository.findById(projectId);
 
