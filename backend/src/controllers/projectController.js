@@ -23,6 +23,20 @@ export const getProjects = async (req, res, next) => {
   }
 };
 
+
+export const generateDocumentation = async (req, res, next) => {
+  try {
+    const doc = await ProjectService.generateDocumentation(
+      req.params.id,
+      req.user.id,
+      req.body.docType,
+    );
+    return successResponse(res, 200, "Documentation generated successfully", { doc });
+  } catch (error) {
+    next(error);
+  }
+};
+
 export const getProject = async (req, res, next) => {
   try {
     const project = await ProjectService.getProjectById(
