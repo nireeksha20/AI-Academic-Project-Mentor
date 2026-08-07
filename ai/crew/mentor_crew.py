@@ -5,6 +5,7 @@ from ai.agents.scope_agent import create_scope
 from ai.agents.tech_stack_agent import create_tech_stack
 from ai.agents.timeline_agent import create_timeline
 from ai.agents.risk_agent import create_risk
+from ai.agents.documentation_agent import create_documentation
 
 from ai.services.blueprint_service import blueprint_service
 
@@ -18,6 +19,17 @@ class MentorCrew:
         self.tech_agent, self.tech_task = create_tech_stack()
         self.timeline_agent, self.timeline_task = create_timeline()
         self.risk_agent, self.risk_task = create_risk()
+
+    def generate_documentation(self, student_profile, blueprint, progress, doc_type):
+        agent, task = create_documentation(doc_type)
+        result = Crew(agents=[agent], tasks=[task], verbose=True).kickoff(
+            inputs={
+                "student_profile": student_profile,
+                "blueprint": blueprint,
+                "progress": progress or "Not applicable",
+            }
+        )
+        return result.raw
 
     def generate_blueprint(self, student_profile, project_idea):
 
