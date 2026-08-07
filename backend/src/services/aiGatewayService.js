@@ -31,7 +31,29 @@ export class AIGatewayService {
 
       throw error;
     }
+    
   }
+
+  static async generateDocumentation(payload) {
+  try {
+    const { data } = await api.post("/generate-documentation", {
+      student_profile: payload.studentProfile,
+      blueprint: payload.blueprint,
+      progress: payload.progress,
+      doc_type: payload.docType,
+    });
+    return data;
+  } catch (error) {
+    console.error("========== DOCUMENTATION ERROR ==========");
+    if (error.response) {
+      console.error("Status:", error.response.status);
+      console.error("Data:", error.response.data);
+    } else {
+      console.error(error);
+    }
+    throw error;
+  }
+}
 
   static async mentorChat(payload) {
     console.log("========== PAYLOAD TO FASTAPI ==========");
