@@ -7,6 +7,7 @@ import {
   deleteProject,
   generateBlueprint,
   getBlueprint,
+  generateDocumentation,   // add this
 } from "../controllers/projectController.js";
 import { protect } from "../middleware/authMiddleware.js";
 import {
@@ -29,7 +30,7 @@ router
   .delete(projectIdValidation, deleteProject);
 
 router.post("/:id/generate-blueprint", projectIdValidation, generateBlueprint);
-
+router.post("/:id/generate-documentation", projectIdValidation, generateDocumentation);
 router.get("/:id/blueprint", projectIdValidation, getBlueprint);
 
 export default router;
