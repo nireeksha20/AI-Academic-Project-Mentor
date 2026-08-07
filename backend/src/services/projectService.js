@@ -1,6 +1,7 @@
 import { ProjectRepository } from "../repositories/projectRepository.js";
 import User from "../models/User.js";
 import { AIGatewayService } from "./aiGatewayService.js";
+
 import { ProgressRepository } from "../repositories/progressRepository.js";
 
 export class ProjectService {
@@ -39,8 +40,8 @@ export class ProjectService {
   }
 
   const progressDoc = docType === "progress_report"
-    ? await ProgressRepository.findByProject(projectId)
-    : null;
+  ? await ProgressRepository.find(projectId)
+  : null;
 
   return AIGatewayService.generateDocumentation({
     studentProfile: "", // reuse the same string-building logic as generateBlueprint if you want it accurate
