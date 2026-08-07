@@ -1,10 +1,14 @@
-import express from 'express';
-import { addMessage, getHistory, clearHistory } from '../controllers/chatController.js';
-import { protect } from '../middleware/authMiddleware.js';
-import { chatProjectIdValidation } from '../validators/projectValidator.js';
-import { body } from 'express-validator';
-import { errorResponse } from '../utils/response.js';
-import { validationResult } from 'express-validator';
+import express from "express";
+import {
+  addMessage,
+  getHistory,
+  clearHistory,
+} from "../controllers/chatController.js";
+import { protect } from "../middleware/authMiddleware.js";
+import { chatProjectIdValidation } from "../validators/projectValidator.js";
+import { body } from "express-validator";
+import { errorResponse } from "../utils/response.js";
+import { validationResult } from "express-validator";
 
 const router = express.Router({ mergeParams: true }); // Merge params to get :projectId if mounted differently
 
@@ -15,14 +19,19 @@ const handleValidationErrors = (req, res, next) => {
       field: err.path,
       message: err.msg,
     }));
-    return errorResponse(res, 400, 'Validation Error', formattedErrors);
+    return errorResponse(res, 400, "Validation Error", formattedErrors);
   }
   next();
 };
 
 const messageValidation = [
-  body('content').trim().notEmpty().withMessage('Message content is required'),
-  body('role').optional().isIn(['user', 'assistant']).withMessage('Role must be user or assistant'),
+  body("content").trim().notEmpty().withMessage("Message content is required"),
+
+  body("role")
+    .optional()
+    .isIn(["user", "assistant"])
+    .withMessage("Sender must be user or ai"),
+
   handleValidationErrors,
 ];
 
@@ -30,7 +39,7 @@ const messageValidation = [
 router.use(protect);
 
 router
-  .route('/:projectId')
+  .route("/:projectId")
   .post(chatProjectIdValidation, messageValidation, addMessage)
   .get(chatProjectIdValidation, getHistory)
   .delete(chatProjectIdValidation, clearHistory);

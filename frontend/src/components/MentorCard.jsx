@@ -6,14 +6,15 @@ import remarkGfm from "remark-gfm";
 export default function MentorCard({ projectId }) {
   const [question, setQuestion] = useState("");
   const [loading, setLoading] = useState(false);
+  const [isFetching, setIsFetching] = useState(true);
 
-  const [messages, setMessages] = useState([
-    {
-      sender: "ai",
-      message:
-        "Hello! I'm your AI Faculty Mentor. Ask me anything about your project implementation, debugging, planning, architecture or deployment.",
-    },
-  ]);
+  const greeting = {
+    role: "assistant",
+    content:
+      "Hello! I'm your AI Faculty Mentor. Ask me anything about your project implementation, debugging, planning, architecture or deployment.",
+  };
+
+  const [messages, setMessages] = useState([greeting]);
 
   const bottomRef = useRef(null);
 
@@ -49,6 +50,16 @@ export default function MentorCard({ projectId }) {
       console.error(err);
     }
   }
+
+  useEffect(() => {
+    if (!projectId) return;
+
+    setIsFetching(true);
+
+    loadHistory().finally(() => {
+      setIsFetching(false);
+    });
+  }, [projectId]);
 
   useEffect(() => {
     if (!chatContainerRef.current) return;
@@ -107,7 +118,7 @@ export default function MentorCard({ projectId }) {
           ...prev,
           {
             role: "assistant",
-            content: "Unable to generate a response.",
+            message: "Unable to generate a response.",
           },
         ]);
       }
@@ -115,8 +126,8 @@ export default function MentorCard({ projectId }) {
       setMessages((prev) => [
         ...prev,
         {
-          role: "assistant",
-          content: "Server error.",
+          sender: "ai",
+          message: "Unable to generate a response.",
         },
       ]);
     } finally {
@@ -142,7 +153,7 @@ export default function MentorCard({ projectId }) {
                 msg.role === "user" ? "justify-end" : "justify-start"
               }`}
             >
-              {msg.role === "assistant" && (
+              {msg.role === "ai" && (
                 <div className="flex h-10 w-10 items-center justify-center rounded-full bg-cyan-500 text-black">
                   <Bot size={20} />
                 </div>

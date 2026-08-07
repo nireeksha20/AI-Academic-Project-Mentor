@@ -53,18 +53,20 @@ export class ChatService {
 
     // Build student profile
     const studentProfile = `
-Domain: ${project.domain}
-Difficulty: ${project.level}
-Team: ${project.team}
-Preferred Technologies:
-${project.preferredTech.join(", ")}
+      Domain: ${project.domain}
+      Difficulty: ${project.level}
+      Team: ${project.team}
+      Preferred Technologies:
+      ${project.preferredTech.join(", ")}
 
-Expected Duration:
-${project.expectedDuration}
+      Expected Duration:
+      ${project.expectedDuration}
 
-Project Type:
-${project.projectType}
-`;
+      Project Type:
+      ${project.projectType}
+      `;
+
+    console.log(messageData);
 
     // Build project idea
     const projectIdea = `
@@ -149,7 +151,11 @@ ${project.additionalRequirements}
         content: reply,
       };
 
-      const addedMessages = await ChatRepository.addMessagesToChat(projectId, userId, [userMessageData, aiMessageData]);
+      const addedMessages = await ChatRepository.addMessagesToChat(
+        projectId,
+        userId,
+        [userMessageData, aiMessageData],
+      );
 
       return {
         userMessage: addedMessages[0],
@@ -282,8 +288,12 @@ ${progress}`;
       role: "assistant",
       content: mentor.response,
     };
-    
-    const addedMessages = await ChatRepository.addMessagesToChat(projectId, userId, [userMessageData, aiMessageData]);
+
+    const addedMessages = await ChatRepository.addMessagesToChat(
+      projectId,
+      userId,
+      [userMessageData, aiMessageData],
+    );
 
     return {
       userMessage: addedMessages[0],
