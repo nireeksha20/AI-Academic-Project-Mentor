@@ -1,17 +1,20 @@
 import mongoose from "mongoose";
 
-const taskSchema = new mongoose.Schema({
-  title: {
-    type: String,
-    required: true,
-  },
+const taskSchema = new mongoose.Schema(
+  {
+    title: {
+      type: String,
+      required: true,
+    },
 
-  status: {
-    type: String,
-    enum: ["pending", "in_progress", "completed"],
-    default: "pending",
+    status: {
+      type: String,
+      enum: ["pending", "in_progress", "completed"],
+      default: "pending",
+    },
   },
-});
+  { _id: true },
+);
 
 const progressSchema = new mongoose.Schema(
   {
@@ -19,7 +22,7 @@ const progressSchema = new mongoose.Schema(
       type: mongoose.Schema.Types.ObjectId,
       ref: "Project",
       required: true,
-      unique: true, // ONE progress tracker per project
+      unique: true,
     },
 
     userId: {
@@ -33,12 +36,12 @@ const progressSchema = new mongoose.Schema(
       default: 0,
     },
 
-    currentGoal: {
+    currentStage: {
       type: String,
-      default: "",
+      default: "Planning",
     },
 
-    currentStage: {
+    currentGoal: {
       type: String,
       default: "",
     },

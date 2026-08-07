@@ -12,6 +12,8 @@ import Dashboard from "../pages/Dashboard";
 import LoadingPage from "../pages/LoadingPage";
 import Settings from "../pages/Settings";
 import ProtectedRoute from "./ProtectedRoute";
+import ProjectProgressCard from "../components/ProjectProgressCard";
+import UpdateProgress from "../components/UpdateProgress";
 
 export default function AppRoutes() {
   return (
@@ -77,6 +79,14 @@ export default function AppRoutes() {
           element={
             <ProtectedRoute>
               <Requirements />
+            </ProtectedRoute>
+          }
+        />
+        <Route
+          path="/project-dashboard/:projectId/update-progress"
+          element={
+            <ProtectedRoute>
+              <UpdateProgress />
             </ProtectedRoute>
           }
         />

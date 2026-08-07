@@ -9,7 +9,16 @@ export class ProgressRepository {
     return Progress.create(data);
   }
 
-  static update(projectId, data) {
-    return Progress.findOneAndUpdate({ projectId }, data, { new: true });
+  static update(projectId, update) {
+    return Progress.findOneAndUpdate(
+      { projectId },
+      { $set: update },
+      {
+        new: true,
+        upsert: true,
+        runValidators: true,
+        setDefaultsOnInsert: true,
+      },
+    );
   }
 }

@@ -17,9 +17,7 @@ export class ProgressController {
         data: result,
       });
     } catch (error) {
-      console.error("========== ADD PROGRESS ERROR ==========");
       console.error(error);
-      console.error(error.stack);
 
       return res.status(500).json({
         success: false,
@@ -40,6 +38,8 @@ export class ProgressController {
         data: progress,
       });
     } catch (error) {
+      console.error(error);
+
       return res.status(500).json({
         success: false,
         message: error.message,

@@ -22,7 +22,7 @@ import { projectService } from "../services/projectService";
 import AgentAccordion from "../components/AgentAccordion";
 import MentorCard from "../components/MentorCard";
 import { useLayoutEffect } from "react";
-import ProgressTracker from "../components/ProgressTracker";
+import ProjectProgressCard from "../components/ProjectProgressCard";
 
 export default function ProjectDashboard() {
   const { id } = useParams();
@@ -349,23 +349,9 @@ export default function ProjectDashboard() {
               </div>
             )}
           </Card> */}
-          {/* Recent Activity */}
-          <div className="lg:col-span-2">
-            <Card title="Recent Activity" icon={<Clock3 size={22} />}>
-              <div className="space-y-4">
-                <ActivityItem text="Project created successfully." />
-
-                {blueprint ? (
-                  <ActivityItem text="AI Blueprint generated." />
-                ) : (
-                  <ActivityItem text="Waiting for AI Blueprint generation." />
-                )}
-              </div>
-            </Card>
-          </div>
 
           <Card title="Project Progress" icon={<CheckCircle2 size={22} />}>
-            <ProgressTracker projectId={project._id} />
+            <ProjectProgressCard projectId={project._id} />
           </Card>
 
           <Card
