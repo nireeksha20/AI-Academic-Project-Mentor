@@ -229,248 +229,442 @@
     },
     "\nProgramming: Intermediate\nFrontend: Beginner\nBackend: Advanced\nDatabase: Advanced\nAI: Intermediate\nExperience: 0-6 Months\nPreferred Role: Software Engineer\nPreferred Tech: python\nInterests: Cloud Computing, Artificial Intelligence\n": {
         "student_profile": "\nProgramming: Intermediate\nFrontend: Beginner\nBackend: Advanced\nDatabase: Advanced\nAI: Intermediate\nExperience: 0-6 Months\nPreferred Role: Software Engineer\nPreferred Tech: python\nInterests: Cloud Computing, Artificial Intelligence\n",
-        "project_idea": "\nTitle: AI Crop Disease Detection System\nDomain: Artificial Intelligence\nDescription: Develop an AI-based system that analyzes crop leaf images to detect diseases at an early stage and recommends suitable treatments for farmers.\nLevel: Beginner\nTeam: Individual\nIdea: \n\nRequirements:\n\n\nPreferred Technologies:\n\n\nProject Type:\n\n\nExpected Duration:\n\n\nAdditional Requirements:\n\n",
-        "status": "Needs Clarification",
+        "project_idea": "\nTitle: Smart Crop Disease Detection System\nDomain: Artificial Intelligence\nDescription: Develop an AI-powered crop disease detection system that allows farmers to upload leaf images, identifies plant diseases using deep learning, recommends suitable treatments, and provides crop health analytics through a web dashboard.\nLevel: Beginner\nTeam: Individual\nIdea: \n\nRequirements:\n\n\nPreferred Technologies:\n\n\nProject Type:\n\n\nExpected Duration:\n\n\nAdditional Requirements:\n\n",
+        "status": "Approved",
         "feasibility": {
-            "verdict": "Needs Clarification",
-            "clarification_required": true,
-            "clarification_questions": [
-                "What is the specific source and scale of the image dataset intended for training the model?",
-                "Will the system be a mobile application, a web-based platform, or a command-line tool?",
-                "How will the 'treatment recommendation' logic be implemented: via a static rule-based engine, a database lookup, or an LLM-integrated agent?",
-                "What specific crop types and diseases are within the scope of this MVP?"
-            ],
-            "suggested_interpretations": [
-                "A web-based dashboard where users upload images and receive a classification result from a pre-trained CNN model.",
-                "A mobile-first application utilizing TensorFlow Lite for on-device inference to support farmers in low-connectivity areas.",
-                "A cloud-native API service that processes images and returns JSON-formatted disease data and treatment protocols for integration into existing agricultural management software."
-            ],
-            "feasibility_score": 6,
+            "verdict": "Approved with Scope Refinement",
+            "clarification_required": false,
+            "clarification_questions": [],
+            "suggested_interpretations": [],
+            "feasibility_score": 7,
             "complexity": "Medium",
-            "technical_feasibility": "High, provided the student has access to a labeled dataset like PlantVillage.",
-            "implementation_feasibility": "Medium, as the student lacks frontend experience, which is critical for an image-based system.",
-            "academic_suitability": "High, as it demonstrates application of computer vision and backend architecture.",
-            "industry_value": 7,
-            "portfolio_value": 8,
+            "technical_feasibility": "High, given the student's advanced backend and database skills, though the frontend implementation will require significant effort due to the student's beginner status.",
+            "implementation_feasibility": "Moderate; the primary risk is the time required to build a responsive web dashboard while simultaneously training or fine-tuning a deep learning model.",
+            "academic_suitability": "High, as it integrates computer vision, data management, and software architecture within a single semester timeframe.",
+            "industry_value": 8,
+            "portfolio_value": 9,
             "strengths": [
-                "Strong alignment with student's backend and AI skill set.",
-                "Clear, well-defined problem domain with existing open-source datasets.",
-                "High potential for demonstrating end-to-end cloud deployment skills."
+                "Strong alignment with student's backend and database expertise",
+                "Clear, well-defined problem statement with high real-world utility",
+                "Excellent opportunity to demonstrate full-stack integration skills"
             ],
             "challenges": [
-                "Data acquisition and preprocessing for model training.",
-                "Frontend development gap for the user interface.",
-                "Balancing model accuracy with inference latency in a production environment."
+                "Steep learning curve for frontend development (UI/UX) for a beginner",
+                "Data acquisition and preprocessing for the crop disease model can be time-consuming",
+                "Balancing model training time with web application development within one semester"
             ],
             "skills_to_learn": [
-                "Computer Vision libraries (OpenCV, PyTorch/TensorFlow).",
-                "Frontend framework (React or Streamlit for rapid prototyping).",
-                "Cloud deployment (AWS/GCP/Azure) for model hosting."
+                "Frontend frameworks (e.g., React or Vue.js)",
+                "Deep learning libraries (e.g., PyTorch or TensorFlow)",
+                "Image preprocessing pipelines",
+                "Deployment of AI models in a cloud environment"
             ],
             "suggestions": [
-                "Use Streamlit for the frontend to minimize development time given the student's beginner status in that area.",
-                "Focus on a single crop type to ensure high model accuracy rather than a broad, shallow system.",
-                "Prioritize the creation of a robust API endpoint before building the UI."
-            ]
-        },
-        "scope": null,
-        "technology": null,
-        "timeline": null,
-        "risk": null
-    },
-    "\nProgramming: Intermediate\nFrontend: Beginner\nBackend: Advanced\nDatabase: Advanced\nAI: Intermediate\nExperience: 0-6 Months\nPreferred Role: AI Engineer\nPreferred Tech: MERN, Python, API\nInterests: Web Development, Cloud Computing, DevOps, Mobile Development\n": {
-        "student_profile": "\nProgramming: Intermediate\nFrontend: Beginner\nBackend: Advanced\nDatabase: Advanced\nAI: Intermediate\nExperience: 0-6 Months\nPreferred Role: AI Engineer\nPreferred Tech: MERN, Python, API\nInterests: Web Development, Cloud Computing, DevOps, Mobile Development\n",
-        "project_idea": "\nTitle: AI Crop Disease Detection System\nDomain: Artificial Intelligence\nDescription: Develop an AI-based system that analyzes crop leaf images to detect diseases at an early stage and recommends suitable treatments for farmers.\nLevel: Advanced\nTeam: Individual\nIdea: \n\nRequirements:\n\n\nPreferred Technologies:\n\n\nProject Type:\n\n\nExpected Duration:\n\n\nAdditional Requirements:\n\n",
-        "feasibility": {
-            "verdict": "The project is highly feasible and academically sound, provided the scope is strictly limited to a Minimum Viable Product (MVP) within the semester timeframe.",
-            "feasibility_score": 8,
-            "complexity": "Moderate",
-            "industry_value": 7,
-            "portfolio_value": 8,
-            "strengths": [
-                "Clear problem definition with measurable outcomes",
-                "Well-defined technology stack that aligns with current industry standards",
-                "High potential for demonstrating full-stack development proficiency",
-                "Modular architecture allows for incremental development and testing"
-            ],
-            "challenges": [
-                "Potential scope creep if additional features are added mid-semester",
-                "Data privacy and security compliance if handling user-sensitive information",
-                "Integration complexity between the frontend and backend services",
-                "Managing state consistency in a distributed or real-time environment"
-            ],
-            "skills_to_learn": [
-                "Advanced API design and RESTful principles",
-                "Database schema optimization and indexing",
-                "CI/CD pipeline configuration for automated deployment",
-                "Unit and integration testing frameworks"
-            ],
-            "suggestions": [
-                "Prioritize core functionality over aesthetic or secondary features",
-                "Implement a robust authentication system early in the development cycle",
-                "Use containerization (Docker) to ensure environment consistency",
-                "Adopt an Agile methodology with two-week sprints to track progress effectively"
+                "Use a pre-trained model (e.g., MobileNetV2 or ResNet) and perform transfer learning to save time",
+                "Limit the scope to a specific set of crops or diseases to ensure dataset quality",
+                "Use a CSS framework like Tailwind or Bootstrap to accelerate frontend development",
+                "Prioritize the core detection functionality before adding complex analytics dashboards"
             ]
         },
         "scope": {
-            "goal": "Develop a web-based AI system that allows farmers to upload images of crop leaves to receive an automated disease diagnosis and corresponding treatment recommendations.",
+            "goal": "Develop a specialized image-processing web application that enables farmers to identify specific diseases in tomato and potato leaves using a transfer-learned deep learning model and receive immediate treatment recommendations.",
             "core_features": [
-                "User authentication system",
-                "Image upload interface for leaf analysis",
-                "AI model integration for disease classification",
-                "Database storage for diagnosis history",
-                "Results dashboard displaying disease name and treatment advice"
+                "Image upload interface for leaf samples",
+                "Deep learning inference engine using a pre-trained model fine-tuned on a specific tomato and potato disease dataset",
+                "Disease classification output displaying the identified condition",
+                "Static database mapping identified diseases to verified agricultural treatment protocols"
             ],
             "optional_features": [
-                "User profile management",
-                "Export diagnosis reports as PDF",
-                "Searchable database of common crop diseases"
+                "Confidence score display for model predictions",
+                "History log of user-uploaded images for personal reference",
+                "Downloadable PDF summary of treatment recommendations"
             ],
             "future_features": [
-                "Real-time camera integration for mobile devices",
-                "Community forum for farmers",
-                "Integration with weather APIs for environmental risk assessment",
-                "Multilingual support"
+                "Real-time camera integration for mobile field use",
+                "Multi-language support for regional dialects",
+                "Community-driven disease mapping and geospatial analytics"
             ],
             "out_of_scope": [
-                "Hardware integration with IoT sensors",
-                "E-commerce functionality for purchasing treatments",
-                "Social media sharing features",
-                "Advanced data analytics dashboard for agricultural trends"
+                "User authentication and account management systems",
+                "Real-time crop health monitoring dashboards",
+                "Automated email or SMS notification systems",
+                "Integration with external weather or soil sensor APIs",
+                "Admin panel for managing user data or model retraining"
             ],
             "deliverables": [
-                "Source code repository",
-                "Trained AI model file",
-                "Technical documentation including API schema",
-                "Project demonstration video",
-                "Final project report"
+                "Trained deep learning model file (e.g., .pth or .h5)",
+                "Web application source code repository",
+                "Dataset documentation and preprocessing pipeline scripts",
+                "Project report detailing model accuracy and system architecture"
             ]
         },
         "technology": {
-            "frontend": "React",
-            "backend": "FastAPI",
-            "database": "PostgreSQL",
-            "ai_stack": "PyTorch",
+            "frontend": "Streamlit",
+            "frontend_reason": "Given the student's beginner status in frontend development and the need to prioritize AI model integration, Streamlit allows for rapid creation of a functional, responsive web interface entirely in Python, eliminating the need to learn complex JavaScript frameworks.",
+            "backend": "Python with Flask",
+            "backend_reason": "The student has advanced backend skills in Python. Flask provides a lightweight, flexible micro-framework that integrates seamlessly with Python-based AI libraries, allowing the student to focus on logic rather than boilerplate code.",
+            "database": "SQLite",
+            "database_reason": "For an individual project with a limited scope and no requirement for concurrent multi-user write operations, SQLite is the most efficient choice. It requires zero configuration and simplifies deployment while handling the relational mapping of diseases to treatments effectively.",
+            "ai_stack": "PyTorch with torchvision",
+            "ai_stack_reason": "PyTorch is highly intuitive for researchers and developers. Using torchvision provides access to pre-trained models like MobileNetV2, which is ideal for transfer learning on mobile-friendly image classification tasks, ensuring high accuracy with limited training data.",
             "deployment": "Render",
-            "architecture": "Client-Server architecture with a RESTful API separating the React frontend from the Python-based AI inference engine.",
+            "deployment_reason": "Render offers a streamlined platform-as-a-service experience that supports Python applications and containerized environments. It simplifies the deployment of AI models by handling the infrastructure, allowing the student to focus on the application logic.",
+            "architecture": "Monolithic architecture with a decoupled inference service",
             "recommendations": [
-                "React provides a modern, component-based approach for building the user interface efficiently.",
-                "FastAPI is highly performant for Python-based backends and integrates seamlessly with AI libraries.",
-                "PostgreSQL is a robust, industry-standard relational database for managing user data and diagnosis history.",
-                "PyTorch is the preferred framework for deep learning, offering excellent documentation and community support for image classification tasks.",
-                "Render simplifies deployment for full-stack applications with built-in support for containerized services and database hosting.",
-                "The chosen stack leverages the student's Python expertise while providing a clear path to learn modern web development."
+                "Use pre-trained MobileNetV2 for transfer learning to minimize training time and computational overhead.",
+                "Implement a simple image preprocessing pipeline using OpenCV to ensure input images match the model's expected dimensions.",
+                "Leverage Tailwind CSS via Streamlit components if custom styling is required beyond default layouts.",
+                "Store treatment protocols in a structured JSON or CSV file if the database schema remains simple, or use SQLAlchemy with SQLite for better data management.",
+                "Focus on model evaluation metrics like F1-score rather than just accuracy to ensure the model performs well across different disease classes."
             ]
         },
         "timeline": {
             "estimated_duration": "8 weeks",
             "phases": [
                 {
-                    "title": "Week 1: Project Setup and AI Model Training",
+                    "week": 1,
+                    "title": "Dataset Acquisition and Preprocessing",
+                    "objective": "Curate and prepare the tomato and potato leaf image dataset for model training.",
                     "tasks": [
-                        "Set up development environment and Git repository",
-                        "Collect and preprocess crop leaf image dataset",
-                        "Train initial PyTorch image classification model",
-                        "Validate model accuracy and save model weights"
+                        "Download PlantVillage or similar open-source datasets for tomato and potato diseases",
+                        "Perform data cleaning and remove corrupted images",
+                        "Implement image resizing and normalization scripts using OpenCV",
+                        "Split data into training, validation, and test sets"
                     ]
                 },
                 {
-                    "title": "Week 2: Backend Foundation",
+                    "week": 2,
+                    "title": "Model Architecture and Transfer Learning",
+                    "objective": "Develop the deep learning model using PyTorch and MobileNetV2.",
                     "tasks": [
-                        "Initialize FastAPI project structure",
-                        "Design PostgreSQL database schema for users and history",
-                        "Implement user authentication and JWT token logic",
-                        "Set up database connection and migrations"
+                        "Set up PyTorch environment and torchvision dependencies",
+                        "Load pre-trained MobileNetV2 model",
+                        "Modify the final classification layer for specific disease classes",
+                        "Define loss functions and optimizer settings"
                     ]
                 },
                 {
-                    "title": "Week 3: AI Integration and API Development",
+                    "week": 3,
+                    "title": "Model Training and Evaluation",
+                    "objective": "Train the model and validate performance metrics.",
                     "tasks": [
-                        "Create FastAPI endpoint for image upload",
-                        "Integrate PyTorch model into the backend service",
-                        "Develop logic for disease diagnosis and treatment mapping",
-                        "Test API endpoints using Postman"
+                        "Execute training loop on the prepared dataset",
+                        "Monitor training and validation loss curves",
+                        "Calculate F1-score, precision, and recall",
+                        "Save the best performing model weights (.pth file)"
                     ]
                 },
                 {
-                    "title": "Week 4: Frontend Development - Core UI",
+                    "week": 4,
+                    "title": "Backend Logic and Database Design",
+                    "objective": "Build the Flask API to handle inference and store treatment protocols.",
                     "tasks": [
-                        "Initialize React project with Tailwind CSS",
-                        "Build user authentication pages (Login/Register)",
-                        "Create main dashboard layout",
-                        "Implement image upload component"
+                        "Initialize SQLite database with SQLAlchemy",
+                        "Create schema for disease-to-treatment mapping",
+                        "Develop Flask endpoint to accept image uploads",
+                        "Implement inference logic to load model and return predictions"
                     ]
                 },
                 {
-                    "title": "Week 5: Frontend-Backend Integration",
+                    "week": 5,
+                    "title": "Frontend Development with Streamlit",
+                    "objective": "Create the user interface for image upload and result display.",
                     "tasks": [
-                        "Connect React frontend to FastAPI authentication endpoints",
-                        "Implement image upload and diagnosis result display",
-                        "Create history view to fetch past diagnoses from database",
-                        "Handle loading states and error messages"
+                        "Set up Streamlit application structure",
+                        "Build file uploader component for leaf images",
+                        "Integrate frontend with Flask backend API",
+                        "Implement basic layout for displaying disease name and treatment"
                     ]
                 },
                 {
-                    "title": "Week 6: Testing and Debugging",
+                    "week": 6,
+                    "title": "System Integration and Refinement",
+                    "objective": "Connect all components and ensure seamless data flow.",
                     "tasks": [
-                        "Perform unit testing on backend API functions",
-                        "Conduct integration testing for user workflows",
-                        "Fix UI/UX bugs and responsiveness issues",
-                        "Optimize database queries for history retrieval"
+                        "Test end-to-end flow from image upload to treatment recommendation",
+                        "Refine UI styling using Streamlit components",
+                        "Handle edge cases such as invalid image formats",
+                        "Optimize inference speed for user experience"
                     ]
                 },
                 {
-                    "title": "Week 7: Deployment",
+                    "week": 7,
+                    "title": "Deployment and Cloud Configuration",
+                    "objective": "Deploy the application to Render.",
                     "tasks": [
-                        "Configure Dockerfiles for backend and frontend",
-                        "Set up Render environment for web service and database",
-                        "Deploy application to production environment",
-                        "Perform final smoke testing on live site"
+                        "Create Dockerfile for containerization",
+                        "Configure environment variables and dependencies on Render",
+                        "Deploy application and verify production connectivity",
+                        "Perform final smoke testing on the live URL"
                     ]
                 },
                 {
-                    "title": "Week 8: Documentation and Presentation",
+                    "week": 8,
+                    "title": "Documentation and Final Review",
+                    "objective": "Finalize project documentation and prepare for presentation.",
                     "tasks": [
-                        "Write technical documentation and API schema",
-                        "Prepare project demonstration video",
-                        "Finalize project report and presentation slides",
-                        "Conduct final code review and cleanup"
+                        "Write technical documentation on model architecture and API usage",
+                        "Document dataset preprocessing pipeline",
+                        "Prepare final project report and presentation slides",
+                        "Conduct final code cleanup and repository organization"
                     ]
                 }
             ]
         },
         "risk": {
-            "overall_risk": "Medium",
+            "overall_risk": "Moderate; the primary risk involves the integration of a deep learning model into a web environment within a constrained 8-week timeline, specifically regarding model inference latency and deployment resource limits on free-tier cloud services.",
             "risks": [
                 {
-                    "risk": "Model overfitting or poor generalization due to limited or low-quality training data.",
+                    "risk": "Model inference latency exceeding Render's free-tier request timeout limits during cold starts or heavy processing.",
+                    "probability": "Medium",
                     "severity": "High",
-                    "mitigation": "Use data augmentation techniques and pre-trained models (transfer learning) to improve accuracy with smaller datasets."
+                    "mitigation": "Implement model quantization (e.g., torch.quantization) to reduce model size and inference time, and ensure the Flask backend uses a lightweight WSGI server like Gunicorn with appropriate timeout configurations."
                 },
                 {
-                    "risk": "Scope creep during the 8-week timeline leading to incomplete features.",
-                    "severity": "Medium",
-                    "mitigation": "Strictly adhere to the defined MVP features and defer all optional/future features to a post-submission phase."
-                },
-                {
-                    "risk": "Integration issues between the React frontend and FastAPI backend, specifically regarding CORS and image handling.",
-                    "severity": "Medium",
-                    "mitigation": "Test API endpoints independently using Postman before connecting the frontend; ensure proper CORS middleware configuration in FastAPI."
-                },
-                {
-                    "risk": "Deployment failures on Render due to environment configuration or dependency conflicts.",
-                    "severity": "Medium",
-                    "mitigation": "Use Docker to containerize the application early to ensure the production environment matches the development environment."
-                },
-                {
-                    "risk": "Inadequate testing leading to runtime errors during the final demonstration.",
+                    "risk": "Dataset domain shift where the model performs well on training data but fails on real-world, non-standardized farmer-uploaded images.",
+                    "probability": "High",
                     "severity": "High",
-                    "mitigation": "Implement basic unit tests for critical API endpoints and perform end-to-end manual testing of the user workflow."
+                    "mitigation": "Incorporate aggressive data augmentation (random rotation, brightness, contrast, and noise injection) during the training phase to simulate real-world photography conditions."
                 },
                 {
-                    "risk": "Performance bottlenecks when processing large image files through the AI inference engine.",
-                    "severity": "Low",
-                    "mitigation": "Implement image resizing and compression on the client side before uploading to the server."
+                    "risk": "Streamlit and Flask integration overhead causing redundant data processing or state management conflicts.",
+                    "probability": "Medium",
+                    "severity": "Medium",
+                    "mitigation": "Avoid running the model directly within the Streamlit process; keep the Flask API as a stateless inference service and use the requests library in Streamlit to fetch predictions, ensuring clear separation of concerns."
+                },
+                {
+                    "risk": "Memory exhaustion on Render's free-tier instances when loading large PyTorch model weights into RAM.",
+                    "probability": "Medium",
+                    "severity": "High",
+                    "mitigation": "Use MobileNetV2 as planned, but explicitly clear the GPU/CPU cache after each inference call and use a lightweight model format like ONNX to reduce the memory footprint during runtime."
+                },
+                {
+                    "risk": "Inaccurate disease classification due to high intra-class similarity between different tomato/potato leaf conditions.",
+                    "probability": "Medium",
+                    "severity": "Medium",
+                    "mitigation": "Implement a confidence threshold (e.g., 0.75); if the model prediction falls below this, return a 'Low Confidence' warning to the user rather than a potentially incorrect diagnosis."
+                }
+            ]
+        }
+    },
+    "\nProgramming: Intermediate\nFrontend: Beginner\nBackend: Advanced\nDatabase: Advanced\nAI: Intermediate\nExperience: 0-6 Months\nPreferred Role: AI Engineer\nPreferred Tech: MERN, Python, API\nInterests: Web Development, Cloud Computing, DevOps, Mobile Development\n": {
+        "student_profile": "\nProgramming: Intermediate\nFrontend: Beginner\nBackend: Advanced\nDatabase: Advanced\nAI: Intermediate\nExperience: 0-6 Months\nPreferred Role: AI Engineer\nPreferred Tech: MERN, Python, API\nInterests: Web Development, Cloud Computing, DevOps, Mobile Development\n",
+        "project_idea": "\nTitle: Smart Crop Disease Detection System\nDomain: Web Development\nDescription: Develop an AI-powered web application that allows farmers to upload crop leaf images and automatically detect diseases using a pre-trained deep learning model. The system provides disease information, treatment recommendations, prevention tips, and maintains a dashboard showing previous diagnoses and crop health reports. The application is designed for small and medium-scale farmers and aims to support early disease detection to reduce crop loss.\nLevel: Beginner\nTeam: Individual\nIdea: \n\nRequirements:\n\n\nPreferred Technologies:\n\n\nProject Type:\n\n\nExpected Duration:\n\n\nAdditional Requirements:\n\n",
+        "status": "Approved",
+        "feasibility": {
+            "verdict": "Approved with Scope Refinement",
+            "clarification_required": false,
+            "clarification_questions": [],
+            "suggested_interpretations": [],
+            "feasibility_score": 8,
+            "complexity": "Medium",
+            "technical_feasibility": "High, as the student has advanced backend and database skills, and intermediate AI knowledge suitable for integrating a pre-trained model.",
+            "implementation_feasibility": "High, provided the student focuses on a RESTful API architecture using Python (FastAPI/Flask) for the AI inference and MERN for the dashboard.",
+            "academic_suitability": "High, as it demonstrates the integration of machine learning pipelines with full-stack web development.",
+            "industry_value": 8,
+            "portfolio_value": 9,
+            "strengths": [
+                "Clear problem statement with defined target users",
+                "Strong alignment with student's advanced backend and database skills",
+                "Practical application of AI in an agricultural context",
+                "Well-defined scope for a single-semester project"
+            ],
+            "challenges": [
+                "Managing image processing latency on the backend",
+                "Ensuring the frontend handles asynchronous image uploads and inference results effectively",
+                "Data storage strategy for large image datasets",
+                "Balancing model accuracy with inference speed"
+            ],
+            "skills_to_learn": [
+                "Asynchronous task queues (e.g., Celery/Redis) for image processing",
+                "Cloud storage integration (e.g., AWS S3 or Firebase Storage) for image hosting",
+                "Frontend state management for handling real-time inference feedback"
+            ],
+            "suggestions": [
+                "Use a pre-trained model like MobileNetV2 or EfficientNet to ensure inference speed is suitable for web deployment.",
+                "Implement a task queue to prevent the web server from blocking during image processing.",
+                "Focus on a clean, mobile-responsive UI, as the primary users are farmers who likely use mobile devices.",
+                "Prioritize the dashboard's data visualization to show historical trends in crop health."
+            ]
+        },
+        "scope": {
+            "goal": "Develop a specialized web-based diagnostic tool that enables farmers to identify crop diseases from leaf images using a pre-trained deep learning model to facilitate timely intervention and reduce agricultural yield loss.",
+            "core_features": [
+                "Image upload interface optimized for mobile browsers",
+                "Integration of a pre-trained deep learning model (MobileNetV2/EfficientNet) for crop disease classification",
+                "Display of diagnostic results including disease name, confidence score, and specific treatment/prevention protocols",
+                "Local storage of diagnostic history linked to user sessions",
+                "Responsive UI design tailored for field-based agricultural use"
+            ],
+            "optional_features": [
+                "Export functionality for diagnostic reports in PDF format",
+                "Basic data visualization showing frequency of detected diseases over time",
+                "Offline caching of treatment recommendations for low-connectivity areas"
+            ],
+            "future_features": [
+                "Multi-language support for regional dialects",
+                "Integration with local weather APIs for disease risk forecasting",
+                "Community forum for farmers to share crop health experiences"
+            ],
+            "out_of_scope": [
+                "User authentication and account management systems",
+                "Real-time push notifications",
+                "Administrative dashboard for system management",
+                "Automated pesticide e-commerce integration",
+                "Live video stream analysis"
+            ],
+            "deliverables": [
+                "Web application source code repository",
+                "Technical documentation detailing the AI inference pipeline and API architecture",
+                "Project report covering model selection, accuracy metrics, and system performance",
+                "User manual for farmers on how to capture optimal leaf images for diagnosis"
+            ]
+        },
+        "technology": {
+            "frontend": "Tailwind CSS with Alpine.js",
+            "frontend_reason": "Given the student's beginner status in frontend and the need for a mobile-responsive interface for farmers, this stack provides a lightweight, low-boilerplate approach that avoids the complexity of heavy SPA frameworks while ensuring high performance on mobile browsers.",
+            "backend": "Python with Flask",
+            "backend_reason": "Flask is ideal for this project as it allows for a minimalist, modular API structure that integrates seamlessly with Python-based AI libraries, leveraging the student's advanced backend skills without the overhead of larger frameworks.",
+            "database": "PostgreSQL",
+            "database_reason": "PostgreSQL provides robust support for structured diagnostic data and relational mapping, which is essential for maintaining historical crop health reports and ensuring data integrity for the dashboard.",
+            "ai_stack": "PyTorch with Torchvision",
+            "ai_stack_reason": "PyTorch is the industry standard for research and deployment of computer vision models; using pre-trained MobileNetV2 from Torchvision allows the student to focus on inference optimization rather than model architecture design.",
+            "deployment": "Render with AWS S3",
+            "deployment_reason": "Render simplifies the deployment of Python-based web services, while AWS S3 provides a scalable, cost-effective solution for storing the image datasets uploaded by users, which is critical for performance.",
+            "architecture": "Asynchronous Task-Queue Architecture",
+            "recommendations": [
+                "Implement Celery with Redis to offload image processing tasks from the main web thread to ensure the UI remains responsive during inference.",
+                "Use MobileNetV2 for its optimal balance between classification accuracy and low latency on resource-constrained devices.",
+                "Implement client-side image compression before upload to reduce bandwidth usage for farmers in rural areas.",
+                "Utilize SQLAlchemy as an ORM to manage database interactions efficiently within the Flask application.",
+                "Adopt a mobile-first design strategy using CSS Grid and Flexbox to ensure the interface is usable in field conditions."
+            ]
+        },
+        "timeline": {
+            "estimated_duration": "8 weeks",
+            "phases": [
+                {
+                    "week": 1,
+                    "title": "AI Model Preparation and Inference Pipeline",
+                    "objective": "Establish the core diagnostic engine using a pre-trained model.",
+                    "tasks": [
+                        "Select and download pre-trained MobileNetV2 model via Torchvision",
+                        "Develop a Python script for image preprocessing and inference",
+                        "Create a mock inference test suite to validate model accuracy",
+                        "Define the input/output schema for the diagnostic API"
+                    ]
+                },
+                {
+                    "week": 2,
+                    "title": "Backend API and Database Schema Design",
+                    "objective": "Build the foundational infrastructure for data persistence and API communication.",
+                    "tasks": [
+                        "Initialize Flask application structure",
+                        "Design PostgreSQL schema for diagnostic history and crop reports",
+                        "Implement SQLAlchemy models for database interaction",
+                        "Create RESTful endpoints for submitting images and retrieving history"
+                    ]
+                },
+                {
+                    "week": 3,
+                    "title": "Asynchronous Task Queue Integration",
+                    "objective": "Implement non-blocking image processing to ensure UI responsiveness.",
+                    "tasks": [
+                        "Set up Redis server for task queuing",
+                        "Configure Celery workers to handle heavy image processing tasks",
+                        "Integrate AWS S3 SDK for secure image storage and retrieval",
+                        "Implement callback logic to update database status after inference"
+                    ]
+                },
+                {
+                    "week": 4,
+                    "title": "Frontend Foundation and Mobile-Responsive UI",
+                    "objective": "Develop the user-facing interface optimized for field conditions.",
+                    "tasks": [
+                        "Set up Tailwind CSS and Alpine.js environment",
+                        "Build the mobile-first image upload interface",
+                        "Implement client-side image compression logic",
+                        "Create the diagnostic results display component"
+                    ]
+                },
+                {
+                    "week": 5,
+                    "title": "Full-Stack Integration",
+                    "objective": "Connect the frontend interface with the backend API and task queue.",
+                    "tasks": [
+                        "Implement API calls from frontend to Flask backend",
+                        "Develop polling mechanism to check task status from the frontend",
+                        "Integrate Alpine.js for dynamic UI updates based on inference results",
+                        "Ensure seamless data flow between S3, PostgreSQL, and the UI"
+                    ]
+                },
+                {
+                    "week": 6,
+                    "title": "Dashboard and Data Visualization",
+                    "objective": "Implement historical tracking and visual reporting for farmers.",
+                    "tasks": [
+                        "Develop dashboard view for displaying diagnostic history",
+                        "Implement data aggregation queries for crop health trends",
+                        "Integrate lightweight charting library for visual reports",
+                        "Refine UI for readability on mobile devices"
+                    ]
+                },
+                {
+                    "week": 7,
+                    "title": "Testing and Performance Optimization",
+                    "objective": "Validate system reliability and optimize for low-bandwidth environments.",
+                    "tasks": [
+                        "Conduct end-to-end testing of the diagnostic workflow",
+                        "Optimize API response times and database query performance",
+                        "Perform cross-browser testing on mobile devices",
+                        "Refine error handling for failed uploads or inference timeouts"
+                    ]
+                },
+                {
+                    "week": 8,
+                    "title": "Documentation and Final Deployment",
+                    "objective": "Finalize the project for delivery and presentation.",
+                    "tasks": [
+                        "Deploy application to Render platform",
+                        "Write technical documentation on the AI inference pipeline",
+                        "Create user manual for farmers on optimal image capture",
+                        "Prepare final project report and presentation materials"
+                    ]
+                }
+            ]
+        },
+        "risk": {
+            "overall_risk": "The project faces significant technical hurdles in managing asynchronous state synchronization between the frontend and the Celery/Redis backend, alongside potential model performance degradation when processing real-world, non-ideal field images.",
+            "risks": [
+                {
+                    "risk": "Asynchronous state synchronization failure between the Flask API and the frontend polling mechanism, leading to 'stuck' UI states where the user never receives the inference result.",
+                    "probability": "High",
+                    "severity": "High",
+                    "mitigation": "Implement a robust status-tracking schema in PostgreSQL where each job has a 'pending', 'processing', 'completed', or 'failed' state, and ensure the frontend implements a timeout-based retry logic with clear error messaging for the user."
+                },
+                {
+                    "risk": "Inference accuracy drop due to 'domain shift' where the pre-trained model (trained on high-quality datasets) fails to classify images taken under poor lighting or varying angles in actual field conditions.",
+                    "probability": "High",
+                    "severity": "Medium",
+                    "mitigation": "Develop a 'capture guide' overlay on the frontend camera interface that provides real-time feedback on image quality (e.g., blur detection or lighting checks) before allowing the upload."
+                },
+                {
+                    "risk": "Render platform limitations regarding Celery/Redis worker persistence, potentially causing background tasks to be killed or lost during deployment restarts.",
+                    "probability": "Medium",
+                    "severity": "High",
+                    "mitigation": "Use a managed Redis service (like Upstash or Redis Cloud) instead of a self-hosted container, and ensure the Flask application is configured to handle task re-queuing if a worker process terminates unexpectedly."
+                },
+                {
+                    "risk": "Excessive latency in image processing causing a poor user experience for farmers on low-bandwidth mobile networks.",
+                    "probability": "Medium",
+                    "severity": "Medium",
+                    "mitigation": "Implement client-side image resizing and compression using the browser's Canvas API before the upload request is sent to the server to minimize payload size."
+                },
+                {
+                    "risk": "Complexity of managing AWS S3 bucket permissions and lifecycle policies within a student-managed environment, leading to potential security vulnerabilities or unexpected costs.",
+                    "probability": "Low",
+                    "severity": "Medium",
+                    "mitigation": "Use a strict IAM policy restricted to the specific S3 bucket and implement a lifecycle policy to automatically delete or move images to cold storage after 30 days to keep costs minimal."
                 }
             ]
         }

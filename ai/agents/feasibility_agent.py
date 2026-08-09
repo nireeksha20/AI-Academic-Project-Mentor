@@ -118,27 +118,33 @@ perform the following reasoning internally.
 
 STEP 0
 
-Determine whether the project idea is sufficiently defined.
+Determine whether the project idea contains enough information
+to generate a realistic academic blueprint.
 
-Ask yourself:
+If the project title and description clearly describe the software problem,
 
-• Is the project objective clear?
+make reasonable engineering assumptions for:
 
-• Is the problem statement specific?
+• project type
+• expected duration
+• implementation workflow
+• deployment
 
-• Can the project be implemented without making assumptions?
+Only return
 
-• Could multiple unrelated projects fit this description?
+Needs Clarification
 
-If the project idea is too broad or ambiguous,
+when the project description is impossible to interpret
+or multiple completely different software systems could satisfy it.
 
-DO NOT invent a specific interpretation.
+Missing optional fields such as
 
-Instead,
+• Requirements
+• Preferred Technologies
+• Project Type
+• Duration
 
-return
-
-verdict = "Needs Clarification"
+should NEVER be treated as insufficient information.
 
 Set
 

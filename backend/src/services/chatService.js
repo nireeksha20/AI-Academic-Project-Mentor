@@ -59,11 +59,14 @@ export class ChatService {
       Preferred Technologies:
       ${project.preferredTech.join(", ")}
 
-      Expected Duration:
-      ${project.expectedDuration}
-
       Project Type:
-      ${project.projectType}
+${project.projectType || "Web Application"}
+
+Expected Duration:
+${project.expectedDuration || "4 Months"}
+
+Additional Requirements:
+${project.additionalRequirements || "None"}
       `;
 
     console.log(messageData);
@@ -77,10 +80,14 @@ Description:
 ${project.description}
 
 Idea:
-${project.idea}
+${project.idea || project.description}
 
 Requirements:
-${project.requirements.join("\n")}
+${
+  project.requirements.length
+    ? project.requirements.join("\n")
+    : "Not specified"
+}
 
 Additional Requirements:
 ${project.additionalRequirements}
