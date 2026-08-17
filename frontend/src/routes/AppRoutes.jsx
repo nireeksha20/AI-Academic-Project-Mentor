@@ -14,6 +14,9 @@ import Settings from "../pages/Settings";
 import ProtectedRoute from "./ProtectedRoute";
 import ProjectProgressCard from "../components/ProjectProgressCard";
 import UpdateProgress from "../components/UpdateProgress";
+import Mentor from "../pages/Mentor";
+import AIChat from "../pages/AIChat";
+import Projects from "../pages/Projects";
 
 export default function AppRoutes() {
   return (
@@ -87,6 +90,30 @@ export default function AppRoutes() {
           element={
             <ProtectedRoute>
               <UpdateProgress />
+            </ProtectedRoute>
+          }
+        />
+        <Route
+          path="/mentor"
+          element={
+            <ProtectedRoute>
+              <Mentor />
+            </ProtectedRoute>
+          }
+        />
+        <Route
+          path="/mentor/chat"
+          element={
+            <ProtectedRoute>
+              <AIChat />
+            </ProtectedRoute>
+          }
+        />
+        <Route
+          path="/projects"
+          element={
+            <ProtectedRoute>
+              <Projects />
             </ProtectedRoute>
           }
         />

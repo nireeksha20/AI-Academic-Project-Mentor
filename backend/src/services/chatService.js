@@ -2,6 +2,8 @@ import { ChatRepository } from "../repositories/chatRepository.js";
 import { ProjectRepository } from "../repositories/projectRepository.js";
 import { ProjectService } from "./projectService.js";
 import { AIGatewayService } from "./aiGatewayService.js";
+import { ProgressRepository } from "../repositories/progressRepository.js";
+import User from "../models/User.js";
 
 function summarizeBlueprint(bp) {
   if (!bp) return "";
@@ -35,7 +37,7 @@ ${(bp.scope?.features || []).join("\n")}
 
 TIMELINE
 
-${bp.timeline?.duration || ""}
+${bp.timeline?.duration || bp.timeline?.estimated_duration || ""}
 
 RISKS
 
@@ -48,30 +50,51 @@ export class ChatService {
    * Add a new chat message to a project
    */
   static async addMessage(projectId, userId, messageData) {
+    // Accept both "message" and "content" so the service
+    // remains compatible with the current frontend/controller.
+    const content = (messageData?.message || messageData?.content || "").trim();
+
+    if (!content) {
+      const error = new Error("Message content is required");
+      error.statusCode = 400;
+      throw error;
+    }
+
     // Verify ownership and load project
     const project = await ProjectService.getProjectById(projectId, userId);
 
-    // Build student profile
+    const user = await User.findById(userId);
+
+    if (!user) {
+      const error = new Error("User not found");
+      error.statusCode = 404;
+      throw error;
+    }
+
+    // ---------------------------------------------------------
+    // Build project/student context
+    // ---------------------------------------------------------
+
     const studentProfile = `
-      Domain: ${project.domain}
-      Difficulty: ${project.level}
-      Team: ${project.team}
-      Preferred Technologies:
-      ${project.preferredTech.join(", ")}
+Student Name: ${user.name || ""}
 
-      Project Type:
-${project.projectType || "Web Application"}
+College / University: ${user.profile?.college || ""}
+Department: ${user.profile?.department || ""}
+Bio: ${user.profile?.bio || ""}
+GitHub: ${user.profile?.github || ""}
+LinkedIn: ${user.profile?.linkedin || ""}
 
-Expected Duration:
-${project.expectedDuration || "4 Months"}
+Programming: ${user.skillAssessment?.programming || ""}
+Frontend: ${user.skillAssessment?.frontend || ""}
+Backend: ${user.skillAssessment?.backend || ""}
+Database: ${user.skillAssessment?.database || ""}
+AI: ${user.skillAssessment?.ai || ""}
+Experience: ${user.skillAssessment?.experience || ""}
+Preferred Role: ${user.skillAssessment?.role || ""}
+Preferred Technology: ${user.skillAssessment?.preferredTech || ""}
+Interests: ${(user.skillAssessment?.interests || []).join(", ")}
+`;
 
-Additional Requirements:
-${project.additionalRequirements || "None"}
-      `;
-
-    console.log(messageData);
-
-    // Build project idea
     const projectIdea = `
 Title:
 ${project.title}
@@ -84,21 +107,27 @@ ${project.idea || project.description}
 
 Requirements:
 ${
-  project.requirements.length
+  project.requirements?.length
     ? project.requirements.join("\n")
     : "Not specified"
 }
 
 Additional Requirements:
-${project.additionalRequirements}
+${project.additionalRequirements || "None"}
 `;
+
+    // ---------------------------------------------------------
+    // Load chat history and project progress
+    // ---------------------------------------------------------
 
     const chatDoc = await ChatRepository.findByProjectId(projectId);
     const history = chatDoc?.messages || [];
 
+    const projectProgress = await ProgressRepository.find(projectId);
+
     const recentMessages = history.slice(-40);
 
-    const progress = recentMessages
+    const conversationProgress = recentMessages
       .map(
         (msg) =>
           `${msg.role === "assistant" ? "Mentor" : "Student"}: ${msg.content}`,
@@ -107,18 +136,25 @@ ${project.additionalRequirements}
 
     const userMessageData = {
       role: "user",
-      content: messageData.content,
+      content,
     };
+
+    // ---------------------------------------------------------
+    // Load approved/stored blueprint
+    // ---------------------------------------------------------
 
     const projectBlueprint = await ProjectRepository.getBlueprint(projectId);
 
     console.log("========== PROJECT BLUEPRINT ==========");
+    console.log(projectBlueprint);
     console.log("=======================================");
 
-    // -----------------------------
-    // Quick Responses (No AI Call)
-    // -----------------------------
-    const question = messageData.content.trim().toLowerCase();
+    // ---------------------------------------------------------
+    // Quick responses
+    // These do not require an AI call.
+    // ---------------------------------------------------------
+
+    const question = content.toLowerCase();
 
     const quickReplies = {
       hello: "Hi! 👋 How can I help you with your project today?",
@@ -170,13 +206,25 @@ ${project.additionalRequirements}
       };
     }
 
+    // ---------------------------------------------------------
+    // Format blueprint for AI
+    // ---------------------------------------------------------
+
     const formattedBlueprint = summarizeBlueprint(projectBlueprint);
 
+    // ---------------------------------------------------------
+    // Initial AI payload
+    // ---------------------------------------------------------
+
     const payload = {
-      question: messageData.content.trim(),
+      question: content,
       response_style: "chat",
       first_message: history.length === 0,
     };
+
+    // ---------------------------------------------------------
+    // Detect whether question needs project context
+    // ---------------------------------------------------------
 
     const projectKeywords = [
       "project",
@@ -242,7 +290,11 @@ ${project.additionalRequirements}
       projectKeywords.some((k) => question.includes(k)) ||
       followUpKeywords.some((k) => question.includes(k));
 
-    let conversationContext = progress;
+    // ---------------------------------------------------------
+    // Conversation context
+    // ---------------------------------------------------------
+
+    let conversationContext = conversationProgress;
 
     const followUpWords = [
       "it",
@@ -263,7 +315,8 @@ ${project.additionalRequirements}
     const isFollowUp = followUpWords.some((word) => question.includes(word));
 
     if (isFollowUp) {
-      conversationContext = `The user's latest question refers to the previous assistant response.
+      conversationContext = `
+The user's latest question refers to the previous assistant response.
 
 Previous assistant response:
 ${history
@@ -273,24 +326,66 @@ ${history
   .join("\n")}
 
 Recent conversation:
-${progress}`;
+${conversationProgress}
+`;
     }
 
-    payload.progress = conversationContext;
+    // ---------------------------------------------------------
+    // Progress + conversation context
+    // ---------------------------------------------------------
+
+    payload.progress = JSON.stringify({
+      projectProgress: projectProgress
+        ? {
+            completion: projectProgress.overallCompletion,
+            currentStage: projectProgress.currentStage,
+            currentGoal: projectProgress.currentGoal,
+            currentBlockers: projectProgress.currentBlockers,
+            lastUpdated: projectProgress.updatedAt,
+          }
+        : null,
+
+      conversationHistory: conversationContext,
+    });
+
     payload.first_message = history.length === 0;
 
-    if (needsProjectContext) {
-      payload.studentProfile = studentProfile;
-      payload.projectIdea = projectIdea;
-      payload.projectBlueprint = formattedBlueprint;
-      payload.duration = project.expectedDuration || "Not specified";
-      payload.team = project.team || "Individual";
-      payload.phase = project.status || "Planning";
-    }
+    // ---------------------------------------------------------
+    // ALWAYS provide project context
+    //
+    // The AI mentor should be project-aware even when the
+    // question itself is short or generic.
+    // ---------------------------------------------------------
+
+    payload.studentProfile = studentProfile;
+    payload.projectIdea = projectIdea;
+    payload.projectBlueprint = formattedBlueprint;
+    payload.duration = project.expectedDuration || "Not specified";
+    payload.team = project.team || "Individual";
+    payload.phase = project.status || "Planning";
+
+    console.log("========== MENTOR PAYLOAD ==========");
+    console.log({
+      question: payload.question,
+      first_message: payload.first_message,
+      hasBlueprint: Boolean(payload.projectBlueprint),
+      hasProgress: Boolean(payload.progress),
+      duration: payload.duration,
+      team: payload.team,
+      phase: payload.phase,
+    });
+    console.log("====================================");
+
+    // ---------------------------------------------------------
+    // Call AI Mentor
+    // ---------------------------------------------------------
 
     const mentor = await AIGatewayService.mentorChat(payload);
 
+    // ---------------------------------------------------------
     // Save AI reply
+    // ---------------------------------------------------------
+
     const aiMessageData = {
       role: "assistant",
       content: mentor.response,
@@ -316,6 +411,7 @@ ${progress}`;
     await ProjectService.getProjectById(projectId, userId);
 
     const chatDoc = await ChatRepository.findByProjectId(projectId);
+
     return chatDoc?.messages || [];
   }
 

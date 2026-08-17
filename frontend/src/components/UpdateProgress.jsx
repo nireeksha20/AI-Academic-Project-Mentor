@@ -23,6 +23,8 @@ export default function UpdateProgress() {
 
   const [newTask, setNewTask] = useState("");
 
+  const [updateNote, setUpdateNote] = useState("");
+
   useEffect(() => {
     if (projectId) {
       fetchProgress();
@@ -64,6 +66,7 @@ export default function UpdateProgress() {
       setTasks(p.tasks || []);
       setBlockers((p.blockers || []).join(", "));
       setNotes(p.notes || "");
+      setUpdateNote(p.updateNote || "");
     } catch (err) {
       console.log(err);
     }
@@ -86,6 +89,7 @@ export default function UpdateProgress() {
             currentStage,
             currentGoal,
             notes,
+            updateNote,
             blockers: blockers
               .split(",")
               .map((b) => b.trim())
@@ -287,6 +291,14 @@ export default function UpdateProgress() {
           className="w-full rounded-xl bg-slate-950 p-3"
         />
       </div>
+
+      <textarea
+        value={updateNote}
+        onChange={(e) => setUpdateNote(e.target.value)}
+        placeholder="Describe what you completed in this update..."
+        rows={4}
+        className="w-full rounded-xl border border-white/10 bg-slate-950 p-4 text-white outline-none focus:border-cyan-400"
+      />
 
       <button
         onClick={saveProgress}

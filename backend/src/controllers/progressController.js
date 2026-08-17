@@ -47,3 +47,21 @@ export class ProgressController {
     }
   }
 }
+
+export const getProgressHistory = async (req, res, next) => {
+  try {
+    const history = await ProgressService.getProgressHistory(
+      req.params.projectId,
+      req.user.id,
+    );
+
+    return res.status(200).json({
+      success: true,
+      data: {
+        history,
+      },
+    });
+  } catch (error) {
+    next(error);
+  }
+};

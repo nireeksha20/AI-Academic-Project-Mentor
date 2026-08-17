@@ -16,13 +16,13 @@ const taskSchema = new mongoose.Schema(
   { _id: true },
 );
 
-const progressSchema = new mongoose.Schema(
+const progressHistorySchema = new mongoose.Schema(
   {
     projectId: {
       type: mongoose.Schema.Types.ObjectId,
       ref: "Project",
       required: true,
-      unique: true,
+      index: true,
     },
 
     userId: {
@@ -61,22 +61,6 @@ const progressSchema = new mongoose.Schema(
       default: "",
     },
 
-    health: {
-      type: String,
-      enum: ["On Track", "At Risk", "Delayed"],
-      default: "On Track",
-    },
-
-    aiSuggestion: {
-      type: String,
-      default: "",
-    },
-
-    updatedTimeline: {
-      type: String,
-      default: "",
-    },
-
     updateNote: {
       type: String,
       default: "",
@@ -88,4 +72,4 @@ const progressSchema = new mongoose.Schema(
   },
 );
 
-export default mongoose.model("Progress", progressSchema);
+export default mongoose.model("ProgressHistory", progressHistorySchema);

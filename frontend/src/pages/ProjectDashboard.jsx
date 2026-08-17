@@ -4,13 +4,16 @@ import ReactMarkdown from "react-markdown";
 import {
   ArrowLeft,
   CheckCircle2,
-  Clock3,
   BrainCircuit,
   Users,
   FolderGit2,
   Cpu,
   Clock,
   AlertTriangle,
+  ArrowRight,
+  Sparkles,
+  Target,
+  ListChecks,
 } from "lucide-react";
 import { useParams } from "react-router-dom";
 import FeasibilityCard from "../components/FeasibilityCard";
@@ -23,6 +26,8 @@ import AgentAccordion from "../components/AgentAccordion";
 import MentorCard from "../components/MentorCard";
 import { useLayoutEffect } from "react";
 import ProjectProgressCard from "../components/ProjectProgressCard";
+import ProgressHistory from "../components/ProgressHistory";
+import FacultyDashboard from "./FacultyDashboard";
 
 export default function ProjectDashboard() {
   const { id } = useParams();
@@ -30,22 +35,48 @@ export default function ProjectDashboard() {
   const [blueprint, setBlueprint] = useState(null);
   const [generating, setGenerating] = useState(false);
   const [docType, setDocType] = useState(null);
-  const [docContent, setDocContent] = useState(null);
   const [docLoading, setDocLoading] = useState(false);
+  const [progress, setProgress] = useState(null);
+  const [tab, setTab] = useState("overview");
 
   const handleGenerateDocumentation = async (type) => {
-  try {
-    setDocLoading(true);
-    setDocType(type);
-    const res = await projectService.generateDocumentation(project._id, type);
-    setDocContent(res.data.doc.content);
-  } catch (err) {
-    console.error(err);
-    alert("Failed to generate documentation.");
-  } finally {
-    setDocLoading(false);
-  }
-};
+    try {
+      setDocLoading(true);
+      setDocType(type);
+
+      const response = await projectService.generateDocumentation(
+        project._id,
+        type,
+      );
+
+      const blob = new Blob([response], {
+        type: "application/vnd.openxmlformats-officedocument.wordprocessingml.document",
+      });
+
+      const url = window.URL.createObjectURL(blob);
+
+      const link = document.createElement("a");
+      link.href = url;
+
+      const safeTitle = project.title
+        .replace(/[^a-z0-9]/gi, "_")
+        .replace(/_+/g, "_");
+
+      link.download = `${safeTitle}_${type}.docx`;
+
+      document.body.appendChild(link);
+      link.click();
+
+      link.remove();
+      window.URL.revokeObjectURL(url);
+    } catch (err) {
+      console.error(err);
+      alert("Failed to generate documentation.");
+    } finally {
+      setDocLoading(false);
+      setDocType(null);
+    }
+  };
 
   const handleGenerateBlueprint = async () => {
     try {
@@ -84,6 +115,7 @@ export default function ProjectDashboard() {
       try {
         const response = await projectService.getProjectById(id);
         setProject(response.data?.project);
+
         try {
           const blueprintResponse = await projectService.getBlueprint(id);
 
@@ -92,6 +124,21 @@ export default function ProjectDashboard() {
           }
         } catch (err) {
           console.log("Blueprint not found yet.");
+        }
+
+        try {
+          const progressResponse = await projectService.getProgress(id);
+
+          console.log("PROJECT DASHBOARD PROGRESS:", progressResponse);
+
+          if (progressResponse.success) {
+            setProgress(progressResponse.data);
+          }
+        } catch (err) {
+          console.error(
+            "Failed to fetch project progress:",
+            err.response?.data || err.message,
+          );
         }
       } catch (error) {
         console.error("Failed to fetch project details", error);
@@ -117,7 +164,6 @@ export default function ProjectDashboard() {
     <div className="min-h-screen bg-slate-950 text-white">
       <div className="mx-auto max-w-7xl px-8 py-10">
         {/* Header */}
-
         <div className="mb-6 flex items-start justify-between">
           <div>
             <Link
@@ -165,215 +211,284 @@ export default function ProjectDashboard() {
             </button>
           </div>
         </div>
-
-        <div className="mb-10 grid gap-6 md:grid-cols-4">
-          <OverviewCard
-            icon={<BrainCircuit size={22} />}
-            title="Blueprint Status"
-            value={blueprint?.status || "Pending"}
-          />
-
-          <OverviewCard
-            icon={<CheckCircle2 size={22} />}
-            title="Overall Score"
-            value={
-              blueprint ? `${blueprint.feasibility?.feasibility_score}/10` : "-"
-            }
-          />
-
-          <OverviewCard
-            icon={<FolderGit2 size={22} />}
-            title="Difficulty"
-            value={project.level}
-          />
-
-          <OverviewCard
-            icon={<Clock size={22} />}
-            title="Duration"
-            value={blueprint?.timeline?.estimated_duration ?? "-"}
-          />
+        {/* Navigation Tabs */}
+        <div className="mb-8 flex gap-2 rounded-2xl border border-white/10 bg-slate-900/60 p-2 overflow-x-auto">
+          {[
+            ["overview", "Overview"],
+            ["blueprint", "Blueprint"],
+            ["progress", "Progress"],
+            ["mentor", "AI Mentor"],
+            ["faculty", "Faculty"],
+          ].map(([key, label]) => (
+            <button
+              key={key}
+              onClick={() => setTab(key)}
+              className={`rounded-xl px-5 py-2 text-sm font-medium transition whitespace-nowrap ${
+                tab === key
+                  ? "bg-cyan-500 text-slate-950"
+                  : "text-slate-300 hover:bg-slate-800"
+              }`}
+            >
+              {label}
+            </button>
+          ))}
         </div>
+        {tab === "overview" && (
+          <>
+            <div className="mb-10 grid gap-6 md:grid-cols-4">
+              <OverviewCard
+                icon={<BrainCircuit size={22} />}
+                title="Blueprint Status"
+                value={blueprint?.status || "Pending"}
+              />
 
-        {/* Main Grid */}
+              <OverviewCard
+                icon={<CheckCircle2 size={22} />}
+                title="Overall Score"
+                value={
+                  blueprint
+                    ? `${blueprint.feasibility?.feasibility_score}/10`
+                    : "-"
+                }
+              />
 
-        <div className="mt-10 flex flex-col gap-6">
-          {blueprint && (
+              <OverviewCard
+                icon={<FolderGit2 size={22} />}
+                title="Difficulty"
+                value={project.level}
+              />
+
+              <OverviewCard
+                icon={<Clock size={22} />}
+                title="Duration"
+                value={blueprint?.timeline?.estimated_duration ?? "-"}
+              />
+            </div>
+
+            {/* Project Snapshot */}
+            <div className="mt-8 grid gap-6 lg:grid-cols-3">
+              {/* Current Stage */}
+              <div className="rounded-2xl border border-white/10 bg-slate-900/60 p-6">
+                <div className="flex items-center gap-3">
+                  <div className="rounded-xl bg-cyan-500/10 p-3">
+                    <Target className="text-cyan-400" size={22} />
+                  </div>
+
+                  <div>
+                    <p className="text-xs font-semibold uppercase tracking-wider text-slate-400">
+                      Current Stage
+                    </p>
+
+                    <h3 className="mt-1 text-lg font-semibold text-white">
+                      {progress?.currentStage || project.status || "Planning"}
+                    </h3>
+                  </div>
+                </div>
+
+                <div className="mt-5">
+                  <div className="mb-2 flex justify-between text-sm">
+                    <span className="text-slate-400">Overall completion</span>
+
+                    <span className="font-semibold text-cyan-400">
+                      {progress?.overallCompletion ?? 0}%
+                    </span>
+                  </div>
+
+                  <div className="h-2 overflow-hidden rounded-full bg-slate-800">
+                    <div
+                      className="h-full rounded-full bg-cyan-400 transition-all"
+                      style={{
+                        width: `${progress?.overallCompletion ?? 0}%`,
+                      }}
+                    />
+                  </div>
+                </div>
+              </div>
+
+              {/* Current Goal */}
+              <div className="rounded-2xl border border-white/10 bg-slate-900/60 p-6">
+                <div className="flex items-center gap-3">
+                  <div className="rounded-xl bg-purple-500/10 p-3">
+                    <ListChecks className="text-purple-400" size={22} />
+                  </div>
+
+                  <div>
+                    <p className="text-xs font-semibold uppercase tracking-wider text-slate-400">
+                      Current Goal
+                    </p>
+
+                    <h3 className="mt-1 text-lg font-semibold text-white">
+                      {progress?.currentGoal ||
+                        "Define your first development goal"}
+                    </h3>
+                  </div>
+                </div>
+
+                <p className="mt-5 text-sm leading-6 text-slate-400">
+                  Keep your current milestone focused and update your progress
+                  as development continues.
+                </p>
+              </div>
+
+              {/* Next Action */}
+              <div className="rounded-2xl border border-cyan-400/20 bg-cyan-500/5 p-6">
+                <div className="flex items-center gap-3">
+                  <div className="rounded-xl bg-cyan-500/10 p-3">
+                    <Sparkles className="text-cyan-400" size={22} />
+                  </div>
+
+                  <div>
+                    <p className="text-xs font-semibold uppercase tracking-wider text-slate-400">
+                      Recommended Next Action
+                    </p>
+
+                    <h3 className="mt-1 text-lg font-semibold text-white">
+                      {blueprint
+                        ? "Start implementing your approved blueprint"
+                        : "Generate your AI blueprint"}
+                    </h3>
+                  </div>
+                </div>
+
+                <p className="mt-5 text-sm leading-6 text-slate-400">
+                  {blueprint
+                    ? "Use your technology stack, scope and development timeline as the starting point for implementation."
+                    : "Generate the blueprint to receive your feasibility analysis, scope, technology stack, timeline and risks."}
+                </p>
+              </div>
+            </div>
+          </>
+        )}
+        {/* ================= OVERVIEW ================= */}
+        {tab === "overview" && (
+          <div className="mt-10 space-y-6">
+            <Card title="Project Summary" icon={<FolderGit2 size={22} />}>
+              <div className="grid gap-4 md:grid-cols-2">
+                <SummaryCard title="Domain" value={project.domain} />
+                <SummaryCard title="Team" value={project.team} />
+                <SummaryCard title="Difficulty" value={project.level} />
+                <SummaryCard
+                  title="Duration"
+                  value={blueprint?.timeline?.estimated_duration || "-"}
+                />
+              </div>
+            </Card>
+
+            <Card title="Quick Status" icon={<Target size={22} />}>
+              <div className="grid gap-4 md:grid-cols-3">
+                <SummaryCard
+                  title="Blueprint"
+                  value={blueprint?.status || "Pending"}
+                  color="text-cyan-400"
+                />
+                <SummaryCard
+                  title="Completion"
+                  value={`${progress?.overallCompletion || 0}%`}
+                  color="text-green-400"
+                />
+                <SummaryCard
+                  title="Current Goal"
+                  value={progress?.currentGoal || "-"}
+                />
+              </div>
+            </Card>
+          </div>
+        )}
+        {/* ================= BLUEPRINT ================= */}
+        {tab === "blueprint" && blueprint && (
+          <div className="mt-10 space-y-6">
             <AgentAccordion
               title="Project Feasibility"
               icon={<CheckCircle2 className="text-cyan-400" />}
             >
               <FeasibilityCard data={blueprint.feasibility} />
             </AgentAccordion>
-          )}
-          {blueprint?.status === "Needs Clarification" && (
-            <div className="lg:col-span-2">
-              <ClarificationCard feasibility={blueprint.feasibility} />
-            </div>
-          )}
 
-          {blueprint?.scope && (
             <AgentAccordion
               title="Project Scope"
               icon={<FolderGit2 className="text-cyan-400" />}
             >
               <ScopeCard data={blueprint.scope} />
             </AgentAccordion>
-          )}
-          {blueprint?.technology && (
+
             <AgentAccordion
               title="Technology Stack"
               icon={<Cpu className="text-cyan-400" />}
             >
               <TechnologyCard data={blueprint.technology} />
             </AgentAccordion>
-          )}
-          {blueprint?.timeline && (
+
             <AgentAccordion
               title="Development Timeline"
               icon={<Clock className="text-cyan-400" />}
             >
               <TimelineCard data={blueprint.timeline} />
             </AgentAccordion>
-          )}
-          {blueprint?.risk && (
+
             <AgentAccordion
               title="Risk Assessment"
               icon={<AlertTriangle className="text-cyan-400" />}
             >
               <RiskCard data={blueprint.risk} />
             </AgentAccordion>
-          )}
 
-          <div>
-            {blueprint && (
-              <Card title="Blueprint Summary" icon={<BrainCircuit size={20} />}>
-                {/* Verdict */}
-                <SummaryCard
-                  title="Verdict"
-                  value={blueprint.feasibility?.verdict}
-                  color="text-emerald-400"
-                  fullWidth
-                />
-
-                {/* Other metrics */}
-                <div className="mt-4 grid gap-4 sm:grid-cols-2 lg:grid-cols-4">
-                  <SummaryCard title="Difficulty" value={project.level} />
-
-                  <SummaryCard
-                    title="Duration"
-                    value={blueprint.timeline?.estimated_duration}
-                  />
-
-                  <SummaryCard
-                    title="Industry Value"
-                    value={
-                      blueprint.feasibility?.industry_value != null
-                        ? `${blueprint.feasibility.industry_value}/10`
-                        : "-"
-                    }
-                  />
-
-                  <SummaryCard
-                    title="Portfolio Value"
-                    value={`${blueprint.feasibility?.portfolio_value}/10`}
-                  />
-                </div>
-
-                <div className="mt-4 grid sm:grid-cols-2 lg:grid-cols-4 gap-4">
-                  <SummaryCard
-                    title="Overall Score"
-                    value={`${blueprint.feasibility?.feasibility_score}/10`}
-                    color="text-cyan-400"
-                  />
-                </div>
-              </Card>
-            )}
-          </div>
-          {/* Team */}
-          <Card title="Project Team" icon={<Users size={22} />}>
-            <div className="rounded-xl border border-white/10 bg-slate-950/50 p-5">
-              <p className="text-sm font-semibold">{project.team}</p>
-
-              <p className="mt-2 text-slate-400">
-                {project.team === "Individual"
-                  ? "This is an individual project."
-                  : "Team collaboration is enabled."}
-              </p>
-            </div>
-          </Card>
-
-          {/* Documents */}
-<Card title="Project Documents" icon={<BrainCircuit size={22} />}>
-  {blueprint ? (
-    <div className="space-y-3">
-      {["synopsis", "methodology", "progress_report"].map((type) => (
-        <button
-          key={type}
-          onClick={() => handleGenerateDocumentation(type)}
-          disabled={docLoading}
-          className="flex w-full items-center justify-between rounded-xl border border-cyan-400/20 bg-cyan-500/5 px-4 py-3 transition hover:border-cyan-400 disabled:opacity-50"
-        >
-          <span className="capitalize">
-            {docLoading && docType === type
-              ? "Generating..."
-              : `📘 ${type.replace("_", " ")}`}
-          </span>
-        </button>
-      ))}
-
-      {docContent && (
-        <div className="mt-4 rounded-xl border border-white/10 bg-slate-950/50 p-6 prose prose-invert max-w-none">
-          <ReactMarkdown>{docContent}</ReactMarkdown>
-        </div>
-      )}
-    </div>
-  ) : (
-    <div className="rounded-xl border border-dashed border-white/10 p-6 text-center text-slate-400">
-      Generate an AI Blueprint to unlock project documents.
-    </div>
-  )}
-</Card>
-          {/* Documents */}
-          {/* <Card title="Project Documents" icon={<FileText size={22} />}>
-            {blueprint ? (
+            <Card title="Project Documents" icon={<BrainCircuit size={22} />}>
               <div className="space-y-3">
-                <button className="flex w-full items-center justify-between rounded-xl border border-cyan-400/20 bg-cyan-500/5 px-4 py-3 transition hover:border-cyan-400">
-                  <span>📘 AI Blueprint Report</span>
-
-                  <span className="text-sm text-cyan-400">Coming Soon</span>
-                </button>
+                {["synopsis", "methodology", "progress_report"].map((type) => (
+                  <button
+                    key={type}
+                    onClick={() => handleGenerateDocumentation(type)}
+                    disabled={docLoading}
+                    className="flex w-full items-center justify-between rounded-xl border border-cyan-400/20 bg-cyan-500/5 px-4 py-4 hover:bg-cyan-500/10"
+                  >
+                    <span className="capitalize">
+                      📘 {type.replace("_", " ")}
+                    </span>
+                    <span className="text-cyan-400">
+                      {docLoading && docType === type
+                        ? "Generating..."
+                        : "Download"}
+                    </span>
+                  </button>
+                ))}
               </div>
-            ) : (
-              <div className="rounded-xl border border-dashed border-white/10 p-6 text-center text-slate-400">
-                Generate an AI Blueprint to unlock project documents.
-              </div>
-            )}
-          </Card> */}
+            </Card>
+          </div>
+        )}
+        {/* ================= PROGRESS ================= */}
+        {tab === "progress" && (
+          <div className="mt-10 space-y-6">
+            <Card title="Project Progress" icon={<CheckCircle2 size={22} />}>
+              <ProjectProgressCard projectId={project._id} />
+            </Card>
 
-          <Card title="Project Progress" icon={<CheckCircle2 size={22} />}>
-            <ProjectProgressCard projectId={project._id} />
-          </Card>
-
-          <Card
-            title="AI Conversational Mentor"
-            icon={<BrainCircuit size={22} />}
-          >
-            <div className="mb-6 rounded-xl border border-cyan-500/20 bg-cyan-500/5 p-4">
-              <p className="text-sm leading-7 text-slate-300">
-                Need guidance while building your project? Ask your AI faculty
-                mentor about implementation, debugging, architecture, planning,
-                or your next development step. Recommendations are generated
-                using your approved blueprint, current progress, and project
-                constraints.
-              </p>
-            </div>
-            <MentorCard
-              projectId={project._id}
+            <Card title="Progress History" icon={<Clock size={22} />}>
+              <ProgressHistory projectId={project._id} />
+            </Card>
+          </div>
+        )}
+        {/* ================= AI MENTOR ================= */}
+        {tab === "mentor" && (
+          <div className="mt-10">
+            <Card title="AI Faculty Mentor" icon={<BrainCircuit size={22} />}>
+              <MentorCard
+                projectId={project._id}
+                project={project}
+                blueprint={blueprint}
+              />
+            </Card>
+          </div>
+        )}
+        {/* ================= FACULTY ================= */}
+        {tab === "faculty" && (
+          <div className="mt-10">
+            <FacultyDashboard
               project={project}
               blueprint={blueprint}
+              progress={progress}
             />
-          </Card>
-        </div>
+          </div>
+        )}{" "}
       </div>
     </div>
   );

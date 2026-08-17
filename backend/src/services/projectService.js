@@ -28,28 +28,68 @@ export class ProjectService {
    * Get a specific project, ensuring the user owns it
    */
 
-
-// inside class ProjectService
+  // inside class ProjectService
   static async generateDocumentation(projectId, ownerId, docType) {
     const project = await this.getProjectById(projectId, ownerId);
 
-  if (!project.blueprint) {
-    const err = new Error("Generate a blueprint before generating documentation");
-    err.statusCode = 400;
-    throw err;
+    if (!project.blueprint) {
+      const err = new Error(
+        "Generate a blueprint before generating documentation",
+      );
+
+      err.statusCode = 400;
+      throw err;
+    }
+
+    const user = await User.findById(ownerId);
+
+    if (!user) {
+      const err = new Error("User not found");
+      err.statusCode = 404;
+      throw err;
+    }
+
+    const progressDoc =
+      docType === "progress_report"
+        ? await ProgressRepository.find(projectId)
+        : null;
+
+    const studentProfile = `
+Student Name: ${user.name || ""}
+College / University: ${user.profile?.college || ""}
+Department: ${user.profile?.department || ""}
+Bio: ${user.profile?.bio || ""}
+GitHub: ${user.profile?.github || ""}
+LinkedIn: ${user.profile?.linkedin || ""}
+
+Programming: ${user.skillAssessment?.programming || ""}
+Frontend: ${user.skillAssessment?.frontend || ""}
+Backend: ${user.skillAssessment?.backend || ""}
+Database: ${user.skillAssessment?.database || ""}
+AI: ${user.skillAssessment?.ai || ""}
+Experience: ${user.skillAssessment?.experience || ""}
+Preferred Role: ${user.skillAssessment?.role || ""}
+Preferred Technology: ${user.skillAssessment?.preferredTech || ""}
+Interests: ${(user.skillAssessment?.interests || []).join(", ")}
+`;
+
+    const aiResult = await AIGatewayService.generateDocumentation({
+      studentProfile,
+      blueprint: JSON.stringify(project.blueprint),
+      progress: progressDoc ? JSON.stringify(progressDoc) : "",
+      docType,
+    });
+
+    return {
+      content: aiResult.content,
+      docType: aiResult.doc_type,
+
+      projectTitle: project.title || "",
+      studentName: user.name || "",
+      institutionName: user.profile?.college || "",
+      departmentName: user.profile?.department || "",
+    };
   }
-
-  const progressDoc = docType === "progress_report"
-  ? await ProgressRepository.find(projectId)
-  : null;
-
-  return AIGatewayService.generateDocumentation({
-    studentProfile: "", // reuse the same string-building logic as generateBlueprint if you want it accurate
-    blueprint: JSON.stringify(project.blueprint),
-    progress: progressDoc ? JSON.stringify(progressDoc) : "",
-    docType,
-  });
-}
 
   static async getProjectById(projectId, ownerId) {
     const project = await ProjectRepository.findById(projectId);
@@ -172,11 +212,30 @@ ${project.additionalRequirements}
   }
 
   /**
+   * Get project progress
+   */
+  async getProgress(projectId) {
+    const response = await api.get(`/progress/${projectId}`);
+    return response.data;
+  }
+
+  /**
    * Get stored blueprint
    */
   static async getBlueprint(projectId, ownerId) {
     await this.getProjectById(projectId, ownerId);
 
     return ProjectRepository.getBlueprint(projectId);
+  }
+
+  static async getFacultySummary(projectId, ownerId) {
+    const project = await this.getProjectById(projectId, ownerId);
+
+    const progress = await ProgressRepository.find(projectId);
+
+    return AIGatewayService.generateFacultySummary({
+      blueprint: JSON.stringify(project.blueprint),
+      progress: JSON.stringify(progress || {}),
+    });
   }
 }

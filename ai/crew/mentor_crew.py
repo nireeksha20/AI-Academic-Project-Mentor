@@ -6,6 +6,7 @@ from ai.agents.tech_stack_agent import create_tech_stack
 from ai.agents.timeline_agent import create_timeline
 from ai.agents.risk_agent import create_risk
 from ai.agents.documentation_agent import create_documentation
+from ai.agents.faculty_summary_agent import create_faculty_summary
 
 from ai.services.blueprint_service import blueprint_service
 
@@ -167,3 +168,21 @@ class MentorCrew:
         )
 
         return blueprint
+
+        
+    def generate_faculty_summary(self, blueprint, progress):
+
+        agent, task = create_faculty_summary()
+
+        result = Crew(
+            agents=[agent],
+            tasks=[task],
+            verbose=False,
+        ).kickoff(
+            inputs={
+                "project_blueprint": blueprint,
+                "progress": progress,
+            }
+        )
+
+        return result.raw

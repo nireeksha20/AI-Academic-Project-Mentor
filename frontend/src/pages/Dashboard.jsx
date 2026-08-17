@@ -1,4 +1,4 @@
-import { Link, useNavigate } from "react-router-dom";
+import { Link, useNavigate, useLocation } from "react-router-dom";
 import { useEffect, useState, useContext } from "react";
 import { AuthContext } from "../context/AuthContext";
 import { projectService } from "../services/projectService";
@@ -11,6 +11,7 @@ import {
   Settings,
   LogOut,
   ChevronRight,
+  Trash2,
 } from "lucide-react";
 
 export default function Dashboard() {
@@ -37,6 +38,22 @@ export default function Dashboard() {
     logout();
     navigate("/login");
   }
+
+  const handleDelete = async (projectId) => {
+    const confirmDelete = window.confirm("Delete this project permanently?");
+
+    if (!confirmDelete) return;
+
+    try {
+      await projectService.deleteProject(projectId);
+
+      setProjects((prev) => prev.filter((p) => p._id !== projectId));
+    } catch (err) {
+      console.error(err);
+      alert("Failed to delete project");
+    }
+  };
+
   return (
     <div className="min-h-screen flex bg-slate-950 text-white">
       {/* Sidebar */}
@@ -57,21 +74,13 @@ export default function Dashboard() {
           <SidebarItem
             icon={<FolderOpen size={20} />}
             title="Projects"
-            to={
-              projects.length
-                ? `/project-dashboard/${projects[0]._id}`
-                : "/dashboard"
-            }
+            to="/projects"
           />
 
           <SidebarItem
             icon={<BrainCircuit size={20} />}
             title="AI Mentor"
-            to={
-              projects.length
-                ? `/requirements/${projects[0]._id}`
-                : "/dashboard"
-            }
+            to="/mentor"
           />
 
           <SidebarItem
@@ -120,14 +129,13 @@ export default function Dashboard() {
         {/* Stats */}
 
         <div className="grid grid-cols-1 gap-6 md:grid-cols-3">
-          <StatCard title="Projects" value={projects.length} />
-
-          <StatCard
-            title="Completed"
-            value={projects.filter((p) => p.status === "Completed").length}
-          />
-
-          <StatCard title="AI Sessions" value="0" />
+          <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
+            <StatCard title="Projects" value={projects.length} />
+            <StatCard
+              title="Completed"
+              value={projects.filter((p) => p.status === "Completed").length}
+            />
+          </div>
         </div>
 
         {/* Recent Projects */}
@@ -145,9 +153,16 @@ export default function Dashboard() {
                 </p>
               </div>
             ) : (
-              projects.map((project) => (
-                <ProjectCard key={project._id} project={project} />
-              ))
+              projects
+                .sort((a, b) => new Date(b.createdAt) - new Date(a.createdAt))
+                .slice(0, 3)
+                .map((project) => (
+                  <ProjectCard
+                    key={project._id}
+                    project={project}
+                    onDelete={handleDelete}
+                  />
+                ))
             )}
           </div>
         </div>
@@ -156,11 +171,11 @@ export default function Dashboard() {
   );
 }
 
-function SidebarItem({ icon, title, active, to = "#" }) {
+function SidebarItem({ icon, title, active, to }) {
   return (
     <Link
       to={to}
-      className={`flex w-full items-center gap-3 rounded-xl px-4 py-3 transition ${
+      className={`flex items-center gap-3 rounded-xl px-4 py-3 transition ${
         active
           ? "bg-cyan-500/20 text-cyan-300"
           : "text-slate-300 hover:bg-white/5"
@@ -182,11 +197,12 @@ function StatCard({ title, value }) {
   );
 }
 
-function ProjectCard({ project }) {
+function ProjectCard({ project, onDelete }) {
   return (
     <div className="flex items-center justify-between rounded-3xl border border-white/10 bg-slate-900/60 p-6 transition hover:border-cyan-400/30 hover:bg-slate-900">
       <div>
         <h4 className="text-xl font-semibold">{project.title}</h4>
+
         <p className="mt-1 text-sm text-slate-400">Domain: {project.domain}</p>
 
         <p className="mt-2">
@@ -203,18 +219,28 @@ function ProjectCard({ project }) {
             {project.status}
           </span>
         </p>
+
         <p className="mt-2 text-sm text-slate-500">
           {new Date(project.createdAt).toLocaleDateString()}
         </p>
       </div>
 
-      <Link
-        to={`/requirements/${project._id}`}
-        className="flex items-center gap-2 rounded-xl border border-cyan-400/30 px-5 py-3 text-cyan-300 transition hover:bg-cyan-500/10"
-      >
-        Open
-        <ChevronRight size={18} />
-      </Link>
+      <div className="flex gap-3">
+        <Link
+          to={`/project-dashboard/${project._id}`}
+          className="flex items-center gap-2 rounded-xl border border-cyan-400/30 px-5 py-3 text-cyan-300 hover:bg-cyan-500/10"
+        >
+          Open
+          <ChevronRight size={18} />
+        </Link>
+
+        <button
+          onClick={() => onDelete(project._id)}
+          className="rounded-xl border border-red-500/30 px-4 py-3 text-red-400 hover:bg-red-500/10"
+        >
+          <Trash2 size={18} />
+        </button>
+      </div>
     </div>
   );
 }

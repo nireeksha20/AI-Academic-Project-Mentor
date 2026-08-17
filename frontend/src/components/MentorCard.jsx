@@ -37,12 +37,15 @@ export default function MentorCard({ projectId }) {
 
       if (!data.success) return;
 
-      const history = data.data.history;
+      const history = data.data.history || [];
 
-      console.log(history);
+      const normalizedHistory = history.map((msg) => ({
+        role: msg.role,
+        content: msg.content,
+      }));
 
-      if (history.length > 0) {
-        setMessages(history);
+      if (normalizedHistory.length > 0) {
+        setMessages(normalizedHistory);
       } else {
         setMessages([greeting]);
       }
@@ -98,7 +101,7 @@ export default function MentorCard({ projectId }) {
             Authorization: `Bearer ${token}`,
           },
           body: JSON.stringify({
-            content: currentQuestion,
+            message: currentQuestion,
           }),
         },
       );
@@ -114,20 +117,29 @@ export default function MentorCard({ projectId }) {
           },
         ]);
       } else {
+        console.error("Mentor API error:", data);
+
+        const validationMessage =
+          data.errors?.map((error) => error.message).join("\n") ||
+          data.message ||
+          "Unable to generate a response.";
+
         setMessages((prev) => [
           ...prev,
           {
             role: "assistant",
-            message: "Unable to generate a response.",
+            content: validationMessage,
           },
         ]);
       }
-    } catch {
+    } catch (error) {
+      console.error("Mentor request failed:", error);
+
       setMessages((prev) => [
         ...prev,
         {
-          sender: "ai",
-          message: "Unable to generate a response.",
+          role: "assistant",
+          content: "Unable to generate a response.",
         },
       ]);
     } finally {
@@ -153,7 +165,7 @@ export default function MentorCard({ projectId }) {
                 msg.role === "user" ? "justify-end" : "justify-start"
               }`}
             >
-              {msg.role === "ai" && (
+              {msg.role === "assistant" && (
                 <div className="flex h-10 w-10 items-center justify-center rounded-full bg-cyan-500 text-black">
                   <Bot size={20} />
                 </div>

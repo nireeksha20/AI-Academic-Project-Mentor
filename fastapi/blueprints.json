@@ -236,86 +236,84 @@
             "clarification_required": false,
             "clarification_questions": [],
             "suggested_interpretations": [],
-            "feasibility_score": 7,
+            "feasibility_score": 8,
             "complexity": "Medium",
-            "technical_feasibility": "High, given the student's advanced backend and database skills, though the frontend implementation will require significant effort due to the student's beginner status.",
-            "implementation_feasibility": "Moderate; the primary risk is the time required to build a responsive web dashboard while simultaneously training or fine-tuning a deep learning model.",
-            "academic_suitability": "High, as it integrates computer vision, data management, and software architecture within a single semester timeframe.",
-            "industry_value": 8,
-            "portfolio_value": 9,
+            "technical_feasibility": "High, provided the student utilizes pre-trained models (Transfer Learning) rather than training from scratch.",
+            "implementation_feasibility": "High, given the student's advanced backend and database skills, though frontend development will be the primary bottleneck.",
+            "academic_suitability": "High, as it demonstrates the integration of machine learning pipelines with web-based data management.",
+            "industry_value": 7,
+            "portfolio_value": 8,
             "strengths": [
-                "Strong alignment with student's backend and database expertise",
-                "Clear, well-defined problem statement with high real-world utility",
-                "Excellent opportunity to demonstrate full-stack integration skills"
+                "Clear alignment between student's advanced backend/database skills and project requirements.",
+                "Well-defined problem scope suitable for a single-semester individual project.",
+                "High potential for demonstrating end-to-end system architecture."
             ],
             "challenges": [
-                "Steep learning curve for frontend development (UI/UX) for a beginner",
-                "Data acquisition and preprocessing for the crop disease model can be time-consuming",
-                "Balancing model training time with web application development within one semester"
+                "Frontend development for the dashboard may be difficult given the student's beginner-level experience in that area.",
+                "Data acquisition and preprocessing for crop disease images can be time-consuming.",
+                "Balancing model inference latency with web request handling."
             ],
             "skills_to_learn": [
-                "Frontend frameworks (e.g., React or Vue.js)",
-                "Deep learning libraries (e.g., PyTorch or TensorFlow)",
-                "Image preprocessing pipelines",
-                "Deployment of AI models in a cloud environment"
+                "Frontend frameworks (e.g., React or Streamlit for rapid prototyping)",
+                "Transfer learning techniques using PyTorch or TensorFlow",
+                "Deployment of ML models via REST APIs (FastAPI/Flask)"
             ],
             "suggestions": [
-                "Use a pre-trained model (e.g., MobileNetV2 or ResNet) and perform transfer learning to save time",
-                "Limit the scope to a specific set of crops or diseases to ensure dataset quality",
-                "Use a CSS framework like Tailwind or Bootstrap to accelerate frontend development",
-                "Prioritize the core detection functionality before adding complex analytics dashboards"
+                "Use Streamlit for the dashboard to minimize frontend development overhead and focus on the AI pipeline.",
+                "Utilize existing datasets like PlantVillage to avoid the time-intensive process of manual data collection.",
+                "Implement a pre-trained model like MobileNetV2 or ResNet to ensure high accuracy with limited training time.",
+                "Focus on a specific crop category to ensure the model achieves high precision rather than attempting a generic multi-crop system."
             ]
         },
         "scope": {
-            "goal": "Develop a specialized image-processing web application that enables farmers to identify specific diseases in tomato and potato leaves using a transfer-learned deep learning model and receive immediate treatment recommendations.",
+            "goal": "Develop a specialized image-classification system using transfer learning to identify specific diseases in tomato leaves and provide immediate treatment recommendations to farmers.",
             "core_features": [
-                "Image upload interface for leaf samples",
-                "Deep learning inference engine using a pre-trained model fine-tuned on a specific tomato and potato disease dataset",
-                "Disease classification output displaying the identified condition",
-                "Static database mapping identified diseases to verified agricultural treatment protocols"
+                "Image upload interface for tomato leaf samples",
+                "Deep learning inference engine using a pre-trained MobileNetV2 model fine-tuned on the PlantVillage tomato dataset",
+                "Automated mapping of classification results to a predefined database of treatment protocols",
+                "Display of disease identification and corresponding treatment instructions"
             ],
             "optional_features": [
                 "Confidence score display for model predictions",
-                "History log of user-uploaded images for personal reference",
-                "Downloadable PDF summary of treatment recommendations"
+                "History log of user-submitted images and results stored in a local SQLite database"
             ],
             "future_features": [
-                "Real-time camera integration for mobile field use",
-                "Multi-language support for regional dialects",
-                "Community-driven disease mapping and geospatial analytics"
+                "Support for additional crop types beyond tomatoes",
+                "Integration with real-time weather data for disease risk forecasting",
+                "User authentication for personalized history tracking"
             ],
             "out_of_scope": [
-                "User authentication and account management systems",
-                "Real-time crop health monitoring dashboards",
-                "Automated email or SMS notification systems",
-                "Integration with external weather or soil sensor APIs",
-                "Admin panel for managing user data or model retraining"
+                "User authentication and account management",
+                "General-purpose crop health analytics dashboard",
+                "Automated email or SMS notifications",
+                "Multi-language support",
+                "Real-time video stream processing"
             ],
             "deliverables": [
-                "Trained deep learning model file (e.g., .pth or .h5)",
-                "Web application source code repository",
-                "Dataset documentation and preprocessing pipeline scripts",
-                "Project report detailing model accuracy and system architecture"
+                "Python-based web application using Streamlit for the user interface",
+                "Trained model file (H5 or PyTorch state dict) optimized for tomato disease detection",
+                "Technical documentation detailing the transfer learning process and model accuracy metrics",
+                "Source code repository including data preprocessing scripts and inference logic"
             ]
         },
         "technology": {
             "frontend": "Streamlit",
-            "frontend_reason": "Given the student's beginner status in frontend development and the need to prioritize AI model integration, Streamlit allows for rapid creation of a functional, responsive web interface entirely in Python, eliminating the need to learn complex JavaScript frameworks.",
-            "backend": "Python with Flask",
-            "backend_reason": "The student has advanced backend skills in Python. Flask provides a lightweight, flexible micro-framework that integrates seamlessly with Python-based AI libraries, allowing the student to focus on logic rather than boilerplate code.",
+            "frontend_reason": "Given the student's beginner-level frontend skills and the need for rapid prototyping, Streamlit allows for the creation of a functional, interactive dashboard entirely in Python, eliminating the need to learn HTML/CSS/JS.",
+            "backend": "Python (integrated with Streamlit)",
+            "backend_reason": "Since the project is an individual effort with a focus on AI, keeping the backend logic within the Streamlit application structure reduces architectural overhead and context switching between languages.",
             "database": "SQLite",
-            "database_reason": "For an individual project with a limited scope and no requirement for concurrent multi-user write operations, SQLite is the most efficient choice. It requires zero configuration and simplifies deployment while handling the relational mapping of diseases to treatments effectively.",
+            "database_reason": "SQLite is a serverless, file-based database that is perfect for an individual project requiring local storage of image metadata and treatment protocols without the complexity of managing a separate database server.",
             "ai_stack": "PyTorch with torchvision",
-            "ai_stack_reason": "PyTorch is highly intuitive for researchers and developers. Using torchvision provides access to pre-trained models like MobileNetV2, which is ideal for transfer learning on mobile-friendly image classification tasks, ensuring high accuracy with limited training data.",
-            "deployment": "Render",
-            "deployment_reason": "Render offers a streamlined platform-as-a-service experience that supports Python applications and containerized environments. It simplifies the deployment of AI models by handling the infrastructure, allowing the student to focus on the application logic.",
-            "architecture": "Monolithic architecture with a decoupled inference service",
+            "ai_stack_reason": "PyTorch provides a highly intuitive API for transfer learning. Using torchvision's pre-trained MobileNetV2 models allows the student to achieve high accuracy on tomato leaf classification with minimal computational resources.",
+            "deployment": "Streamlit Community Cloud",
+            "deployment_reason": "This platform offers seamless, free deployment directly from a GitHub repository, which is ideal for a student project that requires public accessibility without complex infrastructure management.",
+            "architecture": "Monolithic Application Architecture",
             "recommendations": [
-                "Use pre-trained MobileNetV2 for transfer learning to minimize training time and computational overhead.",
-                "Implement a simple image preprocessing pipeline using OpenCV to ensure input images match the model's expected dimensions.",
-                "Leverage Tailwind CSS via Streamlit components if custom styling is required beyond default layouts.",
-                "Store treatment protocols in a structured JSON or CSV file if the database schema remains simple, or use SQLAlchemy with SQLite for better data management.",
-                "Focus on model evaluation metrics like F1-score rather than just accuracy to ensure the model performs well across different disease classes."
+                "Use the PlantVillage dataset specifically filtered for tomato leaf images to ensure model convergence within the semester timeframe.",
+                "Implement data augmentation techniques (rotation, flipping, brightness adjustment) to improve model robustness against varied lighting conditions in field photos.",
+                "Utilize the 'Pillow' library for efficient image preprocessing before passing tensors to the model.",
+                "Structure the treatment database as a JSON-mapped dictionary within the application for fast, low-latency lookups based on model prediction labels.",
+                "Focus on documenting the model's confusion matrix to demonstrate academic rigor in evaluating classification performance."
             ]
         },
         "timeline": {
@@ -323,126 +321,126 @@
             "phases": [
                 {
                     "week": 1,
-                    "title": "Dataset Acquisition and Preprocessing",
-                    "objective": "Curate and prepare the tomato and potato leaf image dataset for model training.",
+                    "title": "Dataset Acquisition and Preparation",
+                    "objective": "Secure and prepare the tomato leaf image dataset for model training.",
                     "tasks": [
-                        "Download PlantVillage or similar open-source datasets for tomato and potato diseases",
-                        "Perform data cleaning and remove corrupted images",
-                        "Implement image resizing and normalization scripts using OpenCV",
+                        "Download and filter the PlantVillage dataset for tomato leaf categories",
+                        "Implement image preprocessing scripts using Pillow",
+                        "Define data augmentation pipeline (rotation, flipping, brightness)",
                         "Split data into training, validation, and test sets"
                     ]
                 },
                 {
                     "week": 2,
                     "title": "Model Architecture and Transfer Learning",
-                    "objective": "Develop the deep learning model using PyTorch and MobileNetV2.",
+                    "objective": "Configure the MobileNetV2 model for the specific classification task.",
                     "tasks": [
-                        "Set up PyTorch environment and torchvision dependencies",
-                        "Load pre-trained MobileNetV2 model",
-                        "Modify the final classification layer for specific disease classes",
-                        "Define loss functions and optimizer settings"
+                        "Initialize pre-trained MobileNetV2 using PyTorch torchvision",
+                        "Modify the final classification layer for tomato disease classes",
+                        "Set up loss functions and optimizer parameters",
+                        "Establish baseline training loop"
                     ]
                 },
                 {
                     "week": 3,
                     "title": "Model Training and Evaluation",
-                    "objective": "Train the model and validate performance metrics.",
+                    "objective": "Train the model and validate its performance metrics.",
                     "tasks": [
-                        "Execute training loop on the prepared dataset",
+                        "Execute training process on the prepared dataset",
                         "Monitor training and validation loss curves",
-                        "Calculate F1-score, precision, and recall",
-                        "Save the best performing model weights (.pth file)"
+                        "Generate confusion matrix and classification report",
+                        "Save the best performing model state dictionary"
                     ]
                 },
                 {
                     "week": 4,
-                    "title": "Backend Logic and Database Design",
-                    "objective": "Build the Flask API to handle inference and store treatment protocols.",
+                    "title": "Backend Logic and Database Setup",
+                    "objective": "Develop the inference engine and treatment lookup system.",
                     "tasks": [
-                        "Initialize SQLite database with SQLAlchemy",
-                        "Create schema for disease-to-treatment mapping",
-                        "Develop Flask endpoint to accept image uploads",
-                        "Implement inference logic to load model and return predictions"
+                        "Create the SQLite schema for storing treatment protocols",
+                        "Develop the inference function to load the model and process input images",
+                        "Map model output labels to treatment database records",
+                        "Unit test the inference pipeline with sample images"
                     ]
                 },
                 {
                     "week": 5,
-                    "title": "Frontend Development with Streamlit",
-                    "objective": "Create the user interface for image upload and result display.",
+                    "title": "Streamlit Dashboard Development",
+                    "objective": "Build the user interface for image upload and result display.",
                     "tasks": [
-                        "Set up Streamlit application structure",
-                        "Build file uploader component for leaf images",
-                        "Integrate frontend with Flask backend API",
-                        "Implement basic layout for displaying disease name and treatment"
+                        "Initialize Streamlit application structure",
+                        "Implement file uploader component for leaf images",
+                        "Integrate inference function with the UI",
+                        "Design layout for displaying disease identification and treatment"
                     ]
                 },
                 {
                     "week": 6,
-                    "title": "System Integration and Refinement",
-                    "objective": "Connect all components and ensure seamless data flow.",
+                    "title": "Integration and Feature Refinement",
+                    "objective": "Connect the UI with the backend and add optional features.",
                     "tasks": [
-                        "Test end-to-end flow from image upload to treatment recommendation",
-                        "Refine UI styling using Streamlit components",
-                        "Handle edge cases such as invalid image formats",
-                        "Optimize inference speed for user experience"
+                        "Implement confidence score display in the dashboard",
+                        "Add local SQLite logging for user-submitted image history",
+                        "Refine UI styling for better user experience",
+                        "Ensure seamless data flow between upload and result display"
                     ]
                 },
                 {
                     "week": 7,
-                    "title": "Deployment and Cloud Configuration",
-                    "objective": "Deploy the application to Render.",
+                    "title": "Testing and Optimization",
+                    "objective": "Validate system performance and optimize for deployment.",
                     "tasks": [
-                        "Create Dockerfile for containerization",
-                        "Configure environment variables and dependencies on Render",
-                        "Deploy application and verify production connectivity",
-                        "Perform final smoke testing on the live URL"
+                        "Perform end-to-end testing with diverse tomato leaf images",
+                        "Optimize image processing latency",
+                        "Conduct stress testing on the Streamlit application",
+                        "Fix bugs identified during integration testing"
                     ]
                 },
                 {
                     "week": 8,
-                    "title": "Documentation and Final Review",
-                    "objective": "Finalize project documentation and prepare for presentation.",
+                    "title": "Deployment and Documentation",
+                    "objective": "Deploy the application and finalize project documentation.",
                     "tasks": [
-                        "Write technical documentation on model architecture and API usage",
-                        "Document dataset preprocessing pipeline",
-                        "Prepare final project report and presentation slides",
-                        "Conduct final code cleanup and repository organization"
+                        "Prepare GitHub repository for deployment",
+                        "Deploy application to Streamlit Community Cloud",
+                        "Write technical documentation on transfer learning process",
+                        "Compile final project report and presentation materials"
                     ]
                 }
             ]
         },
         "risk": {
-            "overall_risk": "Moderate; the primary risk involves the integration of a deep learning model into a web environment within a constrained 8-week timeline, specifically regarding model inference latency and deployment resource limits on free-tier cloud services.",
+            "overall_risk": "Medium",
             "risks": [
                 {
-                    "risk": "Model inference latency exceeding Render's free-tier request timeout limits during cold starts or heavy processing.",
-                    "probability": "Medium",
-                    "severity": "High",
-                    "mitigation": "Implement model quantization (e.g., torch.quantization) to reduce model size and inference time, and ensure the Flask backend uses a lightweight WSGI server like Gunicorn with appropriate timeout configurations."
-                },
-                {
-                    "risk": "Dataset domain shift where the model performs well on training data but fails on real-world, non-standardized farmer-uploaded images.",
+                    "risk": "Model performance degradation due to domain shift between laboratory-captured PlantVillage images and real-world field photos.",
                     "probability": "High",
                     "severity": "High",
-                    "mitigation": "Incorporate aggressive data augmentation (random rotation, brightness, contrast, and noise injection) during the training phase to simulate real-world photography conditions."
+                    "mitigation": "Implement aggressive data augmentation including random brightness, contrast, and blur filters during training to simulate real-world field conditions."
                 },
                 {
-                    "risk": "Streamlit and Flask integration overhead causing redundant data processing or state management conflicts.",
-                    "probability": "Medium",
-                    "severity": "Medium",
-                    "mitigation": "Avoid running the model directly within the Streamlit process; keep the Flask API as a stateless inference service and use the requests library in Streamlit to fetch predictions, ensuring clear separation of concerns."
-                },
-                {
-                    "risk": "Memory exhaustion on Render's free-tier instances when loading large PyTorch model weights into RAM.",
+                    "risk": "Streamlit Community Cloud memory limitations causing crashes during PyTorch model inference.",
                     "probability": "Medium",
                     "severity": "High",
-                    "mitigation": "Use MobileNetV2 as planned, but explicitly clear the GPU/CPU cache after each inference call and use a lightweight model format like ONNX to reduce the memory footprint during runtime."
+                    "mitigation": "Use torch.jit.script or ONNX runtime to export the model for a smaller memory footprint and ensure the model is loaded outside the main execution loop to prevent redundant memory allocation."
                 },
                 {
-                    "risk": "Inaccurate disease classification due to high intra-class similarity between different tomato/potato leaf conditions.",
+                    "risk": "Inference latency exceeding user expectations due to the overhead of loading deep learning weights within a web request cycle.",
                     "probability": "Medium",
                     "severity": "Medium",
-                    "mitigation": "Implement a confidence threshold (e.g., 0.75); if the model prediction falls below this, return a 'Low Confidence' warning to the user rather than a potentially incorrect diagnosis."
+                    "mitigation": "Implement a singleton pattern for the model loader to ensure the model is loaded into memory only once upon application startup."
+                },
+                {
+                    "risk": "Overfitting on the tomato disease dataset leading to poor generalization on unseen leaf samples.",
+                    "probability": "Medium",
+                    "severity": "High",
+                    "mitigation": "Apply dropout layers in the custom classification head and utilize early stopping based on validation loss to prevent the model from memorizing training samples."
+                },
+                {
+                    "risk": "SQLite database locking issues if multiple users attempt to log image history simultaneously on the Streamlit platform.",
+                    "probability": "Low",
+                    "severity": "Medium",
+                    "mitigation": "Configure SQLite connection with a timeout parameter and use a thread-safe context manager for all database write operations."
                 }
             ]
         }

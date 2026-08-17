@@ -8,6 +8,7 @@ sys.path.append(os.path.abspath(os.path.join(os.path.dirname(__file__), "..")))
 
 from fastapi import FastAPI
 from pydantic import BaseModel
+from typing import Optional
 
 from ai.crew.mentor_crew import MentorCrew
 from ai.crew.mentor_chat import MentorChat
@@ -42,6 +43,10 @@ class MentorRequest(BaseModel):
     phase: Optional[str] = ""
 
     first_message: bool = False
+
+class FacultySummaryRequest(BaseModel):
+    blueprint: str
+    progress: str
 
 
 @app.get("/")
@@ -123,7 +128,13 @@ class DocumentationRequest(BaseModel):
     student_profile: str
     blueprint: str
     progress: Optional[str] = ""
-    doc_type: str  # "synopsis" | "methodology" | "progress_report"
+    doc_type: str
+
+    project_title: str = "Academic Project"
+    student_name: str = ""
+
+    institution_name: str = ""
+    department_name: str = "" 
 
 @app.post("/generate-documentation")
 def generate_documentation(data: DocumentationRequest):
@@ -134,7 +145,23 @@ def generate_documentation(data: DocumentationRequest):
             progress=data.progress,
             doc_type=data.doc_type,
         )
-        return {"content": content, "doc_type": data.doc_type}
+
+        return {
+            "doc_type": data.doc_type,
+            "content": content,
+        }
+
     except Exception as e:
-        import traceback; traceback.print_exc()
+        import traceback
+        traceback.print_exc()
         raise
+
+@app.post("/faculty-summary")
+def faculty_summary(data: FacultySummaryRequest):
+
+    summary = crew.generate_faculty_summary(
+        blueprint=data.blueprint,
+        progress=data.progress,
+    )
+
+    return {"summary": summary}

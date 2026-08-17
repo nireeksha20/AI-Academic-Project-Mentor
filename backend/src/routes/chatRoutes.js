@@ -6,36 +6,37 @@ import {
 } from "../controllers/chatController.js";
 import { protect } from "../middleware/authMiddleware.js";
 import { chatProjectIdValidation } from "../validators/projectValidator.js";
-import { body } from "express-validator";
+import { body, validationResult } from "express-validator";
 import { errorResponse } from "../utils/response.js";
-import { validationResult } from "express-validator";
 
-const router = express.Router({ mergeParams: true }); // Merge params to get :projectId if mounted differently
+const router = express.Router({ mergeParams: true });
 
 const handleValidationErrors = (req, res, next) => {
   const errors = validationResult(req);
+
   if (!errors.isEmpty()) {
     const formattedErrors = errors.array().map((err) => ({
       field: err.path,
       message: err.msg,
     }));
+
     return errorResponse(res, 400, "Validation Error", formattedErrors);
   }
+
   next();
 };
 
 const messageValidation = [
-  body("content").trim().notEmpty().withMessage("Message content is required"),
+  body("message").trim().notEmpty().withMessage("Message content is required"),
 
-  body("role")
+  body("sender")
     .optional()
-    .isIn(["user", "assistant"])
+    .isIn(["user", "ai"])
     .withMessage("Sender must be user or ai"),
 
   handleValidationErrors,
 ];
 
-// All chat routes require authentication
 router.use(protect);
 
 router

@@ -32,31 +32,45 @@ export const projectService = {
   },
 
   // Generate AI Blueprint
-  async generateBlueprint(projectId) {
+  async generateBlueprint(id) {
+    const response = await api.post(`/projects/${id}/generate-blueprint`);
+    return response.data;
+  },
+
+  // Get stored AI Blueprint
+  async getBlueprint(id) {
+    const response = await api.get(`/projects/${id}/blueprint`);
+    return response.data;
+  },
+
+  // Generate project documentation
+  async generateDocumentation(id, docType) {
     const response = await api.post(
-      `/projects/${projectId}/generate-blueprint`,
+      `/projects/${id}/generate-documentation`,
+      {
+        docType,
+      },
+      {
+        responseType: "blob",
+      },
     );
 
     return response.data;
   },
 
-  // Get Generated Blueprint
-  async getBlueprint(projectId) {
-    const response = await api.get(`/projects/${projectId}/blueprint`);
-
+  // Get project progress
+  async getProgress(projectId) {
+    const response = await api.get(`/progress/${projectId}`);
     return response.data;
   },
 
-  // Generate on-demand documentation (synopsis / methodology / progress_report)
-  async generateDocumentation(projectId, docType) {
-    const response = await api.post(
-      `/projects/${projectId}/generate-documentation`,
-      { docType },
-    );
+  async getProgressHistory(projectId) {
+    const response = await api.get(`/progress/${projectId}/history`);
     return response.data;
   },
-  
+
+  async getFacultySummary(id) {
+    const response = await api.get(`/projects/${id}/faculty-summary`);
+    return response.data;
+  },
 };
-
-export const generateDocumentation = (projectId, docType) =>
-  api.post(`/projects/${projectId}/generate-documentation`, { docType });

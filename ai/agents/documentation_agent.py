@@ -310,34 +310,59 @@ from ai.config.llm import llm
 
 SECTION_MAP = {
     "synopsis": """
-- Project Title
-- Abstract
-- Problem Statement
-- Objectives
-- Existing System
-- Proposed System
-- Scope
-- Technology Stack
-- Expected Outcome
+1. Project Title
+2. Abstract
+3. Introduction
+4. Problem Statement
+5. Objectives
+6. Existing System
+7. Limitations of Existing System
+8. Proposed System
+9. Key Features
+10. Scope of the Project
+11. Functional Requirements
+12. Non-Functional Requirements
+13. Technology Stack
+14. System Architecture
+15. Expected Outcome
+16. Conclusion
 """,
+
     "methodology": """
-- Implementation Methodology
-- Software Architecture
-- Module Description
-- Database Design
-- API Overview
-- Testing Strategy
-- Deployment Strategy
+1. Implementation Methodology
+2. Development Approach
+3. System Architecture
+4. Module Description
+5. Data Acquisition and Preprocessing
+6. Model Development and Transfer Learning
+7. Model Training and Evaluation
+8. Database Design
+9. API Design
+10. Frontend Implementation
+11. Backend Implementation
+12. System Integration
+13. Testing Strategy
+14. Deployment Strategy
+15. Security and Reliability Considerations
+16. Risk Mitigation
+17. Conclusion
 """,
+
     "progress_report": """
-- Reporting Period
-- Work Completed
-- Current Stage vs Planned Timeline
-- Pending Tasks
-- Blockers / Risks Encountered
-- Revised Timeline (if any)
-- Next Steps
-""",
+1. Reporting Period
+2. Project Status
+3. Work Completed
+4. Features and Components Implemented
+5. Current Stage vs Planned Timeline
+6. Progress Metrics
+7. Pending Tasks
+8. Blockers and Challenges
+9. Risks Encountered
+10. Solutions and Mitigation
+11. Revised Timeline
+12. Next Steps
+13. Conclusion
+"""
 }
 
 def create_documentation(doc_type="synopsis"):
@@ -353,26 +378,150 @@ def create_documentation(doc_type="synopsis"):
     )
 
     documentation_task = Task(
-        description=f"""
-Student Profile
----------------
+    description=f"""
+You are generating an academic software engineering document for a university project.
+
+DOCUMENT TYPE:
+{doc_type.replace("_", " ").title()}
+
+========================
+STUDENT PROFILE
+========================
 {{student_profile}}
 
-Project Blueprint
-------------------
+========================
+PROJECT BLUEPRINT
+========================
 {{blueprint}}
 
-Progress Data (only used for progress_report)
-----------------------------------------------
+========================
+PROJECT PROGRESS
+========================
 {{progress}}
 
-Generate ONLY the following sections, nothing else:
+========================
+DOCUMENT SECTIONS
+========================
 {sections}
 
-Do not repeat identical content across sections. Use professional, academic tone.
+========================
+WRITING REQUIREMENTS
+========================
+
+1. Generate content specifically for THIS project.
+
+2. Use the project blueprint as the primary source of truth.
+
+3. Never invent:
+   - technologies
+   - features
+   - datasets
+   - APIs
+   - modules
+   - achievements
+   - implementation results
+   - accuracy values
+   - deployment status
+   - completed work
+
+4. If something has not yet been implemented, describe it as planned,
+   proposed, pending, or future work rather than claiming it is complete.
+
+5. Maintain complete consistency with:
+   - project scope
+   - technology stack
+   - architecture
+   - timeline
+   - risks
+   - current progress
+
+6. Do not copy the same paragraph into multiple sections.
+
+7. Each section must have a distinct purpose.
+
+8. Use detailed academic paragraphs rather than extremely short descriptions.
+
+9. Use bullet lists only when they improve readability, such as:
+   - objectives
+   - requirements
+   - features
+   - technologies
+   - risks
+   - tasks
+
+10. Do not use Markdown formatting.
+
+11. NEVER use:
+   **bold**
+   *italic*
+   ### headings
+   ```code blocks```
+
+12. Output plain structured text using section headings.
+
+13. Do not add an artificial title such as:
+   "Academic Project Documentation"
+
+14. Do not add a cover page.
+   The application will create the cover page separately.
+
+15. Do not include commentary about being an AI.
+
+16. Do not include phrases such as:
+   "This document provides..."
+   "As an AI..."
+   "According to the provided information..."
+
+17. Write as if the document was prepared by the student for formal university submission.
+
+18. Use technically precise software engineering terminology.
+
+19. For the synopsis, emphasize:
+   - problem
+   - motivation
+   - objectives
+   - proposed solution
+   - scope
+   - requirements
+   - technology
+   - expected outcome
+
+20. For the methodology, explain HOW the system will be developed.
+   Connect the methodology to the actual architecture and technology stack.
+
+21. For the progress report, use ONLY the supplied progress data
+   when describing completed work.
+
+22. For the progress report, distinguish clearly between:
+   - completed
+   - currently in progress
+   - pending
+   - blocked
+   - planned
+
+23. Do not claim model accuracy unless an actual measured value is supplied.
+
+24. Do not claim successful deployment unless deployment is explicitly
+   present in the supplied progress information.
+
+25. Do not claim database implementation unless it is explicitly present
+   in the supplied progress information.
+
+Generate ONLY the requested document content.
 """,
-        expected_output=f"A complete {doc_type.replace('_',' ')} document formatted for academic submission, containing exactly the sections listed.",
-        agent=documentation_agent,
-    )
+
+    expected_output=f"""
+A detailed, professional university-level {doc_type.replace("_", " ")}
+document containing all requested sections.
+
+The content must be project-specific, internally consistent,
+technically accurate, and suitable for conversion into a DOCX
+academic submission.
+
+Do not use Markdown syntax or artificial document titles.
+""",
+
+    agent=documentation_agent,
+)
 
     return documentation_agent, documentation_task

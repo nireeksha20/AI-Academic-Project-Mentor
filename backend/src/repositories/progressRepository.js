@@ -1,4 +1,5 @@
 import Progress from "../models/Progress.js";
+import ProgressHistory from "../models/ProgressHistory.js";
 
 export class ProgressRepository {
   static find(projectId) {
@@ -20,5 +21,13 @@ export class ProgressRepository {
         setDefaultsOnInsert: true,
       },
     );
+  }
+
+  static async createHistory(data) {
+    return ProgressHistory.create(data);
+  }
+
+  static async getHistory(projectId) {
+    return ProgressHistory.find({ projectId }).sort({ createdAt: -1 });
   }
 }
